@@ -6,3 +6,4 @@ node_modules
 
 # lerna
 lerna-debug.log
+*.tgz
