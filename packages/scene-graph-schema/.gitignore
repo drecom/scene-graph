@@ -1,0 +1,10 @@
+# Mac
+.DS_Store
+
+# IntelliJ IDEA
+.idea
+*.iml
+
+# node.js
+node_modules/
+

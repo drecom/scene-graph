@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Transform.json",
+
+  "definitions": {
+    "Transform": {
+      "id": "#Transform",
+      "type": "object",
+      "properties": {
+        "width":    { "type": "number" },
+        "height":   { "type": "number" },
+        "x":        { "type": "number" },
+        "y":        { "type": "number" },
+        "rotation": { "type": "number" },
+        "scale": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "anchor": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "parent": { "type": "string" },
+        "children": {
+          "type":  "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "anchor"
+      ]
+    }
+  }
+}

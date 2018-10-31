@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Sprite.json",
+
+  "definitions": {
+    "Sprite": {
+      "id": "#Sprite",
+      "type": "object",
+      "properties": {
+        "url":       { "type": "string" },
+        "base64":    { "type": "string" },
+        "atlasUrl":  { "type": "string" },
+        "frameName": { "type": "string" },
+        "slice":     {
+          "type": "object",
+          "properties": {
+            "top":    { "type": "number" },
+            "bottom": { "type": "number" },
+            "left":   { "type": "number" },
+            "right":  { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}

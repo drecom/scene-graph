@@ -1,0 +1,38 @@
+{
+  "name": "@drecom/scene-graph/schema",
+  "version": "0.0.6",
+  "description": "scene-graph-schema is a intermediate data schema that represents common data structure of a scene in game application.",
+  "main": "index.js",
+  "typings": "types/Schema.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drecom/scene-graph-schema"
+  },
+  "scripts": {
+    "example": "node examples/example.js",
+    "test": "mocha test/index.test.js",
+    "dts": "node scripts/dts.js"
+  },
+  "keywords": [
+    "game",
+    "scene",
+    "schema"
+  ],
+  "bugs": {
+    "url": "https://github.com/drecom/scene-graph-schema/issues"
+  },
+  "homepage": "https://github.com/drecom/scene-graph-schema",
+  "author": "Drecom Co.,Ltd.",
+  "dependencies": {
+    "jsonschema": "^1.2.4"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^5.5.0",
+    "mocha": "^5.2.0",
+    "power-assert": "^1.6.0"
+  }
+}

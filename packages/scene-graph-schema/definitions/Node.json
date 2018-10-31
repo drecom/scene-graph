@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Node.json",
+
+  "definitions": {
+    "Node": {
+      "id": "#Node",
+      "type": "object",
+      "properties": {
+        "id":              { "type": "string" },
+        "name":            { "type": "string" },
+        "constructorName": { "type": "string" },
+
+        "transform": { "$ref": "Transform.json#/definitions/Transform" },
+        "renderer":  { "$ref": "Renderer.json#/definitions/Renderer" },
+        "spine":     { "$ref": "Spine.json#/definitions/Spine" },
+        "sprite":    { "$ref": "Sprite.json#/definitions/Sprite" },
+        "text":      { "$ref": "Text.json#/definitions/Text" }
+      },
+      "required": [
+        "id",
+        "name",
+        "constructorName",
+        "transform"
+      ]
+    }
+  }
+}

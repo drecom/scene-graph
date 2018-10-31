@@ -1,16 +1,23 @@
 {
-  "name": "@drecom/scene-graph-cocos-animation-rt",
+  "name": "@drecom/scene-graph/cocos-animation-rt",
   "version": "0.0.1",
   "description": "",
   "main": "lib/scene-graph-cocos-animation-rt.min.js",
   "types": "lib-ts/index.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drecom/scene-graph/tree/master/packages/scene-graph-cocos-animation/runtime"
+  },
   "scripts": {
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
     "workflow:build": "npm run build:dev && npm run build:prod"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Drecom Co.,Ltd.",
   "devDependencies": {
     "@drecom/scene-graph-cocos-animation-cli": "file:../client",
     "@drecom/scene-graph-mediator-rt": "^1.1.0",

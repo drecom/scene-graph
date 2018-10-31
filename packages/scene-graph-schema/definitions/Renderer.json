@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Renderer.json",
+
+  "definitions": {
+    "Renderer": {
+      "id": "#Renderer",
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "object",
+          "properties": {
+            "r": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 256,
+              "exclusiveMaximum": true
+            },
+            "g": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 256,
+              "exclusiveMaximum": true
+            },
+            "b": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 256,
+              "exclusiveMaximum": true
+            },
+            "a": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 256,
+              "exclusiveMaximum": true
+            }
+          },
+          "required": [
+            "r",
+            "g",
+            "b",
+            "a"
+          ]
+        }
+      }
+    }
+  }
+}

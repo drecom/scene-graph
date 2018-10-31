@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "width": 640,
+    "positiveCoord": {
+      "xRight": true,
+      "yDown":  false
+    }
+  },
+  "scene": [
+    {
+      "name": "MyScene",
+      "constructorName": "Scene",
+      "transform": {
+        "x": 0,
+        "children": [
+          "container_1",
+          "sprite_2",
+          "text_1"
+        ]
+      }
+    },
+    {
+      "id": "container_1",
+      "constructorName": "Container",
+      "transform": {
+        "x": 10,
+        "y": 10,
+        "anchor": {
+          "x": 0,
+          "y": 1
+        },
+        "parent": "MyScene",
+        "children": [
+          "container_2",
+          "sprite_1"
+        ]
+      }
+    },
+    {
+      "id": "sprite_2",
+      "name": "sprite_2",
+      "constructorName": "Sprite",
+      "transform": {
+        "x": 130,
+        "y": 130,
+        "anchor": {
+          "x": 0,
+          "y": 1
+        },
+        "parent": "MyScene",
+        "children": []
+      },
+      "sprite": {
+
+      }
+    },
+    {
+      "id": "text_1",
+      "name": "text_1",
+      "constructorName": "Text",
+      "transform": {
+        "x": 40,
+        "y": 40,
+        "anchor": {
+          "x": 0,
+          "y": 1
+        },
+        "parent": "MyScene",
+        "children": []
+      },
+      "text": {
+        "style": {
+          "size": 48,
+          "color": "#80ff80"
+        }
+      }
+    },
+    {
+      "id": "container_2",
+      "name": "container_2",
+      "constructorName": "Container",
+      "transform": {
+        "x": 15,
+        "y": 15,
+        "anchor": {
+          "x": 0,
+          "y": 1
+        },
+        "parent": "container_1",
+        "children": [
+          "spine_1"
+        ]
+      }
+    },
+    {
+      "id": "sprite_1",
+      "name": "sprite_1",
+      "constructorName": "Sprite",
+      "transform": {
+        "x": 20,
+        "y": 20,
+        "anchor": {
+          "x": 0,
+          "y": 1
+        },
+        "parent": "container_1"
+      },
+      "sprite": {
+        "url": "/assets/img/demo/animal_neko.png"
+      }
+    },
+    {
+      "id": "spine_1",
+      "name": "spine_1",
+      "constructorName": "spine.Spine",
+      "transform": {
+        "x": 200,
+        "y": 300,
+        "anchor": {
+          "x": 0,
+          "y": 1
+        },
+        "parent": "container_2",
+        "children": []
+      },
+      "spine": {
+        "skin": "goblin",
+        "animation": {
+          "name": "walk",
+          "loop": true,
+          "offset": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,14 +1,21 @@
 {
-  "name": "@drecom/scene-graph-cocos-animation-cli",
+  "name": "@drecom/scene-graph/cocos-animation-cli",
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drecom/scene-graph/tree/master/packages/scene-graph-cocos-animation/client"
+  },
   "scripts": {
     "build:lib": "tsc -p ."
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Drecom Co.,Ltd.",
   "devDependencies": {
     "@drecom/scene-graph-mediator-cli": "^1.1.1",
     "@drecom/scene-graph-schema": "0.0.6",

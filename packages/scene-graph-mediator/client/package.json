@@ -1,5 +1,5 @@
 {
-  "name": "@drecom/scene-graph-mediator-cli",
+  "name": "@drecom/scene-graph/mediator-cli",
   "version": "1.1.1",
   "description": "",
   "main": "lib/index.js",
@@ -8,9 +8,12 @@
     "sgmed": "bin/cli.js"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/drecom/scene-graph-mediator-cli"
+    "url": "https://github.com/drecom/scene-graph/tree/master/packages/scene-graph-mediator/client"
   },
   "scripts": {
     "build:lib": "tsc -p .",
@@ -19,7 +22,7 @@
     "workflow:build": "npm run build:lib && npm run build:docs"
   },
   "keywords": [],
-  "author": "",
+  "author": "Drecom Co.,Ltd.",
   "dependencies": {},
   "devDependencies": {
     "@drecom/scene-graph-schema": "0.0.6",

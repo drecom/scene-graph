@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/Schema.json",
+
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "width":  { "type": "number" },
+        "height": { "type": "number" },
+        "positiveCoord": {
+          "type": "object",
+          "properties": {
+            "xRight": { "type": "boolean" },
+            "yDown":  { "type": "boolean" }
+          },
+          "required": [
+            "xRight",
+            "yDown"
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "positiveCoord"
+      ]
+    },
+    "scene": {
+      "type": "array",
+      "items": { "$ref": "definitions/Node.json#/definitions/Node" }
+    }
+  },
+  "required": [
+    "metadata",
+    "scene"
+  ]
+}
