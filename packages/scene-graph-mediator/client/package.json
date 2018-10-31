@@ -1,0 +1,35 @@
+{
+  "name": "@drecom/scene-graph-mediator-cli",
+  "version": "1.1.1",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": {
+    "sgmed": "bin/cli.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drecom/scene-graph-mediator-cli"
+  },
+  "scripts": {
+    "build:lib": "tsc -p .",
+    "build:docs": "typedoc 'src/'",
+    "lint": "tslint -p tsconfig.json --format stylish 'src/**/*.ts*'",
+    "workflow:build": "npm run build:lib && npm run build:docs"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {},
+  "devDependencies": {
+    "@drecom/scene-graph-schema": "0.0.6",
+    "mocha": "^5.2.0",
+    "power-assert": "^1.6.0",
+    "sinon": "^6.1.4",
+    "ts-loader": "^4.4.2",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.9.2",
+    "typedoc": "^0.11.1",
+    "typescript": "^2.9.2"
+  }
+}

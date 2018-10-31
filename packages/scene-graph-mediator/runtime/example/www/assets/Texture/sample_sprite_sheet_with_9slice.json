@@ -1,0 +1,28 @@
+{"frames": {
+
+"animal_usagi.png":
+{
+	"frame": {"x":611,"y":1,"w":130,"h":189},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":34,"y":3,"w":130,"h":189},
+	"sourceSize": {"w":192,"h":192}
+},
+"bg_message.png":
+{
+	"frame": {"x":1,"y":1,"w":608,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":608,"h":160},
+	"sourceSize": {"w":608,"h":160}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sample_sprite_sheet_with_9slice.png",
+	"format": "RGBA8888",
+	"size": {"w":801,"h":162},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9d8da8a29702b7b37db205807ec4219c:e3cf2f223ed022939172c98a12feaad4:3a423326f9de2c09853c88bf9391e9d2$"
+}
+}

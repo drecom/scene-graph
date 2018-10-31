@@ -1,51 +1,29 @@
 /// <reference types="pixi.js" />
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
-declare type KeyFrameProperty = {
-    [key: string]: number;
-};
-declare type KeyFrame = {
-    frame: number;
-    value: number | KeyFrameProperty;
-    curve?: string | number[];
-};
-declare class CocosAnimationRuntimeExtension {
-    animation: CocosAnimation;
-    animationFrameTime: number;
-    target: PIXI.Container;
-    curveFuncsMap: Map<string, EaseFunction[]>;
-    fps: number;
-    paused: boolean;
-    elapsedTime: number;
-    readonly spf: number;
-    constructor(animation: CocosAnimation, target: PIXI.Container);
-    pause(): void;
-    resume(): void;
-    reset(): void;
-    private getCurrentFrameIndex;
-    update(dt: number): void;
-}
-declare type CocosAnimation = {
-    runtime?: CocosAnimationRuntimeExtension;
-    sample: number;
-    speed: number;
-    url: string;
-    curves: {
-        [prop: string]: {
-            keyFrames: KeyFrame[];
-        };
-    };
-};
+import { ImporterPlugin } from '@drecom/scene-graph-mediator-rt';
+import Types from './interface/types';
+/**
+ * PIXI.js augmentation
+ */
 declare module 'pixi.js' {
     interface Container {
         sgmed?: {
-            cocosAnimations?: CocosAnimation[];
+            cocosAnimations?: Types.CocosAnimation[];
         };
     }
 }
-declare type EaseFunction = (ratio: number) => number;
-export default class CocosAnimationRuntime {
+/**
+ * Plugin for scene-graph-mediator-rt
+ * Handles animation data desceibed in scene-graph-cocos-animation-cli in PIXI runtime
+ */
+export default class CocosAnimationRuntime implements ImporterPlugin {
+    /**
+     * Plugin interface inplementation
+     * Custom extension for runtime object
+     */
     extendRuntimeObjects(_: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>): void;
+    /**
+     * Collect conatiners with animation
+     */
     filterAnimationContainer(rootContainer: PIXI.Container, vector?: PIXI.Container[]): PIXI.Container[];
-    static getCurveFunction(curveType?: string | number[]): EaseFunction;
 }
-export {};

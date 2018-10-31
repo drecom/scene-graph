@@ -1,32 +1,44 @@
 import * as fs from 'fs';
 
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
-import { SceneExporterPlugin, AssetExporterPlugin, AssetFileMap } from '@drecom/scene-graph-mediator-cli';
+//import { SceneExporterPlugin, AssetExporterPlugin, AssetFileMap } from '@drecom/scene-graph-mediator-cli';
+import { sgmed } from '@drecom/scene-graph-mediator-cli';
 
-import AnimationFrame from './interface/AnimationFrame';
-import NodeAnimation from './interface/NodeAnimation';
+import Types from './interface/types';
 
-type FireNodes = [
-  {
-    _components?: { __id__?: number }[]
-  }
-];
+declare namespace Fire {
+  type NodeId = {
+    __id__: number;
+  };
 
-type AnimationCurveData = {
-  keyframes: AnimationFrame[]
-};
+  type Node = {
+    __type__: string;
+    _components?: Node[];
+    node: NodeId;
+  };
 
-type AnimationCurveDataProperties = {
-  curveData: {
-    props: AnimationCurveData
-  }
-};
+  type AnimationFrame = {
+    frame: number;
+    value: { [key: string]: number };
+    curve?: number[] | string;
+  };
 
-type AnimationComponentReference = {
-  _defaultClip: { __uuid__: string },
-  _clips: { __uuid__: string }[],
-  playOnLoad: boolean
-};
+  type Animation = {
+    sample: number;
+    speed: number;
+    curveData: {
+      props: {
+        [key: string]: AnimationFrame[];
+      }
+    }
+  };
+
+  type AnimationComponentReference = Node & {
+    _defaultClip: { __uuid__: string },
+    _clips: { __uuid__: string }[],
+    playOnLoad: boolean
+  };
+}
 
 type AnimationFiles = {
   anim: string;
@@ -36,12 +48,12 @@ type AnimationFiles = {
 type NodeId   = string;
 type MetaUuid = string;
 
-export default class SceneGraphAnimation implements SceneExporterPlugin, AssetExporterPlugin {
+export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, sgmed.AssetExporterPlugin {
 
   public static readonly AnimationFileExt = 'anim';
   public static readonly MetaFileExt = 'meta';
 
-  public extendSceneGraph(graph: SchemaJson, dataSource: FireNodes, assetFileMap: AssetFileMap): void {
+  public extendSceneGraph(graph: SchemaJson, dataSource: Fire.Node[], assetFileMap: sgmed.AssetFileMap): void {
     const animationFilesMap   = this.collectAnimationFiles(assetFileMap);
     const animationComponents = this.collectAnimationNodes(dataSource);
 
@@ -55,7 +67,7 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
     }
   }
 
-  public replaceExtendedPaths(sceneGraphMap: Map<string, SchemaJson>, exportMap: Map<string, AssetExportMapEntity>): void {
+  public replaceExtendedPaths(sceneGraphMap: Map<string, SchemaJson>, exportMap: Map<string, sgmed.AssetExportMapEntity>): void {
     sceneGraphMap.forEach((graph) => {
       for (let i = 0; i < graph.scene.length; i++) {
         const node = graph.scene[i];
@@ -86,7 +98,7 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
     return paths;
   }
 
-  private collectAnimationFiles(assetFileMap: AssetFileMap): Map<MetaUuid, AnimationFiles> {
+  private collectAnimationFiles(assetFileMap: sgmed.AssetFileMap): Map<MetaUuid, AnimationFiles> {
     const animationFilesMap = new Map<MetaUuid, AnimationFiles>();
 
     // retrieve animation files
@@ -111,8 +123,8 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
     return animationFilesMap;
   }
 
-  private collectAnimationNodes(dataSource: FireNodes): Map<NodeId, AnimationComponentReference> {
-    const animationComponents = new Map<NodeId, AnimationComponentReference>();
+  private collectAnimationNodes(dataSource: Fire.Node[]): Map<NodeId, Fire.AnimationComponentReference> {
+    const animationComponents = new Map<NodeId, Fire.AnimationComponentReference>();
 
     for (let i = 0; i < dataSource.length; i++) {
       const fireNode = dataSource[i];
@@ -120,7 +132,7 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
       if (!fireNode.__type__) continue;
       if (fireNode.__type__ === 'cc.Animation') {
         // set relation with parent node id
-        animationComponents.set(`${fireNode.node.__id__}`, fireNode);
+        animationComponents.set(`${fireNode.node.__id__}`, fireNode as Fire.AnimationComponentReference);
       }
     }
 
@@ -131,16 +143,19 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
   private extendNodeWithAnimationComponent(
     animationFilesMap: Map<MetaUuid, AnimationFiles>,
     nodeRef: Node,
-    componentRef: AnimationComponentReference
+    componentRef: Fire.AnimationComponentReference
   ): void {
     nodeRef.animations = [];
 
     for (let i = 0; i < componentRef._clips.length; i++) {
       const animationFiles = animationFilesMap.get(componentRef._clips[i].__uuid__);
-      const content  = fs.readFileSync(animationFiles.anim).toString();
-      const clipJson = JSON.parse(content) as AnimationCurveDataProperties;
+      if (!animationFiles) {
+        continue;
+      }
+      const content = fs.readFileSync(animationFiles.anim).toString();
+      const clipJson = JSON.parse(content) as Fire.Animation;
 
-      const animation: NodeAnimation = {
+      const animation: Types.Animation = {
         sample: clipJson.sample,
         speed: clipJson.speed,
         url: animationFiles.anim,
@@ -150,21 +165,21 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
       const properties = Object.keys(clipJson.curveData.props);
       for (let j = 0; j < properties.length; j++) {
         const property = properties[j];
-        animation.curves[property] = this.createAnimationFrames(clipJson.curveData.props[property])
+        animation.curves[property] = this.createAnimationFrames(clipJson.curveData.props[property]);
       }
 
       nodeRef.animations.push(animation);
     }
   }
 
-  private createAnimationFrames(frames: AnimationFrame[]): AnimationCurveData {
-    const curveData: AnimationCurveData = {
+  private createAnimationFrames(frames: Types.AnimationFrame[]): Types.AnimationCurveData {
+    const curveData: Types.AnimationCurveData = {
       keyFrames: []
     };
 
     for (let i = 0; i < frames.length; i++) {
       const frame = frames[i];
-      const graphFrame: AnimationFrame = {
+      const graphFrame: Types.AnimationFrame = {
         frame: frame.frame,
         value: {}
       };
@@ -173,13 +188,17 @@ export default class SceneGraphAnimation implements SceneExporterPlugin, AssetEx
         graphFrame.curve = frame.curve;
       }
 
-      const keys = Object.keys(frame.value);
-      for (let j = 0; j < keys.length; j++) {
-        const key = keys[j];
+      if (typeof frame.value === 'number') {
+        graphFrame.value = frame.value;
+      } else {
+        const keys = Object.keys(frame.value);
+        for (let j = 0; j < keys.length; j++) {
+          const key = keys[j];
 
-        if (key === '__type__') continue;
+          if (key === '__type__') continue;
 
-        graphFrame.value[key] = frame.value[key];
+          (graphFrame.value as Types.AnimationFrameProperty)[key] = frame.value[key];
+        }
       }
 
       curveData.keyFrames.push(graphFrame);

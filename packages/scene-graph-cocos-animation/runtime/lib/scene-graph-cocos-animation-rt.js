@@ -105,10 +105,89 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CocosAnimationRuntimeExtension__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CocosAnimationRuntimeExtension */ "./src/CocosAnimationRuntimeExtension.ts");
+
+/**
+ * Plugin for scene-graph-mediator-rt
+ * Handles animation data desceibed in scene-graph-cocos-animation-cli in PIXI runtime
+ */
+var CocosAnimationRuntime = /** @class */ (function () {
+    function CocosAnimationRuntime() {
+    }
+    /**
+     * Plugin interface inplementation
+     * Custom extension for runtime object
+     */
+    CocosAnimationRuntime.prototype.extendRuntimeObjects = function (_, nodeMap, runtimeObjectMap) {
+        nodeMap.forEach(function (node, id) {
+            if (!node.animations)
+                return;
+            var container = runtimeObjectMap.get(id);
+            if (!container.sgmed) {
+                container.sgmed = {};
+            }
+            container.sgmed.cocosAnimations = node.animations;
+            if (!container.sgmed.cocosAnimations) {
+                return;
+            }
+            for (var i = 0; i < container.sgmed.cocosAnimations.length; i++) {
+                var cocosAnimation = container.sgmed.cocosAnimations[i];
+                cocosAnimation.runtime = new _CocosAnimationRuntimeExtension__WEBPACK_IMPORTED_MODULE_0__["default"](cocosAnimation, container);
+            }
+        });
+    };
+    /**
+     * Collect conatiners with animation
+     */
+    CocosAnimationRuntime.prototype.filterAnimationContainer = function (rootContainer, vector) {
+        if (vector === void 0) { vector = []; }
+        if (rootContainer.sgmed && rootContainer.sgmed.cocosAnimations) {
+            vector.push(rootContainer);
+        }
+        for (var i = 0; i < rootContainer.children.length; i++) {
+            this.filterAnimationContainer(rootContainer.children[i], vector);
+        }
+        return vector;
+    };
+    return CocosAnimationRuntime;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (CocosAnimationRuntime);
+
+
+/***/ }),
+
+/***/ "./src/CocosAnimationRuntimeExtension.ts":
+/*!***********************************************!*\
+  !*** ./src/CocosAnimationRuntimeExtension.ts ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Easing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Easing */ "./src/Easing.ts");
+/* harmony import */ var _besier__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./besier */ "./src/besier.ts");
+
+
+function createBezierByTime(controlPoints) {
+    return function (ratio) { return Object(_besier__WEBPACK_IMPORTED_MODULE_1__["default"])(controlPoints, ratio); };
+}
+/**
+ * Cocos animation augment object for PIXI.Container.
+ */
 var CocosAnimationRuntimeExtension = /** @class */ (function () {
     function CocosAnimationRuntimeExtension(animation, target) {
+        /**
+         * Application fps
+         */
         this.fps = 60;
+        /**
+         * Boolean to represent animation is paused
+         */
         this.paused = false;
+        /**
+         * Animation elapsed time described in seconds
+         */
         this.elapsedTime = 0;
         this.animation = animation;
         this.target = target;
@@ -121,33 +200,65 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
             var curve = this.animation.curves[property];
             for (var j = 0; j < curve.keyFrames.length; j++) {
                 var keyFrame = curve.keyFrames[j];
-                var func = CocosAnimationRuntime.getCurveFunction(keyFrame.curve);
+                var func = CocosAnimationRuntimeExtension.getCurveFunction(keyFrame.curve);
                 curveFuncs.push(func);
             }
             this.curveFuncsMap.set(property, curveFuncs);
         }
     }
     Object.defineProperty(CocosAnimationRuntimeExtension.prototype, "spf", {
+        /**
+         * Seconds per frame by application fps
+         */
         get: function () {
             return 1.0 / this.fps;
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * Get curve function by given curve type.
+     */
+    CocosAnimationRuntimeExtension.getCurveFunction = function (curveType) {
+        if (!curveType) {
+            return _Easing__WEBPACK_IMPORTED_MODULE_0__["default"].linear;
+        }
+        if (typeof curveType === 'string') {
+            if (_Easing__WEBPACK_IMPORTED_MODULE_0__["default"].hasOwnProperty(curveType)) {
+                return _Easing__WEBPACK_IMPORTED_MODULE_0__["default"][curveType];
+            }
+            return _Easing__WEBPACK_IMPORTED_MODULE_0__["default"].linear;
+        }
+        // custom curve
+        return createBezierByTime(curveType);
+    };
+    /**
+     * Pause animation
+     */
     CocosAnimationRuntimeExtension.prototype.pause = function () {
         this.paused = true;
     };
+    /**
+     * Resume animation
+     */
     CocosAnimationRuntimeExtension.prototype.resume = function () {
         this.paused = false;
     };
+    /**
+     * Reset animation
+     */
     CocosAnimationRuntimeExtension.prototype.reset = function () {
         this.elapsedTime = 0;
     };
+    /**
+     * Returns index of current key frame
+     * current key frame is calcurated by elapsed time and animation fps
+     */
     CocosAnimationRuntimeExtension.prototype.getCurrentFrameIndex = function (keyFrames, elapsedTime, fps) {
         var spf = 1.0 / fps;
         for (var i = keyFrames.length - 1; i >= 0; i--) {
-            // 60fps, 0.1 = 6 frames, 0.016 * 6
-            // 30fps, 0.1 = 3 frames, 0.033 * 3
+            // 60fps: 0.1 = 6 frames, 0.016 * 6 sec
+            // 30fps: 0.1 = 3 frames, 0.033 * 3 sec
             var keyFrame = keyFrames[i];
             var keyFrameTime = spf * (fps * keyFrame.frame);
             if (keyFrameTime < elapsedTime) {
@@ -156,6 +267,9 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
         }
         return -1;
     };
+    /**
+     * Update animation if possible
+     */
     CocosAnimationRuntimeExtension.prototype.update = function (dt) {
         if (this.paused) {
             return;
@@ -167,16 +281,38 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
             var property = properties[i];
             var curve = this.animation.curves[property];
             var currentFrameIndex = this.getCurrentFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
-            if (currentFrameIndex === -1 || currentFrameIndex >= curve.keyFrames.length - 1) {
+            if (currentFrameIndex === -1) {
                 continue;
             }
-            var currentFrame = curve.keyFrames[currentFrameIndex];
-            var nextFrame = curve.keyFrames[currentFrameIndex + 1];
             var curveFuncs = this.curveFuncsMap.get(property);
             if (!curveFuncs || curveFuncs.length == 0) {
                 continue;
             }
-            var curveFunc = curveFuncs[currentFrameIndex];
+            var currentFrame = curve.keyFrames[currentFrameIndex];
+            var currentValue = currentFrame.value;
+            // last frame
+            if (currentFrameIndex >= curve.keyFrames.length - 1) {
+                if (typeof currentValue === 'number') {
+                    if (property === 'x') {
+                        this.target.position[property] = currentValue;
+                    }
+                    else if (property === 'y') {
+                        this.target.position[property] = currentValue * -1;
+                    }
+                    else {
+                        this.target[property] = currentValue;
+                    }
+                }
+                else {
+                    var keys = Object.getOwnPropertyNames(currentValue);
+                    for (var j = 0; j < keys.length; j++) {
+                        var key = keys[j];
+                        this.target[property][key] = currentValue[key];
+                    }
+                }
+                continue;
+            }
+            var nextFrame = curve.keyFrames[currentFrameIndex + 1];
             var currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
             // time_ratio = time_from_current_key_frame / time_to_next_frame
             var timeRatio = 
@@ -187,11 +323,20 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
                 // next_key_frame_as_time
                 (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
                     currentKeyFrameAsTime);
-            var currentValue = currentFrame.value;
             var targetValue = nextFrame.value;
+            var curveFunc = curveFuncs[currentFrameIndex];
             if (typeof currentValue === 'number') {
                 var valueDistance = targetValue - currentValue;
-                this.target[property] = currentValue + valueDistance * curveFunc(timeRatio);
+                var value = currentValue + valueDistance * curveFunc(timeRatio);
+                if (property === 'x') {
+                    this.target.position[property] = value;
+                }
+                else if (property === 'y') {
+                    this.target.position[property] = value * -1;
+                }
+                else {
+                    this.target[property] = value;
+                }
             }
             else {
                 var keys = Object.getOwnPropertyNames(currentValue);
@@ -212,7 +357,24 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
     };
     return CocosAnimationRuntimeExtension;
 }());
+/* harmony default export */ __webpack_exports__["default"] = (CocosAnimationRuntimeExtension);
 ;
+
+
+/***/ }),
+
+/***/ "./src/Easing.ts":
+/*!***********************!*\
+  !*** ./src/Easing.ts ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Collection of easing functions.
+ */
 var Easing = {
     linear: function (ratio) {
         return ratio;
@@ -221,6 +383,21 @@ var Easing = {
         return ratio * (2 - ratio);
     }
 };
+/* harmony default export */ __webpack_exports__["default"] = (Easing);
+
+
+/***/ }),
+
+/***/ "./src/besier.ts":
+/*!***********************!*\
+  !*** ./src/besier.ts ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return bezierByTime; });
 var tau = 2 * Math.PI;
 function crt(v) {
     return (v < 0) ? -Math.pow(-v, 1 / 3) : Math.pow(v, 1 / 3);
@@ -299,9 +476,6 @@ function cardano(curve, ratio) {
         return crt(-q2 + sd) - crt(q2 + sd) - a3;
     }
 }
-function createBezierByTime(controlPoints) {
-    return function (ratio) { return bezierByTime(controlPoints, ratio); };
-}
 function bezierByTime(controlPoints, ratio) {
     var percent = cardano(controlPoints, ratio); // t
     // var p0y = 0;                // a
@@ -313,54 +487,6 @@ function bezierByTime(controlPoints, ratio) {
         controlPoints[3] * 3 * percent * percent * t1 +
         /* 1 * */ percent * percent * percent;
 }
-var CocosAnimationRuntime = /** @class */ (function () {
-    function CocosAnimationRuntime() {
-    }
-    // called internally
-    CocosAnimationRuntime.prototype.extendRuntimeObjects = function (_, nodeMap, runtimeObjectMap) {
-        nodeMap.forEach(function (node, id) {
-            if (!node.animations)
-                return;
-            var container = runtimeObjectMap.get(id);
-            if (!container.sgmed) {
-                container.sgmed = {};
-            }
-            container.sgmed.cocosAnimations = node.animations;
-            if (!container.sgmed.cocosAnimations) {
-                return;
-            }
-            for (var i = 0; i < container.sgmed.cocosAnimations.length; i++) {
-                var cocosAnimation = container.sgmed.cocosAnimations[i];
-                cocosAnimation.runtime = new CocosAnimationRuntimeExtension(cocosAnimation, container);
-            }
-        });
-    };
-    CocosAnimationRuntime.prototype.filterAnimationContainer = function (rootContainer, vector) {
-        if (vector === void 0) { vector = []; }
-        if (rootContainer.sgmed && rootContainer.sgmed.cocosAnimations) {
-            vector.push(rootContainer);
-        }
-        for (var i = 0; i < rootContainer.children.length; i++) {
-            this.filterAnimationContainer(rootContainer.children[i], vector);
-        }
-        return vector;
-    };
-    CocosAnimationRuntime.getCurveFunction = function (curveType) {
-        if (!curveType) {
-            return Easing.linear;
-        }
-        if (typeof curveType === 'string') {
-            if (Easing.hasOwnProperty(curveType)) {
-                return Easing[curveType];
-            }
-            return Easing.linear;
-        }
-        // custom curve
-        return createBezierByTime(curveType);
-    };
-    return CocosAnimationRuntime;
-}());
-/* harmony default export */ __webpack_exports__["default"] = (CocosAnimationRuntime);
 
 
 /***/ }),

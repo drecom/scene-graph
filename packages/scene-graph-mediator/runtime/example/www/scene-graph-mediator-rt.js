@@ -1,0 +1,1 @@
+/Users/kuwabara_yuki/workspace/git/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.js

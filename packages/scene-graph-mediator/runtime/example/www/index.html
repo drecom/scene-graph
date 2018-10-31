@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, user-scalable=no" />
+  <script type='text/javascript' src='/pixi.min.js'></script>
+  <script type='text/javascript' src='/scene-graph-mediator-rt.js'></script>
+  <script type='text/javascript' src='/scene-graph-cocos-animation-rt.js'></script>
+<head/>
+<body>
+  <script type='text/javascript'>
+    window.onload = function() {
+      window.app = new PIXI.Application(640, 1136, {backgroundColor : 0x1099bb});
+      document.body.appendChild(app.view);
+
+      PIXI.loader.add({ name: 'scenegraph', url: '/graph.json' }).load(() => {
+        const importer = new window["scene-graph-mediator-rt"].Importers.Pixi();
+
+        // Scene graph used in this sample is exported from Cocos Creator.
+        // Sprite sheet may be described in plist.
+        // In this example, it should be converted to json.
+        // Of cources you can modify this path ahead of runtime.
+        importer.onAddLoaderAsset = function (node, assset) {
+          if (node.sprite && node.sprite.atlasUrl) {
+            const names = assset.url.split('.');
+            names.pop();
+            names.push('json');
+            assset.url = names.join('.');;
+          }
+        };
+
+        // This callback implementetion is an example for fixing difference of coordinate system manually.
+        // It will be done automatically unless explicit disenabling of autoCoordinateFix option.
+        /*
+        importer.onTransformRestored = function (schema, id, container, node, parentNode) {
+          importer.fixCoordinate(schema, container, node, parentNode);
+        };
+        */
+
+        const CocosAnimation = window["scene-graph-cocos-animation-rt"].default;
+
+        const cocosAnimation = new CocosAnimation();
+
+        importer.addPlugin(cocosAnimation);
+
+        importer.import(
+          PIXI.loader.resources.scenegraph.data,
+          function (root) {
+            app.stage.addChild(root);
+
+            const animationContainers = cocosAnimation.filterAnimationContainer(root);
+
+            for (let i = 0; i < animationContainers.length; i++) {
+              const animationContainer = animationContainers[i];
+              animationContainer.pivot.x = animationContainer.width * 0.5;
+              animationContainer.pivot.y = animationContainer.height * 0.5;
+
+              for (let i = 0; i < animationContainer.sgmed.cocosAnimations.length; i++) {
+                animationContainer.sgmed.cocosAnimations[i].runtime.fps = 600;
+              }
+            }
+
+            {
+              const animationContainer = animationContainers[1];
+              animationContainer.position.x += animationContainer.width * 0.5;
+              animationContainer.position.y += animationContainer.height * 0.5;
+            }
+
+            app.ticker.add(function(delta) {
+              for (let i = 0; i < animationContainers.length; i++) {
+                const animationContainer = animationContainers[i];
+                for (let j = 0; j < animationContainer.sgmed.cocosAnimations.length; j++) {
+                  const runtime = animationContainer.sgmed.cocosAnimations[j].runtime;
+                  if (!runtime.paused) {
+                    runtime.update(delta);
+                  }
+                }
+              }
+            });
+          },
+          { autoCoordinateFix: true }
+        );
+
+
+      });
+    };
+  </script>
+</body>
+</html>
