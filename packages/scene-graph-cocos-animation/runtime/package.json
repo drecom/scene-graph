@@ -20,7 +20,7 @@
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
     "@drecom/scene-graph-cocos-animation-cli": "file:../client",
-    "@drecom/scene-graph-mediator-rt": "^1.1.0",
+    "@drecom/scene-graph-mediator-rt": "^1.1.1",
     "@drecom/scene-graph-schema": "0.0.6",
     "@types/pixi.js": "^4.8.2",
     "ts-loader": "^5.2.2",
