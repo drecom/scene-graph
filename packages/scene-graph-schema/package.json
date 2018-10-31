@@ -1,5 +1,5 @@
 {
-  "name": "@scene-graph/schema",
+  "name": "@drecom/scene-graph-schema",
   "version": "0.0.6",
   "description": "scene-graph-schema is a intermediate data schema that represents common data structure of a scene in game application.",
   "main": "index.js",

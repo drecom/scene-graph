@@ -1,5 +1,5 @@
 {
-  "name": "@scene-graph/cocos-animation-rt",
+  "name": "@drecom/scene-graph-cocos-animation-rt",
   "version": "0.0.1",
   "description": "",
   "main": "lib/scene-graph-cocos-animation-rt.min.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@scene-graph/mediator-rt",
+  "name": "@drecom/scene-graph-mediator-rt",
   "version": "1.1.0",
   "description": "",
   "main": "lib/scene-graph-mediator-rt.min.js",
