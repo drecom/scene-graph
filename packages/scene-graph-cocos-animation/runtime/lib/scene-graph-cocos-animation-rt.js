@@ -288,42 +288,31 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
             if (!curveFuncs || curveFuncs.length == 0) {
                 continue;
             }
+            var nextFrame = void 0;
             var currentFrame = curve.keyFrames[currentFrameIndex];
-            var currentValue = currentFrame.value;
+            var timeRatio = 0.0;
             // last frame
             if (currentFrameIndex >= curve.keyFrames.length - 1) {
-                if (typeof currentValue === 'number') {
-                    if (property === 'x') {
-                        this.target.position[property] = currentValue;
-                    }
-                    else if (property === 'y') {
-                        this.target.position[property] = currentValue * -1;
-                    }
-                    else {
-                        this.target[property] = currentValue;
-                    }
-                }
-                else {
-                    var keys = Object.getOwnPropertyNames(currentValue);
-                    for (var j = 0; j < keys.length; j++) {
-                        var key = keys[j];
-                        this.target[property][key] = currentValue[key];
-                    }
-                }
-                continue;
+                nextFrame = currentFrame;
+                currentFrame = curve.keyFrames[currentFrameIndex - 1];
+                timeRatio = 1.0;
             }
-            var nextFrame = curve.keyFrames[currentFrameIndex + 1];
-            var currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
-            // time_ratio = time_from_current_key_frame / time_to_next_frame
-            var timeRatio = 
-            // time_from_current_key_frame
-            (this.elapsedTime - currentKeyFrameAsTime) /
-                // time_to_next_frame = next_key_frame_as_time - current_key_frame_as_time
-                (
-                // next_key_frame_as_time
-                (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
-                    currentKeyFrameAsTime);
+            else {
+                var currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
+                nextFrame = curve.keyFrames[currentFrameIndex + 1];
+                // time_ratio = time_from_current_key_frame / time_to_next_frame
+                timeRatio =
+                    // time_from_current_key_frame
+                    (this.elapsedTime - currentKeyFrameAsTime) /
+                        // time_to_next_frame = next_key_frame_as_time - current_key_frame_as_time
+                        (
+                        // next_key_frame_as_time
+                        (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
+                            currentKeyFrameAsTime);
+                activeCurveExists = true;
+            }
             var targetValue = nextFrame.value;
+            var currentValue = currentFrame.value;
             var curveFunc = curveFuncs[currentFrameIndex];
             if (typeof currentValue === 'number') {
                 var valueDistance = targetValue - currentValue;
@@ -334,22 +323,50 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
                 else if (property === 'y') {
                     this.target.position[property] = value * -1;
                 }
+                else if (property === 'opacity') {
+                    this.target.alpha = value / 255;
+                }
                 else {
                     this.target[property] = value;
                 }
             }
             else {
-                var keys = Object.getOwnPropertyNames(currentValue);
-                for (var j = 0; j < keys.length; j++) {
-                    var key = keys[j];
-                    var targetPropValue = targetValue[key];
-                    var currentPropValue = currentValue[key];
-                    var valueDistance = targetPropValue - currentPropValue;
-                    var value = curveFunc(timeRatio);
-                    this.target[property][key] = currentPropValue + valueDistance * value;
+                var targetValueObject = targetValue;
+                var currentValueObject = currentValue;
+                if (property === 'color') {
+                    var curvedRatio = curveFunc(timeRatio);
+                    if ('tint' in this.target) {
+                        var currentColorRatio = {
+                            r: currentValueObject.r / 255,
+                            g: currentValueObject.g / 255,
+                            b: currentValueObject.b / 255
+                        };
+                        var targetColorRatio = {
+                            r: targetValueObject.r / 255,
+                            g: targetValueObject.g / 255,
+                            b: targetValueObject.b / 255
+                        };
+                        var addingColor = {
+                            r: 0xff0000 * ((targetColorRatio.r - currentColorRatio.r) * curvedRatio),
+                            g: 0x00ff00 * ((targetColorRatio.g - currentColorRatio.g) * curvedRatio),
+                            b: 0x0000ff * ((targetColorRatio.b - currentColorRatio.b) * curvedRatio)
+                        };
+                        this.target.tint =
+                            (currentColorRatio.r / 0xff0000) + (addingColor.r - addingColor.r % 0x010000) +
+                                (currentColorRatio.g / 0x00ff00) + (addingColor.g - addingColor.g % 0x000100) +
+                                (currentColorRatio.b / 0x0000ff) + addingColor.b;
+                    }
+                }
+                else {
+                    var keys = Object.getOwnPropertyNames(currentValueObject);
+                    for (var j = 0; j < keys.length; j++) {
+                        var key = keys[j];
+                        var valueDistance = targetValueObject[key] - currentValueObject[key];
+                        var value = currentValueObject[key] + valueDistance * curveFunc(timeRatio);
+                        this.target[property][key] = value;
+                    }
                 }
             }
-            activeCurveExists = true;
         }
         if (!activeCurveExists) {
             this.paused = true;
