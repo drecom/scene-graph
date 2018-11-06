@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "AnimationClip1",
+  "_name": "AnimationMidValue2",
   "_objFlags": 0,
   "_native": "",
   "_duration": 1,
@@ -9,20 +9,22 @@
   "wrapMode": 1,
   "curveData": {
     "props": {
-      "rotation": [
+      "scale": [
         {
           "frame": 0,
-          "value": 0,
-          "curve": [
-            0.27920168067226897,
-            1.1247899159663866,
-            0.6052521008403361,
-            -0.019747899159664017
-          ]
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          }
         },
         {
           "frame": 1,
-          "value": 180
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 0,
+            "y": 0
+          }
         }
       ]
     }

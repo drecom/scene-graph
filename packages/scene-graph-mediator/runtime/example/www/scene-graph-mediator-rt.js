@@ -322,6 +322,7 @@ var Importer = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var importer_Importer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! importer/Importer */ "./src/importer/Importer.ts");
+/* harmony import */ var _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../property_converter/Pixi */ "./src/property_converter/Pixi.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -333,7 +334,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
     };
 })();
 
-var DEGREE_TO_RADIAN = Math.PI / 180;
+
 var defaultImportOption = {
     autoCoordinateFix: true
 };
@@ -500,10 +501,10 @@ var Pixi = /** @class */ (function (_super) {
     /**
      * Extend scene graph with user plugins.
      */
-    Pixi.prototype.pluginPostProcess = function (schema, nodeMap, runtimeObjectMap) {
+    Pixi.prototype.pluginPostProcess = function (schema, nodeMap, runtimeObjectMap, option) {
         for (var i = 0; i < this.plugins.length; i++) {
             var plugin = this.plugins[i];
-            plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap);
+            plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
         }
     };
     /**
@@ -610,12 +611,6 @@ var Pixi = /** @class */ (function (_super) {
     Pixi.prototype.restoreTransform = function (root, schema, nodeMap, containerMap, option) {
         var _this = this;
         if (option === void 0) { option = defaultImportOption; }
-        var metadata = schema.metadata;
-        // original coordinate system adjustment
-        var coordVector = {
-            x: (metadata.positiveCoord.xRight ? 1 : -1),
-            y: (metadata.positiveCoord.yDown ? 1 : -1)
-        };
         // restore transform for each mapped container
         // TODO: should separate restoration of hieralchy and property ?
         containerMap.forEach(function (container, id) {
@@ -639,35 +634,22 @@ var Pixi = /** @class */ (function (_super) {
                 }
                 parentContainer.addChild(container);
             }
-            // convert coordinate system
-            var position = {
-                x: transform.x * coordVector.x,
-                y: transform.y * coordVector.y
-            };
-            // default scale is 1/1
-            var scale = (transform.scale) ? {
-                x: transform.scale.x,
-                y: transform.scale.y
-            } : { x: 1, y: 1 };
-            // pixi rotation is presented in radian
-            var rotation = (transform.rotation) ? transform.rotation * DEGREE_TO_RADIAN : 0;
-            // scene-graph-mediator extended properties
             if (!container.sgmed) {
                 container.sgmed = {};
             }
             container.sgmed.anchor = {
-                x: transform.anchor.x,
-                y: transform.anchor.y
+                x: node.transform.anchor.x,
+                y: node.transform.anchor.y
             };
-            // assign everything
-            container.position.set(position.x, position.y);
-            container.scale.set(scale.x, scale.y);
-            container.rotation = rotation;
             if (option.autoCoordinateFix) {
+                // scene-graph-mediator extended properties
                 _this.fixCoordinate(schema, container, node, parentNode);
             }
+            else {
+                _this.applyCoordinate(schema, container, node);
+            }
         });
-        this.pluginPostProcess(schema, nodeMap, containerMap);
+        this.pluginPostProcess(schema, nodeMap, containerMap, option);
         containerMap.forEach(function (container, id) {
             var node = nodeMap.get(id);
             if (!node) {
@@ -677,28 +659,14 @@ var Pixi = /** @class */ (function (_super) {
             _this.onTransformRestored(schema, id, container, node, parentNode);
         });
     };
-    Pixi.prototype.fixCoordinate = function (_schema, obj, node, parentNode) {
-        var transform = node.transform;
-        var scale = transform.scale || { x: 1, y: 1 };
-        if (parentNode === undefined) {
-            return;
-        }
-        var size = {
-            width: transform.width || 0,
-            height: transform.height || 0
-        };
-        var parentSize = {
-            width: parentNode.transform.width || 0,
-            height: parentNode.transform.height || 0
-        };
-        obj.position.x += (parentSize.width - size.width * scale.x) * transform.anchor.x;
-        obj.position.y += (parentSize.height - size.height * scale.y) * transform.anchor.y;
-        if (obj.anchor) {
-            obj.position.x += size.width * scale.x * transform.anchor.x;
-            obj.position.y += size.height * scale.y * transform.anchor.y;
-            obj.anchor.x = transform.anchor.x;
-            obj.anchor.y = 0.5 - (transform.anchor.y - 0.5);
-        }
+    Pixi.prototype.fixCoordinate = function (schema, obj, node, parentNode) {
+        var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].createConvertedObject(schema, node.transform);
+        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].fixCoordinate(obj, convertedValues, node, parentNode);
+        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].applyConvertedObject(obj, convertedValues);
+    };
+    Pixi.prototype.applyCoordinate = function (schema, obj, node) {
+        var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].createConvertedObject(schema, node.transform);
+        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].applyConvertedObject(obj, convertedValues);
     };
     Pixi.prototype.restoreRenderer = function (nodeMap, containerMap) {
         containerMap.forEach(function (container, id) {
@@ -766,20 +734,109 @@ var Importers = {
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
-/*! exports provided: Importers, Exporters */
+/*! exports provided: Importers, Exporters, PixiPropertyConverter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _importer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./importer */ "./src/importer/index.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Importers", function() { return _importer__WEBPACK_IMPORTED_MODULE_0__["Importers"]; });
+/* harmony import */ var importer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! importer */ "./src/importer/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Importers", function() { return importer__WEBPACK_IMPORTED_MODULE_0__["Importers"]; });
 
-/* harmony import */ var _exporter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./exporter */ "./src/exporter/index.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Exporters", function() { return _exporter__WEBPACK_IMPORTED_MODULE_1__["Exporters"]; });
+/* harmony import */ var exporter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! exporter */ "./src/exporter/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Exporters", function() { return exporter__WEBPACK_IMPORTED_MODULE_1__["Exporters"]; });
+
+/* harmony import */ var property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! property_converter/Pixi */ "./src/property_converter/Pixi.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PixiPropertyConverter", function() { return property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__["Pixi"]; });
 
 
 
 
+
+
+
+/***/ }),
+
+/***/ "./src/property_converter/Pixi.ts":
+/*!****************************************!*\
+  !*** ./src/property_converter/Pixi.ts ***!
+  \****************************************/
+/*! exports provided: Pixi */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pixi", function() { return Pixi; });
+var DEGREE_TO_RADIAN = Math.PI / 180;
+var Pixi = {
+    createConvertedObject: function (schema, transform) {
+        var coordVector = {
+            x: (schema.metadata.positiveCoord.xRight ? 1 : -1),
+            y: (schema.metadata.positiveCoord.yDown ? 1 : -1)
+        };
+        return {
+            // convert coordinate system
+            position: {
+                x: transform.x * coordVector.x,
+                y: transform.y * coordVector.y
+            },
+            // default scale is 1/1
+            scale: (transform.scale) ? {
+                x: transform.scale.x,
+                y: transform.scale.y
+            } : { x: 1, y: 1 },
+            // scene-graph-mediator extended properties
+            anchor: {
+                // TODO: magic
+                x: (coordVector.x === 1) ? transform.anchor.x : 0.5 - (transform.anchor.x - 0.5),
+                y: (coordVector.y === 1) ? transform.anchor.y : 0.5 - (transform.anchor.y - 0.5)
+            },
+            // pixi rotation is presented in radian
+            rotation: (transform.rotation) ? transform.rotation * DEGREE_TO_RADIAN : 0
+        };
+    },
+    fixCoordinate: function (target, convertedObject, node, parentNode) {
+        var transform = node.transform;
+        if (parentNode) {
+            var scale = transform.scale || { x: 1, y: 1 };
+            convertedObject.position.x += ((parentNode.transform.width || 0) - (transform.width || 0) * scale.x) * transform.anchor.x;
+            convertedObject.position.y += ((parentNode.transform.height || 0) - (transform.height || 0) * scale.y) * transform.anchor.y;
+        }
+        if (target.anchor) {
+            convertedObject.position.x += target.width * convertedObject.scale.x * transform.anchor.x;
+            convertedObject.position.y += target.height * convertedObject.scale.y * transform.anchor.y;
+        }
+        /*
+            if (target.anchor) {
+              target.position.x = convertedObject.position.x + target.width  * convertedObject.scale.x * transform.anchor.x;
+              target.position.y = convertedObject.position.y + target.height * convertedObject.scale.y * transform.anchor.y;
+              target.anchor.x = convertedObject.anchor.x;
+              target.anchor.y = convertedObject.anchor.y;
+            } else {
+              target.position.x = convertedObject.position.x;
+              target.position.y = convertedObject.position.y;
+            }
+        
+            target.scale.x  = convertedObject.scale.x;
+            target.scale.y  = convertedObject.scale.y;
+            target.rotation = convertedObject.rotation;
+        */
+    },
+    applyConvertedObject: function (target, convertedObject) {
+        if (target.anchor) {
+            target.position.x = convertedObject.position.x;
+            target.position.y = convertedObject.position.y;
+            target.anchor.x = convertedObject.anchor.x;
+            target.anchor.y = convertedObject.anchor.y;
+        }
+        else {
+            target.position.x = convertedObject.position.x;
+            target.position.y = convertedObject.position.y;
+        }
+        target.scale.x = convertedObject.scale.x;
+        target.scale.y = convertedObject.scale.y;
+        target.rotation = convertedObject.rotation;
+    }
+};
 
 
 /***/ })

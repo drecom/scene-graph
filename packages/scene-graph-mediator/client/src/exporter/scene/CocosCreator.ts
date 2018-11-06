@@ -46,7 +46,11 @@ export default class CocosCreator implements SceneExporter {
   /**
    * export scene graph
    */
-  public createSceneGraphSchemas(sceneFiles: string[], assetRoot: string, plugins?: Map<string, SceneExporterPlugin>): Map<string, SchemaJson> {
+  public createSceneGraphSchemas(
+    sceneFiles: string[],
+    assetRoot: string,
+    plugins?: Map<string, SceneExporterPlugin>
+  ): Map<string, SchemaJson> {
     const graphs = new Map<string, SchemaJson>();
 
     for (let i = 0; i < sceneFiles.length; i++) {
@@ -135,7 +139,7 @@ export default class CocosCreator implements SceneExporter {
 
     assetFileMap.forEach((item) => {
       const entities = this.createResourceMapEntities(item.filePath);
-      entities.forEach((entity) => resourceMap.set(entity.id, entity));
+      entities.forEach((entity) => { resourceMap.set(entity.id, entity); });
     });
 
     return resourceMap;

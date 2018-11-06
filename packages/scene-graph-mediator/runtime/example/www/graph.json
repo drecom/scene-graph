@@ -789,7 +789,9 @@
         "parent": "2",
         "children": [
           "39",
-          "42"
+          "42",
+          "45",
+          "48"
         ]
       },
       "renderer": {
@@ -1086,6 +1088,126 @@
                 {
                   "frame": 0.25,
                   "value": -208
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "45",
+      "name": "AnimationColor",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": -54,
+        "y": -469,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "38",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_usagi",
+        "url": "assets/Texture/animal_usagi.png"
+      },
+      "animations": [
+        {
+          "sample": 60,
+          "speed": 1,
+          "url": "assets/AnimationClip/AnimationColor.anim",
+          "curves": {
+            "color": {
+              "keyFrames": [
+                {
+                  "frame": 0,
+                  "value": {
+                    "r": 255,
+                    "g": 255,
+                    "b": 255,
+                    "a": 255
+                  }
+                },
+                {
+                  "frame": 1,
+                  "value": {
+                    "r": 10,
+                    "g": 255,
+                    "b": 0,
+                    "a": 255
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "48",
+      "name": "AnimationAlpha",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 45,
+        "y": -471,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "38",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_usagi",
+        "url": "assets/Texture/animal_usagi.png"
+      },
+      "animations": [
+        {
+          "sample": 60,
+          "speed": 1,
+          "url": "assets/AnimationClip/AnimationAlpha.anim",
+          "curves": {
+            "opacity": {
+              "keyFrames": [
+                {
+                  "frame": 0,
+                  "value": 255
+                },
+                {
+                  "frame": 1,
+                  "value": 0
                 }
               ]
             }
