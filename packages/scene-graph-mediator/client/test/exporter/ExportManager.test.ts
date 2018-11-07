@@ -9,7 +9,7 @@ describe('ExportManager',  () => {
     const Klass = ExportManager;
 
     describe('getSceneExporterClass', () => {
-      const subject = Klass.getSceneExporterClass;
+      const subject = Klass.getSceneExporterClass.bind(Klass);
 
       describe('when valid runtime id was given', () => {
         it('should return exporter class', () => {
@@ -26,7 +26,7 @@ describe('ExportManager',  () => {
     });
 
     describe('getAssetExporterClass', () => {
-      const subject = Klass.getAssetExporterClass;
+      const subject = Klass.getAssetExporterClass.bind(Klass);
 
       describe('when valid runtime id was given', () => {
         it('should return exporter class', () => {
