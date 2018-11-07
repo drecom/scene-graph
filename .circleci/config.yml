@@ -64,4 +64,4 @@ workflows:
       - scene-graph-mediator/client
       - report_success:
           requires:
-            - mediator_runtime
+            - scene-graph-mediator/runtime
