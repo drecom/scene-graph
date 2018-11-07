@@ -12,9 +12,9 @@ aliases:
     npm run workflow:test
     popd
   - &report-build-failure |
-    packages/scene-graph-mediator/runtime/.circleci/report.sh ${CIRCLE_JOB} build
+    .circleci/report.sh ${CIRCLE_JOB} build
   - &report-test-failure |
-    packages/scene-graph-mediator/runtime/.circleci/report.sh ${CIRCLE_JOB} test
+    .circleci/report.sh ${CIRCLE_JOB} test
 
   - &common-docker
     - image: circleci/node:8.12.0-browsers

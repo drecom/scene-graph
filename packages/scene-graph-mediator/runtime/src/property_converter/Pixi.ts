@@ -42,7 +42,12 @@ export const Pixi: PropertyConverter.Interface = {
     };
   },
 
-  fixCoordinate: (target: any, convertedObject: ConvertedObject, node: Node, parentNode?: Node): void => {
+  fixCoordinate: (
+    target: any,
+    convertedObject: ConvertedObject,
+    node: Node,
+    parentNode?: Node
+  ): void => {
     const transform = node.transform;
 
     if (parentNode) {
