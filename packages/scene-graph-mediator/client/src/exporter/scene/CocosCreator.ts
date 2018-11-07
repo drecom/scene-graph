@@ -53,25 +53,24 @@ export default class CocosCreator implements SceneExporter {
   ): Map<string, SchemaJson> {
     const graphs = new Map<string, SchemaJson>();
 
+    const assetFileMap = new AssetFileMap(assetRoot);
+    assetFileMap.scan();
+
+    const resourceMap = this.createLocalResourceMap(assetFileMap);
+
     for (let i = 0; i < sceneFiles.length; i++) {
       const sceneFile    = sceneFiles[i];
       const sceneJson    = this.loadSceneFile(sceneFile);
-      const assetFileMap = new AssetFileMap(assetRoot);
-      assetFileMap.scan();
-
-      const resourceMap = this.createLocalResourceMap(assetFileMap);
 
       const graph = this.createSceneGraph(sceneJson);
 
       this.appendComponents(sceneJson, graph, resourceMap);
 
-      if (!plugins) continue;
-
-      plugins.forEach((plugin) => {
-        plugin.extendSceneGraph(graph, sceneJson, assetFileMap);
-      });
-
       graphs.set(sceneFile, graph);
+
+      if (plugins) {
+        this.pluginPostProcess(graph, sceneJson, assetFileMap, plugins);
+      }
     }
 
     return graphs;

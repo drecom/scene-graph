@@ -7,6 +7,30 @@ declare namespace CocosAnimationRuntimeTypes {
   type CocosAnimation = CocosAnimationClientTypes.Animation & {
     runtime?: CocosAnimationRuntimeExtension;
   };
+
+  type PropertyConversionInfo = {
+    target: any;
+    key: string;
+    value: number;
+  };
+
+  type FrameParams = {
+    target: PIXI.Container;
+    animationProperty: string;
+    currentValue: number | CocosAnimationClientTypes.AnimationFrameProperty;
+    targetValue: number | CocosAnimationClientTypes.AnimationFrameProperty;
+    timeRatio: number;
+    curveFunc: EaseFunction;
+  };
+
+  type PrimitiveFrameParams = FrameParams & {
+    currentValue: number;
+    targetValue: number;
+  };
+  type ObjectFrameParams = FrameParams & {
+    currentValue: CocosAnimationClientTypes.AnimationFrameProperty;
+    targetValue: CocosAnimationClientTypes.AnimationFrameProperty;
+  };
 }
 
 export default CocosAnimationRuntimeTypes;

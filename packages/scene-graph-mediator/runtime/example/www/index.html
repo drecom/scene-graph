@@ -9,12 +9,53 @@
 <head/>
 <body>
   <script type='text/javascript'>
+    let cocosAnimation;
+
+    /**
+     * Function invoked after scene graph is imported.
+     * It processes
+     */
+    function onSceneGraphImportComplete(root) {
+      // add generated container
+      app.stage.addChild(root);
+
+      // animation plugin app custom process
+      const animationContainers = cocosAnimation.filterAnimationContainer(root);
+
+      for (let i = 0; i < animationContainers.length; i++) {
+        // configure fps to make animation recognization easy
+        const animations = animationContainers[i].sgmed.cocosAnimations;
+        for (let j = 0; j < animationContainers[i].sgmed.cocosAnimations.length; j++) {
+          animations[j].runtime.fps = 600;
+        }
+      }
+
+      // update animation
+      app.ticker.add(function(delta) {
+        for (let i = 0; i < animationContainers.length; i++) {
+          const container = animationContainers[i];
+          const runtime = container.sgmed.cocosAnimations[0].runtime;
+          if (runtime.paused) continue;
+          runtime.update(delta);
+        }
+      });
+    }
+
     window.onload = function() {
+      // pixi runtime mediator
+      const Importer = window["scene-graph-mediator-rt"].Importers.Pixi;
+      // Plugin example
+      const CocosAnimation = window["scene-graph-cocos-animation-rt"].default;
+
       window.app = new PIXI.Application(640, 1136, {backgroundColor : 0x1099bb});
       document.body.appendChild(app.view);
 
       PIXI.loader.add({ name: 'scenegraph', url: '/graph.json' }).load(() => {
-        const importer = new window["scene-graph-mediator-rt"].Importers.Pixi();
+        // instantiate scene-graph family
+        const importer = new Importer();
+        cocosAnimation = new CocosAnimation();
+
+        importer.addPlugin(cocosAnimation);
 
         // Scene graph used in this sample is exported from Cocos Creator.
         // Sprite sheet may be described in plist.
@@ -31,57 +72,16 @@
 
         // This callback implementetion is an example for fixing difference of coordinate system manually.
         // It will be done automatically unless explicit disenabling of autoCoordinateFix option.
-        /*
-        importer.onTransformRestored = function (schema, id, container, node, parentNode) {
-          importer.fixCoordinate(schema, container, node, parentNode);
-        };
-        */
+        //
+        // importer.onTransformRestored = function (schema, id, container, node, parentNode) {
+        //   importer.fixCoordinate(schema, container, node, parentNode);
+        // };
 
-        const CocosAnimation = window["scene-graph-cocos-animation-rt"].default;
+        const sceneGraph   = PIXI.loader.resources.scenegraph.data;
+        const importOption = { autoCoordinateFix: true };
 
-        const cocosAnimation = new CocosAnimation();
-
-        importer.addPlugin(cocosAnimation);
-
-        importer.import(
-          PIXI.loader.resources.scenegraph.data,
-          function (root) {
-            app.stage.addChild(root);
-
-            const animationContainers = cocosAnimation.filterAnimationContainer(root);
-
-            for (let i = 0; i < animationContainers.length; i++) {
-              const animationContainer = animationContainers[i];
-              animationContainer.pivot.x = animationContainer.width * 0.5;
-              animationContainer.pivot.y = animationContainer.height * 0.5;
-
-              for (let i = 0; i < animationContainer.sgmed.cocosAnimations.length; i++) {
-                animationContainer.sgmed.cocosAnimations[i].runtime.fps = 600;
-              }
-            }
-
-            {
-              const animationContainer = animationContainers[1];
-              animationContainer.position.x += animationContainer.width * 0.5;
-              animationContainer.position.y += animationContainer.height * 0.5;
-            }
-
-            app.ticker.add(function(delta) {
-              for (let i = 0; i < animationContainers.length; i++) {
-                const animationContainer = animationContainers[i];
-                for (let j = 0; j < animationContainer.sgmed.cocosAnimations.length; j++) {
-                  const runtime = animationContainer.sgmed.cocosAnimations[j].runtime;
-                  if (!runtime.paused) {
-                    runtime.update(delta);
-                  }
-                }
-              }
-            });
-          },
-          { autoCoordinateFix: true }
-        );
-
-
+        // import scene-graph
+        importer.import(sceneGraph, onSceneGraphImportComplete, importOption);
       });
     };
   </script>
