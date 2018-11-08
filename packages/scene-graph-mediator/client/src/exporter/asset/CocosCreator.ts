@@ -35,10 +35,16 @@ export default class CocosCreator implements AssetExporter {
         const node = scene[i];
         if (node.sprite) {
           if (node.sprite.url) {
-            exportMap.set(node.sprite.url, this.createExportMapEntity(node.sprite.url, assetRoot, destDir, urlNameSpace));
+            exportMap.set(
+              node.sprite.url,
+              this.createExportMapEntity(node.sprite.url, assetRoot, destDir, urlNameSpace)
+            );
           }
           if (node.sprite.atlasUrl) {
-            exportMap.set(node.sprite.atlasUrl, this.createExportMapEntity(node.sprite.atlasUrl, assetRoot, destDir, urlNameSpace));
+            exportMap.set(
+              node.sprite.atlasUrl,
+              this.createExportMapEntity(node.sprite.atlasUrl, assetRoot, destDir, urlNameSpace)
+            );
           }
         }
 
@@ -49,7 +55,10 @@ export default class CocosCreator implements AssetExporter {
           if (paths.length === 0) return;
 
           for (let j = 0; j < paths.length; j++) {
-            exportMap.set(paths[j], this.createExportMapEntity(paths[j], assetRoot, destDir, urlNameSpace));
+            exportMap.set(
+              paths[j],
+              this.createExportMapEntity(paths[j], assetRoot, destDir, urlNameSpace)
+            );
           }
         });
       }
@@ -98,7 +107,12 @@ export default class CocosCreator implements AssetExporter {
   /**
    * Create asset export map entity.
    */
-  private createExportMapEntity(basePath: string, assetRoot: string, destDir: string, urlNameSpace: string = ''): AssetExportMapEntity {
+  private createExportMapEntity(
+    basePath: string,
+    assetRoot: string,
+    destDir: string,
+    urlNameSpace: string = ''
+  ): AssetExportMapEntity {
     const relativePath = basePath.replace(RegExp(`\^${assetRoot}`), '');
 
     return {

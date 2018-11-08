@@ -31,6 +31,6 @@ export default class AssetFileEntity {
    * Change absolute path to relative path based on given path.
    */
   public relativeLocalPath(basePath: string): string {
-    return this.filePath.replace(basePath, '').replace(/^\//, '')
+    return this.filePath.replace(basePath, '').replace(/^\//, '');
   }
 }

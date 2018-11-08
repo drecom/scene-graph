@@ -1,0 +1,67 @@
+aliases:
+  - &npm-install |
+    pushd packages/${CIRCLE_JOB}
+    npm install
+    popd
+  - &build |
+    pushd packages/${CIRCLE_JOB}
+    npm run workflow:build
+    popd
+  - &test |
+    pushd packages/${CIRCLE_JOB}
+    npm run workflow:test
+    popd
+  - &report-build-failure |
+    .circleci/report.sh ${CIRCLE_JOB} build
+  - &report-test-failure |
+    .circleci/report.sh ${CIRCLE_JOB} test
+
+  - &common-docker
+    - image: circleci/node:8.12.0-browsers
+  - &job-build-and-test
+    - checkout
+    - run:
+        name: install node module
+        command: *npm-install
+    - run:
+        name: build
+        command: *build
+    - run:
+        name: report build failure
+        command: *report-build-failure
+        when: on_fail
+    - run:
+        name: run test
+        command: *test
+    - run:
+        name: report test failure
+        command: *report-test-failure
+        when: on_fail
+
+version: 2
+jobs:
+  scene-graph-mediator/runtime:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-mediator/client:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  report_success:
+    docker: *common-docker
+    steps:
+      - checkout
+      - run:
+          name: reporting success
+          command: ".circleci/report.sh"
+
+workflows:
+  version: 2
+  all-test:
+    jobs:
+      - scene-graph-mediator/runtime
+      - scene-graph-mediator/client
+      - report_success:
+          requires:
+            - scene-graph-mediator/runtime

@@ -118,7 +118,7 @@ var CocosAnimationRuntime = /** @class */ (function () {
      * Plugin interface inplementation
      * Custom extension for runtime object
      */
-    CocosAnimationRuntime.prototype.extendRuntimeObjects = function (_, nodeMap, runtimeObjectMap) {
+    CocosAnimationRuntime.prototype.extendRuntimeObjects = function (_, nodeMap, runtimeObjectMap, option) {
         nodeMap.forEach(function (node, id) {
             if (!node.animations)
                 return;
@@ -133,6 +133,14 @@ var CocosAnimationRuntime = /** @class */ (function () {
             for (var i = 0; i < container.sgmed.cocosAnimations.length; i++) {
                 var cocosAnimation = container.sgmed.cocosAnimations[i];
                 cocosAnimation.runtime = new _CocosAnimationRuntimeExtension__WEBPACK_IMPORTED_MODULE_0__["default"](cocosAnimation, container);
+            }
+            if (option.autoCoordinateFix) {
+                // calibrate anchor system difference
+                if (!container.anchor) {
+                    container.pivot.set(container.width * 0.5, container.height * 0.5);
+                    container.position.x += container.width * container.scale.x * 0.5;
+                    container.position.y += container.height * container.scale.y * 0.5;
+                }
             }
         });
     };
@@ -169,6 +177,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _besier__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./besier */ "./src/besier.ts");
 
 
+var DEGREE_TO_RADIAN = Math.PI / 180;
 function createBezierByTime(controlPoints) {
     return function (ratio) { return Object(_besier__WEBPACK_IMPORTED_MODULE_1__["default"])(controlPoints, ratio); };
 }
@@ -288,72 +297,134 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
             if (!curveFuncs || curveFuncs.length == 0) {
                 continue;
             }
+            var nextFrame = void 0;
             var currentFrame = curve.keyFrames[currentFrameIndex];
-            var currentValue = currentFrame.value;
+            var timeRatio = 0.0;
             // last frame
             if (currentFrameIndex >= curve.keyFrames.length - 1) {
-                if (typeof currentValue === 'number') {
-                    if (property === 'x') {
-                        this.target.position[property] = currentValue;
-                    }
-                    else if (property === 'y') {
-                        this.target.position[property] = currentValue * -1;
-                    }
-                    else {
-                        this.target[property] = currentValue;
-                    }
-                }
-                else {
-                    var keys = Object.getOwnPropertyNames(currentValue);
-                    for (var j = 0; j < keys.length; j++) {
-                        var key = keys[j];
-                        this.target[property][key] = currentValue[key];
-                    }
-                }
-                continue;
-            }
-            var nextFrame = curve.keyFrames[currentFrameIndex + 1];
-            var currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
-            // time_ratio = time_from_current_key_frame / time_to_next_frame
-            var timeRatio = 
-            // time_from_current_key_frame
-            (this.elapsedTime - currentKeyFrameAsTime) /
-                // time_to_next_frame = next_key_frame_as_time - current_key_frame_as_time
-                (
-                // next_key_frame_as_time
-                (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
-                    currentKeyFrameAsTime);
-            var targetValue = nextFrame.value;
-            var curveFunc = curveFuncs[currentFrameIndex];
-            if (typeof currentValue === 'number') {
-                var valueDistance = targetValue - currentValue;
-                var value = currentValue + valueDistance * curveFunc(timeRatio);
-                if (property === 'x') {
-                    this.target.position[property] = value;
-                }
-                else if (property === 'y') {
-                    this.target.position[property] = value * -1;
-                }
-                else {
-                    this.target[property] = value;
-                }
+                nextFrame = currentFrame;
+                currentFrame = curve.keyFrames[currentFrameIndex - 1];
+                timeRatio = 1.0;
             }
             else {
-                var keys = Object.getOwnPropertyNames(currentValue);
-                for (var j = 0; j < keys.length; j++) {
-                    var key = keys[j];
-                    var targetPropValue = targetValue[key];
-                    var currentPropValue = currentValue[key];
-                    var valueDistance = targetPropValue - currentPropValue;
-                    var value = curveFunc(timeRatio);
-                    this.target[property][key] = currentPropValue + valueDistance * value;
-                }
+                var currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
+                nextFrame = curve.keyFrames[currentFrameIndex + 1];
+                // time_ratio = time_from_current_key_frame / time_to_next_frame
+                timeRatio =
+                    // time_from_current_key_frame
+                    (this.elapsedTime - currentKeyFrameAsTime) /
+                        // time_to_next_frame = next_key_frame_as_time - current_key_frame_as_time
+                        (
+                        // next_key_frame_as_time
+                        (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
+                            currentKeyFrameAsTime);
+                activeCurveExists = true;
             }
-            activeCurveExists = true;
+            var targetValue = nextFrame.value;
+            var currentValue = currentFrame.value;
+            var curveFunc = curveFuncs[currentFrameIndex];
+            var params = {
+                target: this.target,
+                animationProperty: property,
+                currentValue: currentValue,
+                targetValue: targetValue,
+                timeRatio: timeRatio,
+                curveFunc: curveFunc
+            };
+            var convertInfo = CocosAnimationRuntimeExtension.getAnimationPropertyConversionInfoSet(params);
+            convertInfo.forEach(function (item) {
+                item.target[item.key] = item.value;
+            });
         }
         if (!activeCurveExists) {
             this.paused = true;
         }
+    };
+    CocosAnimationRuntimeExtension.getPrimitiveAnimationPropertyConversionInfo = function (params) {
+        var valueDistance = params.targetValue - params.currentValue;
+        var value = params.currentValue + valueDistance * params.curveFunc(params.timeRatio);
+        switch (params.animationProperty) {
+            case 'x': return {
+                target: params.target.position,
+                key: params.animationProperty,
+                value: value
+            };
+            case 'y': return {
+                target: params.target.position,
+                key: params.animationProperty,
+                value: value * -1
+            };
+            case 'rotation': return {
+                target: params.target,
+                key: params.animationProperty,
+                value: value * DEGREE_TO_RADIAN
+            };
+            case 'opacity': return {
+                target: params.target.position,
+                key: 'alpha',
+                value: value / 255
+            };
+            default: return {
+                target: params.target,
+                key: params.animationProperty,
+                value: value
+            };
+        }
+    };
+    CocosAnimationRuntimeExtension.getObjectAnimationPropertyConversionInfoSet = function (params) {
+        var convertInfo = new Set();
+        var targetValueObject = params.targetValue;
+        var currentValueObject = params.currentValue;
+        if (params.animationProperty === 'color') {
+            var curvedRatio = params.curveFunc(params.timeRatio);
+            if ('tint' in params.target) {
+                var currentColorRatio = {
+                    r: currentValueObject.r / 255,
+                    g: currentValueObject.g / 255,
+                    b: currentValueObject.b / 255
+                };
+                var targetColorRatio = {
+                    r: targetValueObject.r / 255,
+                    g: targetValueObject.g / 255,
+                    b: targetValueObject.b / 255
+                };
+                var addingColor = {
+                    r: 0xff0000 * ((targetColorRatio.r - currentColorRatio.r) * curvedRatio),
+                    g: 0x00ff00 * ((targetColorRatio.g - currentColorRatio.g) * curvedRatio),
+                    b: 0x0000ff * ((targetColorRatio.b - currentColorRatio.b) * curvedRatio)
+                };
+                convertInfo.add({
+                    target: params.target,
+                    key: 'tint',
+                    value: (currentColorRatio.r / 0xff0000) + (addingColor.r - addingColor.r % 0x010000) +
+                        (currentColorRatio.g / 0x00ff00) + (addingColor.g - addingColor.g % 0x000100) +
+                        (currentColorRatio.b / 0x0000ff) + addingColor.b
+                });
+            }
+        }
+        else {
+            var keys = Object.getOwnPropertyNames(currentValueObject);
+            for (var j = 0; j < keys.length; j++) {
+                var key = keys[j];
+                var valueDistance = targetValueObject[key] - currentValueObject[key];
+                var value = currentValueObject[key] + valueDistance * params.curveFunc(params.timeRatio);
+                convertInfo.add({
+                    target: params.target[params.animationProperty],
+                    key: key,
+                    value: value
+                });
+            }
+        }
+        return convertInfo;
+    };
+    CocosAnimationRuntimeExtension.getAnimationPropertyConversionInfoSet = function (params) {
+        if (typeof params.currentValue === 'number') {
+            var convertInfoSet = new Set();
+            var info = CocosAnimationRuntimeExtension.getPrimitiveAnimationPropertyConversionInfo(params);
+            convertInfoSet.add(info);
+            return convertInfoSet;
+        }
+        return CocosAnimationRuntimeExtension.getObjectAnimationPropertyConversionInfoSet(params);
     };
     return CocosAnimationRuntimeExtension;
 }());

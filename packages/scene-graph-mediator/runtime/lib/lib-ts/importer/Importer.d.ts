@@ -47,5 +47,5 @@ export declare abstract class Importer {
     abstract import(schema: SchemaJson, callback: (root: any) => void): any;
     abstract createAssetMap(schema: SchemaJson): Map<string, any>;
     abstract restoreScene(root: any, schema: SchemaJson, option: ImportOption): void;
-    abstract pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>): void;
+    abstract pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
 }

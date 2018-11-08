@@ -1,8 +1,7 @@
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
 import ImporterPlugin from '../interface/ImporterPlugin';
-
-const DEGREE_TO_RADIAN = Math.PI / 180;
+import { Pixi as PropertyConverter } from '../property_converter/Pixi';
 
 type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;
@@ -230,11 +229,12 @@ export default class Pixi extends Importer {
   public pluginPostProcess(
     schema: SchemaJson,
     nodeMap: Map<string, Node>,
-    runtimeObjectMap: Map<string, any>
+    runtimeObjectMap: Map<string, any>,
+    option: ImportOption
   ): void {
     for (let i = 0; i < this.plugins.length; i++) {
       const plugin = this.plugins[i];
-      plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap);
+      plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
     }
   }
 
@@ -354,14 +354,6 @@ export default class Pixi extends Importer {
     containerMap: ContainerMap,
     option: ImportOption = defaultImportOption
   ): void {
-    const metadata = schema.metadata;
-
-    // original coordinate system adjustment
-    const coordVector = {
-      x: (metadata.positiveCoord.xRight ? 1 : -1),
-      y: (metadata.positiveCoord.yDown  ? 1 : -1)
-    };
-
     // restore transform for each mapped container
     // TODO: should separate restoration of hieralchy and property ?
     containerMap.forEach((container, id) => {
@@ -388,42 +380,24 @@ export default class Pixi extends Importer {
         parentContainer.addChild(container);
       }
 
-      // convert coordinate system
-      const position = {
-        x: transform.x * coordVector.x,
-        y: transform.y * coordVector.y
-      };
-
-      // default scale is 1/1
-      const scale = (transform.scale) ? {
-        x: transform.scale.x,
-        y: transform.scale.y
-      } : { x: 1, y: 1 };
-
-      // pixi rotation is presented in radian
-      const rotation = (transform.rotation) ? transform.rotation * DEGREE_TO_RADIAN : 0;
-
-      // scene-graph-mediator extended properties
       if (!container.sgmed) {
         container.sgmed = {};
       }
 
       container.sgmed.anchor = {
-        x: transform.anchor.x,
-        y: transform.anchor.y
+        x: node.transform.anchor.x,
+        y: node.transform.anchor.y
       };
 
-      // assign everything
-      container.position.set(position.x, position.y);
-      container.scale.set(scale.x, scale.y);
-      container.rotation = rotation;
-
       if (option.autoCoordinateFix) {
+        // scene-graph-mediator extended properties
         this.fixCoordinate(schema, container, node, parentNode);
+      } else {
+        this.applyCoordinate(schema, container, node);
       }
     });
 
-    this.pluginPostProcess(schema, nodeMap, containerMap);
+    this.pluginPostProcess(schema, nodeMap, containerMap, option);
 
     containerMap.forEach((container, id) => {
       const node = nodeMap.get(id);
@@ -437,39 +411,17 @@ export default class Pixi extends Importer {
     });
   }
 
-  public fixCoordinate(_schema: SchemaJson, obj: any, node: Node, parentNode?: Node): void {
-    const transform = node.transform;
-    const scale     = transform.scale || { x: 1, y: 1 };
-
-    if (parentNode === undefined) {
-      return;
-    }
-
-    const size = {
-      width:  transform.width || 0,
-      height: transform.height || 0
-    };
-
-    const parentSize = {
-      width:  parentNode.transform.width || 0,
-      height: parentNode.transform.height || 0
-    };
-
-    obj.position.x += (parentSize.width  - size.width  * scale.x) * transform.anchor.x;
-    obj.position.y += (parentSize.height - size.height * scale.y) * transform.anchor.y;
-
-    if (obj.anchor) {
-      obj.position.x += size.width  * scale.x * transform.anchor.x;
-      obj.position.y += size.height * scale.y * transform.anchor.y;
-      obj.anchor.x = transform.anchor.x;
-      obj.anchor.y = 0.5 - (transform.anchor.y - 0.5);
-    }
+  public fixCoordinate(schema: SchemaJson, obj: any, node: Node, parentNode?: Node): void {
+    const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform);
+    PropertyConverter.fixCoordinate(obj, convertedValues, node, parentNode);
+    PropertyConverter.applyConvertedObject(obj, convertedValues);
+  }
+  public applyCoordinate(schema: SchemaJson, obj: any, node: Node): void {
+    const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform);
+    PropertyConverter.applyConvertedObject(obj, convertedValues);
   }
 
-  private restoreRenderer(
-    nodeMap: NodeMap,
-    containerMap: ContainerMap
-  ): void {
+  private restoreRenderer(nodeMap: NodeMap, containerMap: ContainerMap): void {
     containerMap.forEach((container, id) => {
       // node that is not from schema
       const node = nodeMap.get(id);

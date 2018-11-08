@@ -22,7 +22,7 @@ export default function cli(): void {
    * Instantiate exporter implement
    */
   const manager = new ExportManager();
-  manager.loadPlugins(args.plugins)
+  manager.loadPlugins(args.plugins);
 
   /**
    * Execute export
@@ -30,13 +30,19 @@ export default function cli(): void {
   const sceneGraphs = manager.exportScene(args.runtime, args.sceneFiles, args.assetRoot);
 
   // scene graph file manages assets
-  const exportExportMap = manager.exportAsset(sceneGraphs, args.runtime, args.assetRoot, args.assetDestDir, args.assetNameSpace);
+  const exportExportMap = manager.exportAsset(
+    sceneGraphs,
+    args.runtime,
+    args.assetRoot,
+    args.assetDestDir,
+    args.assetNameSpace
+  );
 
   // file system control
   fs.mkdir(args.assetDestDir, () => {
     // write scene graph file
     sceneGraphs.forEach((sceneGraph, sceneFilePath) => {
-      const destFileName = path.basename(sceneFilePath) + '.json';
+      const destFileName = `${path.basename(sceneFilePath)}.json`;
       const dest = path.join(args.assetDestDir, destFileName);
       // if (debug) {
       fs.writeFile(dest, JSON.stringify(sceneGraph, null, 2), () => {});
