@@ -59,7 +59,7 @@ export default function cli(): void {
 
   // write scene graph file
   sceneGraphs.forEach((sceneGraph, sceneFilePath) => {
-    const destFileName = path.basename(sceneFilePath) + '.json';
+    const destFileName = `${path.basename(sceneFilePath)}.json`;
     const dest = path.join(args.assetDestDir, destFileName);
     // if (debug) {
     fs.writeFile(dest, JSON.stringify(sceneGraph, null, 2), () => {});
