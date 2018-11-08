@@ -79,7 +79,7 @@ export default class Pixi extends Importer {
     /**
      * Extend scene graph with user plugins.
      */
-    pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>): void;
+    pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
     /**
      * Map all nodes from given schema
      */
@@ -99,6 +99,7 @@ export default class Pixi extends Importer {
      * since bounds can not be calculated properly if no texture are applied.
      */
     private restoreTransform;
-    fixCoordinate(_schema: SchemaJson, obj: any, node: Node, parentNode?: Node): void;
+    fixCoordinate(schema: SchemaJson, obj: any, node: Node, parentNode?: Node): void;
+    applyCoordinate(schema: SchemaJson, obj: any, node: Node): void;
     private restoreRenderer;
 }

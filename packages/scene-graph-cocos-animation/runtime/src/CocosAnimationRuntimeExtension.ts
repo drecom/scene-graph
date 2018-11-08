@@ -1,7 +1,9 @@
-import Types from './interface/types';
 import { CocosAnimationClientTypes as ClientTypes } from '@drecom/scene-graph-cocos-animation-cli';
+import Types from './interface/types';
 import Easing from './Easing';
 import bezierByTime from './besier';
+
+const DEGREE_TO_RADIAN = Math.PI / 180;
 
 function createBezierByTime(controlPoints: number[]) {
   return (ratio: number) => bezierByTime(controlPoints, ratio);
@@ -159,75 +161,152 @@ export default class CocosAnimationRuntimeExtension {
         continue;
       }
 
-      const currentFrame = curve.keyFrames[currentFrameIndex];
-      const currentValue = currentFrame.value;
+      let nextFrame;
+      let currentFrame = curve.keyFrames[currentFrameIndex];
+      let timeRatio = 0.0;
 
       // last frame
       if (currentFrameIndex >= curve.keyFrames.length - 1) {
-        if (typeof currentValue === 'number') {
-          if (property === 'x') {
-            this.target.position[property] = currentValue;
-          } else if (property === 'y') {
-            this.target.position[property] = currentValue * -1;
-          } else {
-            (this.target as any)[property] = currentValue;
-          }
-        } else {
-          const keys = Object.getOwnPropertyNames(currentValue);
-          for (let j = 0; j < keys.length; j++) {
-            const key = keys[j];
-            (this.target as any)[property][key] = (currentValue as ClientTypes.AnimationFrameProperty)[key];
-          }
-        }
-
-        continue;
-      }
-
-      const nextFrame  = curve.keyFrames[currentFrameIndex + 1];
-      const currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
-
-      // time_ratio = time_from_current_key_frame / time_to_next_frame
-      const timeRatio =
-        // time_from_current_key_frame
-        (this.elapsedTime - currentKeyFrameAsTime) /
-        // time_to_next_frame = next_key_frame_as_time - current_key_frame_as_time
-        (
-          // next_key_frame_as_time
-          (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
-          currentKeyFrameAsTime
-        );
-
-      const targetValue = nextFrame.value;
-      const curveFunc   = curveFuncs[currentFrameIndex];
-
-      if (typeof currentValue === 'number') {
-        const valueDistance = (targetValue as number) - (currentValue as number);
-        const value = currentValue + valueDistance * curveFunc(timeRatio);
-        if (property === 'x') {
-          this.target.position[property] = value;
-        } else if (property === 'y') {
-          this.target.position[property] = value * -1;
-        } else {
-          (this.target as any)[property] = value;
-        }
+        nextFrame    = currentFrame;
+        currentFrame = curve.keyFrames[currentFrameIndex - 1];
+        timeRatio    = 1.0;
       } else {
-        const keys = Object.getOwnPropertyNames(currentValue);
-        for (let j = 0; j < keys.length; j++) {
-          const key = keys[j];
-          const targetPropValue  = (targetValue as ClientTypes.AnimationFrameProperty)[key];
-          const currentPropValue = (currentValue as ClientTypes.AnimationFrameProperty)[key];
+        const currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
+        nextFrame = curve.keyFrames[currentFrameIndex + 1];
 
-          const valueDistance = targetPropValue - currentPropValue;
-          const value = curveFunc(timeRatio);
-          (this.target as any)[property][key] = currentPropValue + valueDistance * value;
-        }
+        // time_ratio = time_from_current_key_frame / time_to_next_frame
+        timeRatio =
+          // time_from_current_key_frame
+          (this.elapsedTime - currentKeyFrameAsTime) /
+          // time_to_next_frame = next_key_frame_as_time - current_key_frame_as_time
+          (
+            // next_key_frame_as_time
+            (this.animationFrameTime * (this.animation.sample * nextFrame.frame)) -
+            currentKeyFrameAsTime
+          );
+
+        activeCurveExists = true;
       }
 
-      activeCurveExists = true;
+      const targetValue  = nextFrame.value;
+      const currentValue = currentFrame.value;
+      const curveFunc    = curveFuncs[currentFrameIndex];
+
+      const params: Types.FrameParams = {
+        target: this.target,
+        animationProperty: property,
+        currentValue,
+        targetValue,
+        timeRatio,
+        curveFunc
+      };
+
+      const convertInfo = CocosAnimationRuntimeExtension.getAnimationPropertyConversionInfoSet(params);
+
+      convertInfo.forEach((item) => {
+        item.target[item.key] = item.value;
+      });
     }
 
     if (!activeCurveExists) {
       this.paused = true;
     }
+  }
+
+  private static getPrimitiveAnimationPropertyConversionInfo(params: Types.PrimitiveFrameParams): Types.PropertyConversionInfo {
+    const valueDistance = (params.targetValue as number) - (params.currentValue as number);
+    const value = params.currentValue + valueDistance * params.curveFunc(params.timeRatio);
+
+    switch (params.animationProperty) {
+      case 'x': return {
+        target: params.target.position,
+        key: params.animationProperty,
+        value: value
+      }
+      case 'y': return {
+        target: params.target.position,
+        key: params.animationProperty,
+        value: value * -1
+      }
+      case 'rotation': return {
+        target: params.target,
+        key: params.animationProperty,
+        value: value * DEGREE_TO_RADIAN
+      }
+      case 'opacity': return {
+        target: params.target.position,
+        key: 'alpha',
+        value: value / 255
+      }
+      default: return {
+        target: params.target,
+        key: params.animationProperty,
+        value: value
+      }
+    }
+  }
+
+  private static getObjectAnimationPropertyConversionInfoSet(params: Types.ObjectFrameParams): Set<Types.PropertyConversionInfo> {
+    const convertInfo = new Set<Types.PropertyConversionInfo>();
+
+    const targetValueObject  = (params.targetValue as ClientTypes.AnimationFrameProperty);
+    const currentValueObject = (params.currentValue as ClientTypes.AnimationFrameProperty);
+
+    if (params.animationProperty === 'color') {
+      const curvedRatio = params.curveFunc(params.timeRatio);
+      if ('tint' in params.target) {
+        const currentColorRatio = {
+          r: currentValueObject.r / 255,
+          g: currentValueObject.g / 255,
+          b: currentValueObject.b / 255
+        };
+        const targetColorRatio = {
+          r: targetValueObject.r / 255,
+          g: targetValueObject.g / 255,
+          b: targetValueObject.b / 255
+        };
+        const addingColor = {
+          r: 0xff0000 * ((targetColorRatio.r - currentColorRatio.r) * curvedRatio),
+          g: 0x00ff00 * ((targetColorRatio.g - currentColorRatio.g) * curvedRatio),
+          b: 0x0000ff * ((targetColorRatio.b - currentColorRatio.b) * curvedRatio)
+        };
+
+        convertInfo.add({
+          target: params.target,
+          key: 'tint',
+          value:
+            (currentColorRatio.r / 0xff0000) + (addingColor.r - addingColor.r % 0x010000) +
+            (currentColorRatio.g / 0x00ff00) + (addingColor.g - addingColor.g % 0x000100) +
+            (currentColorRatio.b / 0x0000ff) + addingColor.b
+        });
+      }
+    } else {
+      const keys = Object.getOwnPropertyNames(currentValueObject);
+      for (let j = 0; j < keys.length; j++) {
+        const key = keys[j];
+
+        const valueDistance = targetValueObject[key] - currentValueObject[key];
+        const value = currentValueObject[key] + valueDistance * params.curveFunc(params.timeRatio);
+
+        convertInfo.add({
+          target: (params.target as any)[params.animationProperty],
+          key: key,
+          value: value
+        });
+      }
+    }
+
+    return convertInfo;
+  }
+
+  private static getAnimationPropertyConversionInfoSet(params: Types.FrameParams): Set<Types.PropertyConversionInfo> {
+    if (typeof params.currentValue === 'number') {
+      const convertInfoSet = new Set<Types.PropertyConversionInfo>();
+      const info = CocosAnimationRuntimeExtension.getPrimitiveAnimationPropertyConversionInfo(params as Types.PrimitiveFrameParams);
+      convertInfoSet.add(info);
+      return convertInfoSet;
+    }
+
+    return CocosAnimationRuntimeExtension.getObjectAnimationPropertyConversionInfoSet(params as Types.ObjectFrameParams);
   }
 };

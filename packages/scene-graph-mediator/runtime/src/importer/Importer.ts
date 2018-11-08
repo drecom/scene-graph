@@ -74,6 +74,7 @@ export abstract class Importer {
   abstract pluginPostProcess(
     schema: SchemaJson,
     nodeMap: Map<string, Node>,
-    runtimeObjectMap: Map<string, any>
+    runtimeObjectMap: Map<string, any>,
+    option: ImportOption
   ): void;
 }

@@ -1,6 +1,6 @@
 /// <reference types="pixi.js" />
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
-import { ImporterPlugin } from '@drecom/scene-graph-mediator-rt';
+import { ImporterPlugin, ImportOption } from '@drecom/scene-graph-mediator-rt';
 import Types from './interface/types';
 /**
  * PIXI.js augmentation
@@ -21,7 +21,7 @@ export default class CocosAnimationRuntime implements ImporterPlugin {
      * Plugin interface inplementation
      * Custom extension for runtime object
      */
-    extendRuntimeObjects(_: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>): void;
+    extendRuntimeObjects(_: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
     /**
      * Collect conatiners with animation
      */

@@ -789,7 +789,11 @@
         "parent": "2",
         "children": [
           "39",
-          "42"
+          "42",
+          "45",
+          "48",
+          "51",
+          "54"
         ]
       },
       "renderer": {
@@ -803,6 +807,130 @@
     },
     {
       "id": "39",
+      "name": "AnimationMidValue1",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 80,
+        "y": -276,
+        "rotation": 0,
+        "scale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "38",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hiyoko.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      },
+      "animations": [
+        {
+          "sample": 60,
+          "speed": 1,
+          "url": "assets/AnimationClip/AnimationMidValue1.anim",
+          "curves": {
+            "scale": {
+              "keyFrames": [
+                {
+                  "frame": 0,
+                  "value": {
+                    "x": 0.5,
+                    "y": 0.5
+                  }
+                },
+                {
+                  "frame": 1,
+                  "value": {
+                    "x": 1,
+                    "y": 1
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "42",
+      "name": "AnimationMidValue2",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": -88,
+        "y": -274,
+        "rotation": 0,
+        "scale": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "38",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_arupaka.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      },
+      "animations": [
+        {
+          "sample": 60,
+          "speed": 1,
+          "url": "assets/AnimationClip/AnimationMidValue2.anim",
+          "curves": {
+            "scale": {
+              "keyFrames": [
+                {
+                  "frame": 0,
+                  "value": {
+                    "x": 0.5,
+                    "y": 0.5
+                  }
+                },
+                {
+                  "frame": 1,
+                  "value": {
+                    "x": 0,
+                    "y": 0
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "45",
       "name": "AnimationCustom",
       "constructorName": "cc.Node",
       "transform": {
@@ -812,8 +940,8 @@
         "y": -118,
         "rotation": 0,
         "scale": {
-          "x": 0,
-          "y": 0
+          "x": 1,
+          "y": 1
         },
         "anchor": {
           "x": 0.5,
@@ -846,51 +974,21 @@
           "speed": 1,
           "url": "assets/AnimationClip/AnimationClip1.anim",
           "curves": {
-            "scale": {
+            "rotation": {
               "keyFrames": [
                 {
                   "frame": 0,
-                  "value": {
-                    "x": 0,
-                    "y": 0
-                  },
+                  "value": 0,
                   "curve": [
-                    0.23718487394957988,
-                    0.7256302521008404,
-                    0.5894957983193276,
-                    0.03277310924369736
+                    0.27920168067226897,
+                    1.1247899159663866,
+                    0.6052521008403361,
+                    -0.019747899159664017
                   ]
                 },
                 {
-                  "frame": 0.1,
-                  "value": {
-                    "x": 1.2,
-                    "y": 1.2
-                  }
-                },
-                {
-                  "frame": 0.15,
-                  "value": {
-                    "x": 1,
-                    "y": 1
-                  }
-                }
-              ]
-            },
-            "y": {
-              "keyFrames": [
-                {
-                  "frame": 0,
-                  "value": -118,
-                  "curve": "cubicIn"
-                },
-                {
-                  "frame": 0.16666666666666666,
-                  "value": -168
-                },
-                {
-                  "frame": 0.25,
-                  "value": -208
+                  "frame": 1,
+                  "value": 180
                 }
               ]
             }
@@ -912,14 +1010,14 @@
                   "curve": "cubicOut"
                 },
                 {
-                  "frame": 0.05,
+                  "frame": 0.2,
                   "value": {
                     "x": 1.2,
                     "y": 1.2
                   }
                 },
                 {
-                  "frame": 0.16666666666666666,
+                  "frame": 1,
                   "value": {
                     "x": 0,
                     "y": 0
@@ -934,11 +1032,11 @@
                   "value": 90
                 },
                 {
-                  "frame": 0.1,
+                  "frame": 0.36666666666666664,
                   "value": 40
                 },
                 {
-                  "frame": 0.25,
+                  "frame": 1,
                   "value": 0
                 }
               ]
@@ -948,7 +1046,7 @@
       ]
     },
     {
-      "id": "42",
+      "id": "48",
       "name": "AnimationPrepared",
       "constructorName": "cc.Node",
       "transform": {
@@ -1003,14 +1101,14 @@
                   "curve": "cubicOut"
                 },
                 {
-                  "frame": 0.05,
+                  "frame": 0.2,
                   "value": {
                     "x": 1.2,
                     "y": 1.2
                   }
                 },
                 {
-                  "frame": 0.16666666666666666,
+                  "frame": 1,
                   "value": {
                     "x": 0,
                     "y": 0
@@ -1025,11 +1123,11 @@
                   "value": 90
                 },
                 {
-                  "frame": 0.1,
+                  "frame": 0.36666666666666664,
                   "value": 40
                 },
                 {
-                  "frame": 0.25,
+                  "frame": 1,
                   "value": 0
                 }
               ]
@@ -1041,51 +1139,141 @@
           "speed": 1,
           "url": "assets/AnimationClip/AnimationClip1.anim",
           "curves": {
-            "scale": {
+            "rotation": {
               "keyFrames": [
                 {
                   "frame": 0,
-                  "value": {
-                    "x": 0,
-                    "y": 0
-                  },
+                  "value": 0,
                   "curve": [
-                    0.23718487394957988,
-                    0.7256302521008404,
-                    0.5894957983193276,
-                    0.03277310924369736
+                    0.27920168067226897,
+                    1.1247899159663866,
+                    0.6052521008403361,
+                    -0.019747899159664017
                   ]
                 },
                 {
-                  "frame": 0.1,
-                  "value": {
-                    "x": 1.2,
-                    "y": 1.2
-                  }
-                },
-                {
-                  "frame": 0.15,
-                  "value": {
-                    "x": 1,
-                    "y": 1
-                  }
+                  "frame": 1,
+                  "value": 180
                 }
               ]
-            },
-            "y": {
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "51",
+      "name": "AnimationColor",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": -54,
+        "y": -469,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "38",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_usagi",
+        "url": "assets/Texture/animal_usagi.png"
+      },
+      "animations": [
+        {
+          "sample": 60,
+          "speed": 1,
+          "url": "assets/AnimationClip/AnimationColor.anim",
+          "curves": {
+            "color": {
               "keyFrames": [
                 {
                   "frame": 0,
-                  "value": -118,
-                  "curve": "cubicIn"
+                  "value": {
+                    "r": 255,
+                    "g": 255,
+                    "b": 255,
+                    "a": 255
+                  }
                 },
                 {
-                  "frame": 0.16666666666666666,
-                  "value": -168
+                  "frame": 1,
+                  "value": {
+                    "r": 10,
+                    "g": 255,
+                    "b": 0,
+                    "a": 255
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "54",
+      "name": "AnimationAlpha",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 45,
+        "y": -471,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "38",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_usagi",
+        "url": "assets/Texture/animal_usagi.png"
+      },
+      "animations": [
+        {
+          "sample": 60,
+          "speed": 1,
+          "url": "assets/AnimationClip/AnimationAlpha.anim",
+          "curves": {
+            "opacity": {
+              "keyFrames": [
+                {
+                  "frame": 0,
+                  "value": 255
                 },
                 {
-                  "frame": 0.25,
-                  "value": -208
+                  "frame": 1,
+                  "value": 0
                 }
               ]
             }

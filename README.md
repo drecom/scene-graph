@@ -6,7 +6,7 @@ The open spec for data representation of game scene.
 
 The objectives of scene-graph project are;
 
-- Providing fast enhancement cycle to game engines / libraries.
+- Providing fast enhancement cycle to game engines/libraries.
 - Giving users an option for choosing runtime and development environment.
 - Encouraging users' motivation to learn new game engines / libraries.
 
@@ -18,7 +18,7 @@ Specification of scene data described in [JSON Schema](https://json-schema.org/)
 
 Implementaions of exporter/importer for each Javascript runtime and development environment.
 
-Plugins for exporter/importer to runtime / development environment specific feature.
+Plugins for exporter/importer to runtime/development environment specific feature.
 
 # Reporting issues / Requesting features
 

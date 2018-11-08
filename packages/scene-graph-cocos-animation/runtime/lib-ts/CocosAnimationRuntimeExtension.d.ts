@@ -64,4 +64,7 @@ export default class CocosAnimationRuntimeExtension {
      * Update animation if possible
      */
     update(dt: number): void;
+    private static getPrimitiveAnimationPropertyConversionInfo;
+    private static getObjectAnimationPropertyConversionInfoSet;
+    private static getAnimationPropertyConversionInfoSet;
 }

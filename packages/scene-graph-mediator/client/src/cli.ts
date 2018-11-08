@@ -22,7 +22,7 @@ export default function cli(): void {
    * Instantiate exporter implement
    */
   const manager = new ExportManager();
-  manager.loadPlugins(args.plugins)
+  manager.loadPlugins(args.plugins);
 
   /**
    * Execute export
@@ -30,7 +30,13 @@ export default function cli(): void {
   const sceneGraphs = manager.exportScene(args.runtime, args.sceneFiles, args.assetRoot);
 
   // scene graph file manages assets
-  const exportExportMap = manager.exportAsset(sceneGraphs, args.runtime, args.assetRoot, args.assetDestDir, args.assetNameSpace);
+  const exportExportMap = manager.exportAsset(
+    sceneGraphs,
+    args.runtime,
+    args.assetRoot,
+    args.assetDestDir,
+    args.assetNameSpace
+  );
 
   let newDirRoot = args.assetDestDir;
   const directories: string[] = newDirRoot.split(path.sep);
