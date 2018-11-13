@@ -14,7 +14,7 @@ describe('SceneExporter::CocosCreator',  () => {
   describe('getIdentifier', () => {
     const subject = instance.getIdentifier.bind(instance);
 
-    it('should return not empty string ', () => {
+    it('should return not empty string', () => {
       expect(typeof subject()).to.equal('string');
       expect(subject().length).to.greaterThan(0);
     });
@@ -51,6 +51,13 @@ describe('SceneExporter::CocosCreator',  () => {
         expect(pluginPostProcessSpy.getCalls().length).to.greaterThan(0);
 
         pluginPostProcessSpy.restore();
+      });
+
+      it('should invoke exposed plugin\'s extendSceneGraph method', () => {
+        const extendSceneGraphSpy = spy();
+
+        subject(['/dev/null'], '/dev/null', new Map([['testPlugin', { extendSceneGraph: extendSceneGraphSpy }]]));
+        expect(extendSceneGraphSpy.getCalls().length).to.greaterThan(0);
       });
     });
 

@@ -1,4 +1,5 @@
 const path = require('path');
+const tsconfig = require('./tsconfig');
 
 module.exports = function(config) {
   config.set({
@@ -11,7 +12,10 @@ module.exports = function(config) {
 
     // files
     files: [
-      'test/index.js'
+      'test/*.js',
+      'test/**/*.js',
+      'src/*.ts',
+      'src/**/*.ts',
     ],
 
     // logs
@@ -20,19 +24,11 @@ module.exports = function(config) {
     logLevel: config.LOG_ERROR,
 
     // browser
-    browsers: ['HeadlessCustomizedChrome'],
+    browsers: [
+      'ChromeHeadless'
+    ],
     port: 9876,
     concurrency: Infinity,
-    customLaunchers: {
-      HeadlessCustomizedChrome: {
-        base: 'Chrome',
-        flags: [
-          '--nosandbox',
-          '--headless',
-          '--remote-debugging-port=9222',
-        ],
-      },
-    },
 
     // watch
     autoWatch: false,
