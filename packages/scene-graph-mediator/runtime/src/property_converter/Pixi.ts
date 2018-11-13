@@ -68,18 +68,15 @@ export const Pixi: PropertyConverter.Interface = {
   },
 
   applyConvertedObject: (target: any, convertedObject: ConvertedObject): void => {
+    target.position.x = convertedObject.position.x;
+    target.position.y = convertedObject.position.y;
+    target.scale.x    = convertedObject.scale.x;
+    target.scale.y    = convertedObject.scale.y;
+    target.rotation   = convertedObject.rotation;
+
     if (target.anchor) {
-      target.position.x = convertedObject.position.x;
-      target.position.y = convertedObject.position.y;
       target.anchor.x = convertedObject.anchor.x;
       target.anchor.y = convertedObject.anchor.y;
-    } else {
-      target.position.x = convertedObject.position.x;
-      target.position.y = convertedObject.position.y;
     }
-
-    target.scale.x  = convertedObject.scale.x;
-    target.scale.y  = convertedObject.scale.y;
-    target.rotation = convertedObject.rotation;
   }
 };
