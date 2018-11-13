@@ -1,5 +1,7 @@
 # scene-graph
 
+[![CircleCI](https://circleci.com/gh/drecom/scene-graph/tree/master.svg?style=svg)](https://circleci.com/gh/drecom/scene-graph/tree/master)
+
 The open spec for data representation of game scene.
 
 ----
