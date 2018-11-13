@@ -14,7 +14,7 @@ describe('SceneExporter::CocosCreator',  () => {
   describe('getIdentifier', () => {
     const subject = instance.getIdentifier.bind(instance);
 
-    it('should return not empty string ', () => {
+    it('should return not empty string', () => {
       expect(typeof subject()).to.equal('string');
       expect(subject().length).to.greaterThan(0);
     });
@@ -51,6 +51,13 @@ describe('SceneExporter::CocosCreator',  () => {
         expect(pluginPostProcessSpy.getCalls().length).to.greaterThan(0);
 
         pluginPostProcessSpy.restore();
+      });
+
+      it('should invoke exposed plugin\'s extendSceneGraph method', () => {
+        const extendSceneGraphSpy = spy();
+
+        subject(['/dev/null'], '/dev/null', new Map([['testPlugin', { extendSceneGraph: extendSceneGraphSpy }]]));
+        expect(extendSceneGraphSpy.getCalls().length).to.greaterThan(0);
       });
     });
 
@@ -108,5 +115,37 @@ describe('SceneExporter::CocosCreator',  () => {
         expect(cocosNode._name).to.equal(node.name);
       });
     });
-  })
+  });
+
+  describe('non-public methods', () => {
+    const anyInstance = (instance as any);
+
+    describe('colorToHexString', () => {
+      // protected
+      const subject = anyInstance.colorToHexString.bind(instance);
+
+      it('should return color code described in hex', () => {
+        const color = {
+          r: 0xfe,
+          g: 0xdc,
+          b: 0xba
+        };
+
+        expect(subject(color)).to.equal('fedcba');
+      });
+
+      describe('when color value is less than 0x10', () => {
+
+        it('should fill second digit with zero', () => {
+          const color = {
+            r: 0x0e,
+            g: 0x0f,
+            b: 0x10
+          };
+
+          expect(subject(color)).to.equal('0e0f10');
+        });
+      });
+    });
+  });
 });

@@ -462,8 +462,7 @@ export default class CocosCreator implements SceneExporter {
         let colorStr = '#FFFFFF';
         if (schemaNode.renderer && schemaNode.renderer.color) {
           // Label uses node color
-          const color = schemaNode.renderer.color;
-          colorStr = `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(16)}`;
+          colorStr = `#${this.colorToHexString(schemaNode.renderer.color)}`;
         }
         schemaNode.text.style.color = colorStr;
 
@@ -471,6 +470,15 @@ export default class CocosCreator implements SceneExporter {
       }
       default: break;
     }
+  }
+
+  protected colorToHexString(color: {r: number, g: number, b: number }): string {
+    const colorStrs = {
+      r: (color.r < 0x10) ? `0${color.r.toString(16)}` : color.r.toString(16),
+      g: (color.g < 0x10) ? `0${color.g.toString(16)}` : color.g.toString(16),
+      b: (color.b < 0x10) ? `0${color.b.toString(16)}` : color.b.toString(16)
+    };
+    return `${colorStrs.r}${colorStrs.g}${colorStrs.b}`;
   }
 
   /**
