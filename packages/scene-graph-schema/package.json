@@ -34,5 +34,6 @@
     "json-schema-to-typescript": "^5.5.0",
     "mocha": "^5.2.0",
     "power-assert": "^1.6.0"
-  }
+  },
+  "gitHead": "1008262d863b1c439163c01b6f2e465b752f176a"
 }
