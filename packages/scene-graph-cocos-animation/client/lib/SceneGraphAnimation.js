@@ -7,16 +7,6 @@ var SceneGraphAnimation = /** @class */ (function () {
     SceneGraphAnimation.prototype.extendSceneGraph = function (graph, dataSource, assetFileMap) {
         var animationFilesMap = this.collectAnimationFiles(assetFileMap);
         var animationComponents = this.collectAnimationNodes(dataSource);
-        /*
-        for (let i = 0; i < graph.scene.length; i++) {
-          const node = graph.scene[i];
-          const component = animationComponents.get(node.id);
-    
-          if (!component) continue;
-    
-          this.extendNodeWithAnimationComponent(animationFilesMap, node, component);
-        }
-    */
         this.extendNodesWithAnimationComponent(animationFilesMap, animationComponents, graph);
     };
     SceneGraphAnimation.prototype.replaceExtendedPaths = function (sceneGraphMap, exportMap) {
