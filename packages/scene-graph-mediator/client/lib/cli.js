@@ -4,6 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var ExportManager_1 = require("./exporter/ExportManager");
 var parseArgs_1 = require("./modules/parseArgs");
+var mkdirp_1 = require("./modules/mkdirp");
 var constants_1 = require("./constants");
 /**
  * entry point for export CLI
@@ -27,28 +28,12 @@ function cli() {
      */
     var sceneGraphs = manager.exportScene(args.runtime, args.sceneFiles, args.assetRoot);
     // scene graph file manages assets
-    var exportExportMap = manager.exportAsset(sceneGraphs, args.runtime, args.assetRoot, args.assetDestDir, args.assetNameSpace);
+    var assetExportMap = manager.exportAsset(sceneGraphs, args.runtime, args.assetRoot, args.assetDestDir, args.assetNameSpace);
     var newDirRoot = args.assetDestDir;
-    var directories = newDirRoot.split(path.sep);
-    var makingDirectories = [];
-    // create dest directory recursively
-    while (!fs.existsSync(newDirRoot)) {
-        var dir = directories.pop();
-        if (!dir)
-            break;
-        makingDirectories.push(dir);
-        newDirRoot = directories.join(path.sep);
-    }
-    while (makingDirectories.length > 0) {
-        var dir = makingDirectories.pop();
-        if (!dir)
-            break;
-        newDirRoot = path.join(newDirRoot, dir);
-        fs.mkdirSync(newDirRoot);
-    }
+    mkdirp_1.default(newDirRoot);
     // write scene graph file
     sceneGraphs.forEach(function (sceneGraph, sceneFilePath) {
-        var destFileName = path.basename(sceneFilePath) + '.json';
+        var destFileName = path.basename(sceneFilePath) + ".json";
         var dest = path.join(args.assetDestDir, destFileName);
         // if (debug) {
         fs.writeFile(dest, JSON.stringify(sceneGraph, null, 2), function () { });
@@ -57,11 +42,9 @@ function cli() {
         // }
     });
     // copy assets
-    exportExportMap.forEach(function (entity) {
+    assetExportMap.forEach(function (entity) {
         var targetDir = path.dirname(entity.localDestPath);
-        if (!fs.existsSync(targetDir)) {
-            fs.mkdirSync(targetDir);
-        }
+        mkdirp_1.default(targetDir);
         fs.copyFile(entity.localSrcPath, entity.localDestPath, function () { });
     });
 }

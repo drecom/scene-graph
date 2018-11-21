@@ -22,7 +22,7 @@ var ExportManager = /** @class */ (function () {
         if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id) !== -1) {
             return require('../exporter/scene/CocosCreator').default;
         }
-        else if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
+        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
             return require('../exporter/scene/CocosCreatorV2').default;
         }
         return null;
@@ -32,11 +32,12 @@ var ExportManager = /** @class */ (function () {
      */
     ExportManager.getAssetExporterClass = function (runtimeId) {
         var id = runtimeId.toLowerCase();
-        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id)) {
+        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id) !== -1) {
             return require('../exporter/asset/CocosCreator').default;
         }
-        else if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id)) {
-            return require('../exporter/asset/CocosCreatorV2').default;
+        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
+            // return require('../exporter/asset/CocosCreatorV2').default;
+            return require('../exporter/asset/CocosCreator').default;
         }
         return null;
     };
