@@ -805,36 +805,17 @@ var Pixi = {
             convertedObject.position.x += target.width * convertedObject.scale.x * transform.anchor.x;
             convertedObject.position.y += target.height * convertedObject.scale.y * transform.anchor.y;
         }
-        /*
-            if (target.anchor) {
-              target.position.x = convertedObject.position.x + target.width  * convertedObject.scale.x * transform.anchor.x;
-              target.position.y = convertedObject.position.y + target.height * convertedObject.scale.y * transform.anchor.y;
-              target.anchor.x = convertedObject.anchor.x;
-              target.anchor.y = convertedObject.anchor.y;
-            } else {
-              target.position.x = convertedObject.position.x;
-              target.position.y = convertedObject.position.y;
-            }
-        
-            target.scale.x  = convertedObject.scale.x;
-            target.scale.y  = convertedObject.scale.y;
-            target.rotation = convertedObject.rotation;
-        */
     },
     applyConvertedObject: function (target, convertedObject) {
-        if (target.anchor) {
-            target.position.x = convertedObject.position.x;
-            target.position.y = convertedObject.position.y;
-            target.anchor.x = convertedObject.anchor.x;
-            target.anchor.y = convertedObject.anchor.y;
-        }
-        else {
-            target.position.x = convertedObject.position.x;
-            target.position.y = convertedObject.position.y;
-        }
+        target.position.x = convertedObject.position.x;
+        target.position.y = convertedObject.position.y;
         target.scale.x = convertedObject.scale.x;
         target.scale.y = convertedObject.scale.y;
         target.rotation = convertedObject.rotation;
+        if (target.anchor) {
+            target.anchor.x = convertedObject.anchor.x;
+            target.anchor.y = convertedObject.anchor.y;
+        }
     }
 };
 

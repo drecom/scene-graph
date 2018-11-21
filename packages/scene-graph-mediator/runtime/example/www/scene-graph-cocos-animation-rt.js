@@ -135,11 +135,22 @@ var CocosAnimationRuntime = /** @class */ (function () {
                 cocosAnimation.runtime = new _CocosAnimationRuntimeExtension__WEBPACK_IMPORTED_MODULE_0__["default"](cocosAnimation, container);
             }
             if (option.autoCoordinateFix) {
-                // calibrate anchor system difference
-                if (!container.anchor) {
-                    container.pivot.set(container.width * 0.5, container.height * 0.5);
-                    container.position.x += container.width * container.scale.x * 0.5;
-                    container.position.y += container.height * container.scale.y * 0.5;
+                for (var i = 0; i < container.sgmed.cocosAnimations.length; i++) {
+                    var cocosAnimation = container.sgmed.cocosAnimations[i];
+                    var properties = Object.keys(cocosAnimation.curves);
+                    for (var j = 0; j < properties.length; j++) {
+                        var property = properties[j];
+                        if (property !== 'position') {
+                            continue;
+                        }
+                        var curve = cocosAnimation.curves[property];
+                        for (var k = 0; k < curve.keyFrames.length; k++) {
+                            var keyFrame = curve.keyFrames[k];
+                            var value = keyFrame.value;
+                            // cocos coordinate system
+                            value.y = -value.y;
+                        }
+                    }
                 }
             }
         });
@@ -198,6 +209,7 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
          * Animation elapsed time described in seconds
          */
         this.elapsedTime = 0;
+        this.colorMatrix = undefined;
         this.animation = animation;
         this.target = target;
         this.animationFrameTime = 1.0 / this.animation.sample;
@@ -260,10 +272,12 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
         this.elapsedTime = 0;
     };
     /**
-     * Returns index of current key frame
-     * current key frame is calcurated by elapsed time and animation fps
+     * Returns index of current key frame.
+     * Current key frame is calcurated by elapsed time and animation fps.
+     * It returns -1 when the elapsedTime has not been reached to the earliest key frame yet.
+     * Also it returns the length of key frame to indicate all key frames are passed.
      */
-    CocosAnimationRuntimeExtension.prototype.getCurrentFrameIndex = function (keyFrames, elapsedTime, fps) {
+    CocosAnimationRuntimeExtension.prototype.getCurrentKeyFrameIndex = function (keyFrames, elapsedTime, fps) {
         var spf = 1.0 / fps;
         for (var i = keyFrames.length - 1; i >= 0; i--) {
             // 60fps: 0.1 = 6 frames, 0.016 * 6 sec
@@ -274,12 +288,18 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
                 return i;
             }
         }
-        return -1;
+        if ((spf * (fps * keyFrames[0].frame)) > elapsedTime) {
+            return -1;
+        }
+        else {
+            return keyFrames.length;
+        }
     };
     /**
      * Update animation if possible
      */
     CocosAnimationRuntimeExtension.prototype.update = function (dt) {
+        var _this = this;
         if (this.paused) {
             return;
         }
@@ -289,8 +309,13 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
         for (var i = 0; i < properties.length; i++) {
             var property = properties[i];
             var curve = this.animation.curves[property];
-            var currentFrameIndex = this.getCurrentFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
+            var currentFrameIndex = this.getCurrentKeyFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
             if (currentFrameIndex === -1) {
+                activeCurveExists = true;
+                continue;
+            }
+            else if (currentFrameIndex === curve.keyFrames.length) {
+                // finished
                 continue;
             }
             var curveFuncs = this.curveFuncsMap.get(property);
@@ -303,8 +328,17 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
             // last frame
             if (currentFrameIndex >= curve.keyFrames.length - 1) {
                 nextFrame = currentFrame;
-                currentFrame = curve.keyFrames[currentFrameIndex - 1];
-                timeRatio = 1.0;
+                if (currentFrameIndex > 0) {
+                    currentFrame = curve.keyFrames[currentFrameIndex - 1];
+                }
+                // TODO: next version feature
+                timeRatio = this.elapsedTime / this.animation.duration;
+                if (timeRatio < 1.0) {
+                    activeCurveExists = true;
+                }
+                else {
+                    timeRatio = 1.0;
+                }
             }
             else {
                 var currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
@@ -333,7 +367,24 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
             };
             var convertInfo = CocosAnimationRuntimeExtension.getAnimationPropertyConversionInfoSet(params);
             convertInfo.forEach(function (item) {
-                item.target[item.key] = item.value;
+                if (item.key === 'alpha') {
+                    if (item.target.alpha === undefined) {
+                        if (!_this.colorMatrix) {
+                            _this.colorMatrix = new PIXI.filters.ColorMatrixFilter();
+                            if (!item.target.filters) {
+                                item.target.filters = [];
+                            }
+                            item.target.filters.push(_this.colorMatrix);
+                        }
+                        _this.colorMatrix.alpha = item.value;
+                    }
+                    else {
+                        item.target[item.key] = item.value;
+                    }
+                }
+                else {
+                    item.target[item.key] = item.value;
+                }
             });
         }
         if (!activeCurveExists) {
@@ -360,7 +411,7 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
                 value: value * DEGREE_TO_RADIAN
             };
             case 'opacity': return {
-                target: params.target.position,
+                target: params.target,
                 key: 'alpha',
                 value: value / 255
             };
