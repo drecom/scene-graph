@@ -199,12 +199,14 @@ export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, s
 
         if (clipJson.curveData.paths) {
           const paths = clipJson.curveData.paths;
-          const nodeNames = Object.keys(paths);
+          const nodePaths = Object.keys(paths);
 
-          for (let k = 0; k < nodeNames.length; k++) {
-            const nodeName = nodeNames[k];
+          for (let k = 0; k < nodePaths.length; k++) {
+            const nodePath = nodePaths[k];
+            const nodeName = nodePath.split('/').pop();
+            if (!nodeName) continue;
+
             const relativeNodeRef = nodeNameMap.get(nodeName);
-
             if (!relativeNodeRef) continue;
 
             const animation: Types.Animation = {
@@ -215,7 +217,7 @@ export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, s
               curves: {}
             };
 
-            const props = paths[nodeName].props;
+            const props = paths[nodePath].props;
 
             const propertyNames = Object.keys(props);
             for (let l = 0; l < propertyNames.length; l++) {
