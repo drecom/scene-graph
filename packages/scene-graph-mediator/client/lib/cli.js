@@ -48,7 +48,7 @@ function cli() {
     }
     // write scene graph file
     sceneGraphs.forEach(function (sceneGraph, sceneFilePath) {
-        var destFileName = path.basename(sceneFilePath) + '.json';
+        var destFileName = path.basename(sceneFilePath) + ".json";
         var dest = path.join(args.assetDestDir, destFileName);
         // if (debug) {
         fs.writeFile(dest, JSON.stringify(sceneGraph, null, 2), function () { });
