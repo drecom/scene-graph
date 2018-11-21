@@ -39,7 +39,7 @@ export default function cli(): void {
     args.assetNameSpace
   );
 
-  let newDirRoot = args.assetDestDir;
+  const newDirRoot = args.assetDestDir;
 
   mkdirp(newDirRoot);
 
