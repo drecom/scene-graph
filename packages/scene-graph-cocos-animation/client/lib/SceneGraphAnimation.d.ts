@@ -17,11 +17,19 @@ declare namespace Fire {
         curve?: number[] | string;
     };
     type Animation = {
+        _duration: number;
         sample: number;
         speed: number;
         curveData: {
-            props: {
+            props?: {
                 [key: string]: AnimationFrame[];
+            };
+            paths?: {
+                [key: string]: {
+                    props: {
+                        [key: string]: AnimationFrame[];
+                    };
+                };
             };
         };
     };
@@ -43,7 +51,7 @@ export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, s
     getExportMapExtendPaths(node: Node): string[];
     private collectAnimationFiles;
     private collectAnimationNodes;
-    private extendNodeWithAnimationComponent;
+    private extendNodesWithAnimationComponent;
     private createAnimationFrames;
 }
 export {};

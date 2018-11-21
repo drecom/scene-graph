@@ -24,11 +24,19 @@ declare namespace Fire {
   };
 
   type Animation = {
+    _duration: number;
     sample: number;
     speed: number;
     curveData: {
-      props: {
+      props?: {
         [key: string]: AnimationFrame[];
+      },
+      paths?: {
+        [key: string]: {
+          props: {
+            [key: string]: AnimationFrame[];
+          }
+        }
       }
     }
   };
@@ -57,14 +65,7 @@ export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, s
     const animationFilesMap   = this.collectAnimationFiles(assetFileMap);
     const animationComponents = this.collectAnimationNodes(dataSource);
 
-    for (let i = 0; i < graph.scene.length; i++) {
-      const node = graph.scene[i];;
-      const component = animationComponents.get(node.id);
-
-      if (!component) continue;
-
-      this.extendNodeWithAnimationComponent(animationFilesMap, node, component);
-    }
+    this.extendNodesWithAnimationComponent(animationFilesMap, animationComponents, graph);
   }
 
   public replaceExtendedPaths(sceneGraphMap: Map<string, SchemaJson>, exportMap: Map<string, sgmed.AssetExportMapEntity>): void {
@@ -139,40 +140,93 @@ export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, s
     return animationComponents;
   }
 
-
-  private extendNodeWithAnimationComponent(
+  private extendNodesWithAnimationComponent(
     animationFilesMap: Map<MetaUuid, AnimationFiles>,
-    nodeRef: Node,
-    componentRef: Fire.AnimationComponentReference
+    animationComponents: Map<NodeId, Fire.AnimationComponentReference>,
+    graph: SchemaJson
   ): void {
-    nodeRef.animations = [];
+    const nodeNameMap = new Map<string, Node>();
+    for (let i = 0; i < graph.scene.length; i++) {
+      const node = graph.scene[i];
+      nodeNameMap.set(node.name, node);
+    }
 
-    for (let i = 0; i < componentRef._clips.length; i++) {
-      const animationFiles = animationFilesMap.get(componentRef._clips[i].__uuid__);
-      if (!animationFiles) {
-        continue;
+    for (let i = 0; i < graph.scene.length; i++) {
+      const nodeRef = graph.scene[i];
+      const componentRef = animationComponents.get(nodeRef.id);
+
+      if (!componentRef) continue;
+
+      for (let j = 0; j < componentRef._clips.length; j++) {
+        const animationFiles = animationFilesMap.get(componentRef._clips[j].__uuid__);
+        if (!animationFiles) {
+          continue;
+        }
+        const content  = fs.readFileSync(animationFiles.anim).toString();
+        const clipJson = JSON.parse(content) as Fire.Animation;
+
+        if (clipJson.curveData.props) {
+          const animation: Types.Animation = {
+            duration: clipJson._duration,
+            sample: clipJson.sample,
+            speed: clipJson.speed,
+            url: animationFiles.anim,
+            curves: {}
+          };
+
+          const props = clipJson.curveData.props;
+          const propertyNames = Object.keys(props);
+          for (let k = 0; k < propertyNames.length; k++) {
+            const property = propertyNames[k];
+            animation.curves[property] = this.createAnimationFrames(props[property], property);
+          }
+
+          if (!nodeRef.animations) {
+            nodeRef.animations = [];
+          }
+          nodeRef.animations.push(animation);
+        }
+
+        if (clipJson.curveData.paths) {
+          const paths = clipJson.curveData.paths;
+          const nodePaths = Object.keys(paths);
+
+          for (let k = 0; k < nodePaths.length; k++) {
+            const nodePath = nodePaths[k];
+            const nodeName = nodePath.split('/').pop();
+            if (!nodeName) continue;
+
+            const relativeNodeRef = nodeNameMap.get(nodeName);
+            if (!relativeNodeRef) continue;
+
+            const animation: Types.Animation = {
+              duration: clipJson._duration,
+              sample: clipJson.sample,
+              speed: clipJson.speed,
+              url: animationFiles.anim,
+              curves: {}
+            };
+
+            const props = paths[nodePath].props;
+
+            const propertyNames = Object.keys(props);
+            for (let l = 0; l < propertyNames.length; l++) {
+              const property = propertyNames[l];
+              animation.curves[property] = this.createAnimationFrames(props[property], property);
+            }
+
+            if (!relativeNodeRef.animations) {
+              relativeNodeRef.animations = [];
+            }
+
+            relativeNodeRef.animations.push(animation);
+          }
+        }
       }
-      const content = fs.readFileSync(animationFiles.anim).toString();
-      const clipJson = JSON.parse(content) as Fire.Animation;
-
-      const animation: Types.Animation = {
-        sample: clipJson.sample,
-        speed: clipJson.speed,
-        url: animationFiles.anim,
-        curves: {}
-      };
-
-      const properties = Object.keys(clipJson.curveData.props);
-      for (let j = 0; j < properties.length; j++) {
-        const property = properties[j];
-        animation.curves[property] = this.createAnimationFrames(clipJson.curveData.props[property]);
-      }
-
-      nodeRef.animations.push(animation);
     }
   }
 
-  private createAnimationFrames(frames: Types.AnimationFrame[]): Types.AnimationCurveData {
+  private createAnimationFrames(frames: Types.AnimationFrame[], property: string): Types.AnimationCurveData {
     const curveData: Types.AnimationCurveData = {
       keyFrames: []
     };
@@ -190,6 +244,11 @@ export default class SceneGraphAnimation implements sgmed.SceneExporterPlugin, s
 
       if (typeof frame.value === 'number') {
         graphFrame.value = frame.value;
+      } else if (Array.isArray(frame.value)){
+        if (property === 'scale' || property === 'position') {
+          (graphFrame.value as Types.AnimationFrameProperty).x = frame.value[0];
+          (graphFrame.value as Types.AnimationFrameProperty).y = frame.value[1];
+        }
       } else {
         const keys = Object.keys(frame.value);
         for (let j = 0; j < keys.length; j++) {

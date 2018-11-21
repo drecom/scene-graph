@@ -45,6 +45,8 @@ export default class CocosAnimationRuntimeExtension {
    */
   public elapsedTime: number = 0;
 
+  public colorMatrix?: PIXI.filters.ColorMatrixFilter = undefined;
+
   /**
    * Seconds per frame by application fps
    */
@@ -114,10 +116,12 @@ export default class CocosAnimationRuntimeExtension {
   }
 
   /**
-   * Returns index of current key frame
-   * current key frame is calcurated by elapsed time and animation fps
+   * Returns index of current key frame.
+   * Current key frame is calcurated by elapsed time and animation fps.
+   * It returns -1 when the elapsedTime has not been reached to the earliest key frame yet.
+   * Also it returns the length of key frame to indicate all key frames are passed.
    */
-  private getCurrentFrameIndex(keyFrames: ClientTypes.AnimationFrame[], elapsedTime: number, fps: number): number {
+  private getCurrentKeyFrameIndex(keyFrames: ClientTypes.AnimationFrame[], elapsedTime: number, fps: number): number {
     const spf = 1.0 / fps;
 
     for (let i = keyFrames.length - 1; i >= 0; i--) {
@@ -131,7 +135,11 @@ export default class CocosAnimationRuntimeExtension {
       }
     }
 
-    return -1;
+    if ((spf * (fps * keyFrames[0].frame)) > elapsedTime) {
+      return -1;
+    } else {
+      return keyFrames.length;
+    }
   }
 
   /**
@@ -151,8 +159,12 @@ export default class CocosAnimationRuntimeExtension {
       const property = properties[i];
       const curve = this.animation.curves[property];
 
-      const currentFrameIndex = this.getCurrentFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
+      const currentFrameIndex = this.getCurrentKeyFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
       if (currentFrameIndex === -1) {
+        activeCurveExists = true;
+        continue;
+      } else if (currentFrameIndex === curve.keyFrames.length) {
+        // finished
         continue;
       }
 
@@ -167,9 +179,18 @@ export default class CocosAnimationRuntimeExtension {
 
       // last frame
       if (currentFrameIndex >= curve.keyFrames.length - 1) {
-        nextFrame    = currentFrame;
-        currentFrame = curve.keyFrames[currentFrameIndex - 1];
-        timeRatio    = 1.0;
+        nextFrame = currentFrame;
+        if (currentFrameIndex > 0) {
+          currentFrame = curve.keyFrames[currentFrameIndex - 1];
+        }
+
+        // TODO: next version feature
+        timeRatio = this.elapsedTime / (this.animation as any).duration;
+        if (timeRatio < 1.0) {
+          activeCurveExists = true;
+        } else {
+          timeRatio = 1.0;
+        }
       } else {
         const currentKeyFrameAsTime = this.animationFrameTime * (this.animation.sample * currentFrame.frame);
         nextFrame = curve.keyFrames[currentFrameIndex + 1];
@@ -204,7 +225,22 @@ export default class CocosAnimationRuntimeExtension {
       const convertInfo = CocosAnimationRuntimeExtension.getAnimationPropertyConversionInfoSet(params);
 
       convertInfo.forEach((item) => {
-        item.target[item.key] = item.value;
+        if (item.key === 'alpha') {
+          if (item.target.alpha === undefined) {
+            if (!this.colorMatrix) {
+              this.colorMatrix = new PIXI.filters.ColorMatrixFilter();
+              if (!item.target.filters) {
+                item.target.filters = [];
+              }
+              item.target.filters.push(this.colorMatrix);
+            }
+            this.colorMatrix.alpha = item.value;
+          } else {
+            item.target[item.key] = item.value;
+          }
+        } else {
+          item.target[item.key] = item.value;
+        }
       });
     }
 
@@ -234,7 +270,7 @@ export default class CocosAnimationRuntimeExtension {
         value: value * DEGREE_TO_RADIAN
       }
       case 'opacity': return {
-        target: params.target.position,
+        target: params.target,
         key: 'alpha',
         value: value / 255
       }

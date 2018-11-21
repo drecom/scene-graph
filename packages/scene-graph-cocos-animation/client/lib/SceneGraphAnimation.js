@@ -7,14 +7,17 @@ var SceneGraphAnimation = /** @class */ (function () {
     SceneGraphAnimation.prototype.extendSceneGraph = function (graph, dataSource, assetFileMap) {
         var animationFilesMap = this.collectAnimationFiles(assetFileMap);
         var animationComponents = this.collectAnimationNodes(dataSource);
-        for (var i = 0; i < graph.scene.length; i++) {
-            var node = graph.scene[i];
-            ;
-            var component = animationComponents.get(node.id);
-            if (!component)
-                continue;
-            this.extendNodeWithAnimationComponent(animationFilesMap, node, component);
+        /*
+        for (let i = 0; i < graph.scene.length; i++) {
+          const node = graph.scene[i];
+          const component = animationComponents.get(node.id);
+    
+          if (!component) continue;
+    
+          this.extendNodeWithAnimationComponent(animationFilesMap, node, component);
         }
+    */
+        this.extendNodesWithAnimationComponent(animationFilesMap, animationComponents, graph);
     };
     SceneGraphAnimation.prototype.replaceExtendedPaths = function (sceneGraphMap, exportMap) {
         sceneGraphMap.forEach(function (graph) {
@@ -74,30 +77,77 @@ var SceneGraphAnimation = /** @class */ (function () {
         }
         return animationComponents;
     };
-    SceneGraphAnimation.prototype.extendNodeWithAnimationComponent = function (animationFilesMap, nodeRef, componentRef) {
-        nodeRef.animations = [];
-        for (var i = 0; i < componentRef._clips.length; i++) {
-            var animationFiles = animationFilesMap.get(componentRef._clips[i].__uuid__);
-            if (!animationFiles) {
+    SceneGraphAnimation.prototype.extendNodesWithAnimationComponent = function (animationFilesMap, animationComponents, graph) {
+        var nodeNameMap = new Map();
+        for (var i = 0; i < graph.scene.length; i++) {
+            var node = graph.scene[i];
+            nodeNameMap.set(node.name, node);
+        }
+        for (var i = 0; i < graph.scene.length; i++) {
+            var nodeRef = graph.scene[i];
+            var componentRef = animationComponents.get(nodeRef.id);
+            if (!componentRef)
                 continue;
+            for (var j = 0; j < componentRef._clips.length; j++) {
+                var animationFiles = animationFilesMap.get(componentRef._clips[j].__uuid__);
+                if (!animationFiles) {
+                    continue;
+                }
+                var content = fs.readFileSync(animationFiles.anim).toString();
+                var clipJson = JSON.parse(content);
+                if (clipJson.curveData.props) {
+                    var animation = {
+                        duration: clipJson._duration,
+                        sample: clipJson.sample,
+                        speed: clipJson.speed,
+                        url: animationFiles.anim,
+                        curves: {}
+                    };
+                    var props = clipJson.curveData.props;
+                    var propertyNames = Object.keys(props);
+                    for (var k = 0; k < propertyNames.length; k++) {
+                        var property = propertyNames[k];
+                        animation.curves[property] = this.createAnimationFrames(props[property], property);
+                    }
+                    if (!nodeRef.animations) {
+                        nodeRef.animations = [];
+                    }
+                    nodeRef.animations.push(animation);
+                }
+                if (clipJson.curveData.paths) {
+                    var paths = clipJson.curveData.paths;
+                    var nodePaths = Object.keys(paths);
+                    for (var k = 0; k < nodePaths.length; k++) {
+                        var nodePath = nodePaths[k];
+                        var nodeName = nodePath.split('/').pop();
+                        if (!nodeName)
+                            continue;
+                        var relativeNodeRef = nodeNameMap.get(nodeName);
+                        if (!relativeNodeRef)
+                            continue;
+                        var animation = {
+                            duration: clipJson._duration,
+                            sample: clipJson.sample,
+                            speed: clipJson.speed,
+                            url: animationFiles.anim,
+                            curves: {}
+                        };
+                        var props = paths[nodePath].props;
+                        var propertyNames = Object.keys(props);
+                        for (var l = 0; l < propertyNames.length; l++) {
+                            var property = propertyNames[l];
+                            animation.curves[property] = this.createAnimationFrames(props[property], property);
+                        }
+                        if (!relativeNodeRef.animations) {
+                            relativeNodeRef.animations = [];
+                        }
+                        relativeNodeRef.animations.push(animation);
+                    }
+                }
             }
-            var content = fs.readFileSync(animationFiles.anim).toString();
-            var clipJson = JSON.parse(content);
-            var animation = {
-                sample: clipJson.sample,
-                speed: clipJson.speed,
-                url: animationFiles.anim,
-                curves: {}
-            };
-            var properties = Object.keys(clipJson.curveData.props);
-            for (var j = 0; j < properties.length; j++) {
-                var property = properties[j];
-                animation.curves[property] = this.createAnimationFrames(clipJson.curveData.props[property]);
-            }
-            nodeRef.animations.push(animation);
         }
     };
-    SceneGraphAnimation.prototype.createAnimationFrames = function (frames) {
+    SceneGraphAnimation.prototype.createAnimationFrames = function (frames, property) {
         var curveData = {
             keyFrames: []
         };
@@ -112,6 +162,12 @@ var SceneGraphAnimation = /** @class */ (function () {
             }
             if (typeof frame.value === 'number') {
                 graphFrame.value = frame.value;
+            }
+            else if (Array.isArray(frame.value)) {
+                if (property === 'scale' || property === 'position') {
+                    graphFrame.value.x = frame.value[0];
+                    graphFrame.value.y = frame.value[1];
+                }
             }
             else {
                 var keys = Object.keys(frame.value);
