@@ -116,10 +116,12 @@ export default class CocosAnimationRuntimeExtension {
   }
 
   /**
-   * Returns index of current key frame
-   * current key frame is calcurated by elapsed time and animation fps
+   * Returns index of current key frame.
+   * Current key frame is calcurated by elapsed time and animation fps.
+   * It returns -1 when the elapsedTime has not been reached to the earliest key frame yet.
+   * Also it returns the length of key frame to indicate all key frames are passed.
    */
-  private getCurrentFrameIndex(keyFrames: ClientTypes.AnimationFrame[], elapsedTime: number, fps: number): number {
+  private getCurrentKeyFrameIndex(keyFrames: ClientTypes.AnimationFrame[], elapsedTime: number, fps: number): number {
     const spf = 1.0 / fps;
 
     for (let i = keyFrames.length - 1; i >= 0; i--) {
@@ -157,7 +159,7 @@ export default class CocosAnimationRuntimeExtension {
       const property = properties[i];
       const curve = this.animation.curves[property];
 
-      const currentFrameIndex = this.getCurrentFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
+      const currentFrameIndex = this.getCurrentKeyFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
       if (currentFrameIndex === -1) {
         activeCurveExists = true;
         continue;

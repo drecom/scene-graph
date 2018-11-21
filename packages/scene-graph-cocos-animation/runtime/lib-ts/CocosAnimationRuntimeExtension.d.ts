@@ -57,10 +57,12 @@ export default class CocosAnimationRuntimeExtension {
      */
     reset(): void;
     /**
-     * Returns index of current key frame
-     * current key frame is calcurated by elapsed time and animation fps
+     * Returns index of current key frame.
+     * Current key frame is calcurated by elapsed time and animation fps.
+     * It returns -1 when the elapsedTime has not been reached to the earliest key frame yet.
+     * Also it returns the length of key frame to indicate all key frames are passed.
      */
-    private getCurrentFrameIndex;
+    private getCurrentKeyFrameIndex;
     /**
      * Update animation if possible
      */

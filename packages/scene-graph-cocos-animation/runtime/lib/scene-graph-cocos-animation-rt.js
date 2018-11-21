@@ -272,10 +272,12 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
         this.elapsedTime = 0;
     };
     /**
-     * Returns index of current key frame
-     * current key frame is calcurated by elapsed time and animation fps
+     * Returns index of current key frame.
+     * Current key frame is calcurated by elapsed time and animation fps.
+     * It returns -1 when the elapsedTime has not been reached to the earliest key frame yet.
+     * Also it returns the length of key frame to indicate all key frames are passed.
      */
-    CocosAnimationRuntimeExtension.prototype.getCurrentFrameIndex = function (keyFrames, elapsedTime, fps) {
+    CocosAnimationRuntimeExtension.prototype.getCurrentKeyFrameIndex = function (keyFrames, elapsedTime, fps) {
         var spf = 1.0 / fps;
         for (var i = keyFrames.length - 1; i >= 0; i--) {
             // 60fps: 0.1 = 6 frames, 0.016 * 6 sec
@@ -307,7 +309,7 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
         for (var i = 0; i < properties.length; i++) {
             var property = properties[i];
             var curve = this.animation.curves[property];
-            var currentFrameIndex = this.getCurrentFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
+            var currentFrameIndex = this.getCurrentKeyFrameIndex(curve.keyFrames, this.elapsedTime, this.animation.sample);
             if (currentFrameIndex === -1) {
                 activeCurveExists = true;
                 continue;
