@@ -68,6 +68,11 @@ export default class CocosCreator implements SceneExporter {
      * Detect and append supported component to scene graph node
      */
     protected appendComponentByType(schemaNode: Node, component: cc.Component, resourceMap: Map<string, ResourceMapEntity>): void;
+    protected colorToHexString(color: {
+        r: number;
+        g: number;
+        b: number;
+    }): string;
     /**
      * Find and return component data if node has target component
      */

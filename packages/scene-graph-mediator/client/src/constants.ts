@@ -20,7 +20,6 @@ optional:
   DEST             destination directory;        default './scene-graph'
   ASSET_NAME_SPACE asset directory name;         default 'assets'
   ASSET_DEST       asset destination directory;  default \${DEST}/\${ASSET_NAME_SPACE}
-  GRAPH_FILE_NAME  scene graph file name;        default 'graph.json'
   PLUGINS          space separated plugin names; default '',
 
 e.g;

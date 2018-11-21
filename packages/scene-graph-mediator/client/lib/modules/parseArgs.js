@@ -12,7 +12,6 @@ function parseArgs() {
         destDir: process.env.DEST || path.resolve(process.cwd(), 'scene-graph'),
         assetDestDir: process.env.ASSET_DEST || '',
         assetNameSpace: process.env.ASSET_NAME_SPACE || 'assets',
-        graphFileName: process.env.GRAPH_FILE_NAME || 'graph.json',
         plugins: process.env.PLUGINS ? process.env.PLUGINS.split(' ') : []
     };
     args.assetDestDir = args.assetDestDir || path.resolve(args.destDir, args.assetNameSpace);
