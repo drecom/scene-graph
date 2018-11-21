@@ -50,14 +50,23 @@ export default class CocosAnimationRuntime implements ImporterPlugin {
       }
 
       if (option.autoCoordinateFix) {
-        // calibrate anchor system difference
-        if (!(container as any).anchor) {
-          container.pivot.set(
-            container.width  * 0.5,
-            container.height * 0.5
-          );
-          container.position.x += container.width  * container.scale.x * 0.5;
-          container.position.y += container.height * container.scale.y * 0.5;
+        for (let i = 0; i < container.sgmed.cocosAnimations.length; i++) {
+          const cocosAnimation = container.sgmed.cocosAnimations[i];
+          const properties = Object.keys(cocosAnimation.curves);
+          for (let j = 0; j < properties.length; j++) {
+            const property = properties[j];
+            if (property !== 'position') {
+              continue;
+            }
+            const curve = cocosAnimation.curves[property];
+            for (let k = 0; k < curve.keyFrames.length; k++) {
+              const keyFrame = curve.keyFrames[k];
+              const value = keyFrame.value as any;
+
+              // cocos coordinate system
+              value.y = -value.y;
+            }
+          }
         }
       }
     });
