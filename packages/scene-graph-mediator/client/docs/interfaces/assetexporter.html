@@ -93,6 +93,7 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="assetexporter.html#createexportmap" class="tsd-kind-icon">create<wbr>Export<wbr>Map</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="assetexporter.html#pluginpostprocess" class="tsd-kind-icon">plugin<wbr>Post<wbr>Process</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="assetexporter.html#replacepaths" class="tsd-kind-icon">replace<wbr>Paths</a></li>
 							</ul>
 						</section>
@@ -137,6 +138,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="pluginpostprocess" class="tsd-anchor"></a>
+					<h3>plugin<wbr>Post<wbr>Process</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">plugin<wbr>Post<wbr>Process<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span>, exportMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#assetexportmapentity" class="tsd-signature-type">AssetExportMapEntity</a><span class="tsd-signature-symbol">&gt;</span>, assetRoot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, destDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, urlNameSpace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, plugins<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="assetexporterplugin.html" class="tsd-signature-type">AssetExporterPlugin</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/AssetExporter.ts#L17">interface/AssetExporter.ts:17</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <span class="tsd-signature-type">Node</span></h5>
+								</li>
+								<li>
+									<h5>exportMap: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#assetexportmapentity" class="tsd-signature-type">AssetExportMapEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>assetRoot: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>destDir: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>urlNameSpace: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> plugins: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="assetexporterplugin.html" class="tsd-signature-type">AssetExporterPlugin</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 					<a name="replacepaths" class="tsd-anchor"></a>
 					<h3>replace<wbr>Paths</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -146,7 +185,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/AssetExporter.ts#L17">interface/AssetExporter.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/AssetExporter.ts#L26">interface/AssetExporter.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -202,6 +241,9 @@
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="assetexporter.html#createexportmap" class="tsd-kind-icon">create<wbr>Export<wbr>Map</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="assetexporter.html#pluginpostprocess" class="tsd-kind-icon">plugin<wbr>Post<wbr>Process</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="assetexporter.html#replacepaths" class="tsd-kind-icon">replace<wbr>Paths</a>

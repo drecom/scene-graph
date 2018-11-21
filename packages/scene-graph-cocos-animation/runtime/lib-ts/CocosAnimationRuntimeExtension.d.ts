@@ -34,6 +34,7 @@ export default class CocosAnimationRuntimeExtension {
      * Animation elapsed time described in seconds
      */
     elapsedTime: number;
+    colorMatrix?: PIXI.filters.ColorMatrixFilter;
     /**
      * Seconds per frame by application fps
      */

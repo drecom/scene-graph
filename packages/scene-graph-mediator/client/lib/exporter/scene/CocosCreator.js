@@ -28,24 +28,18 @@ var CocosCreator = /** @class */ (function () {
      */
     CocosCreator.prototype.createSceneGraphSchemas = function (sceneFiles, assetRoot, plugins) {
         var graphs = new Map();
-        var _loop_1 = function (i) {
-            var sceneFile = sceneFiles[i];
-            var sceneJson = this_1.loadSceneFile(sceneFile);
-            var assetFileMap = new AssetFileMap_1.default(assetRoot);
-            assetFileMap.scan();
-            var resourceMap = this_1.createLocalResourceMap(assetFileMap);
-            var graph = this_1.createSceneGraph(sceneJson);
-            this_1.appendComponents(sceneJson, graph, resourceMap);
-            if (!plugins)
-                return "continue";
-            plugins.forEach(function (plugin) {
-                plugin.extendSceneGraph(graph, sceneJson, assetFileMap);
-            });
-            graphs.set(sceneFile, graph);
-        };
-        var this_1 = this;
+        var assetFileMap = new AssetFileMap_1.default(assetRoot);
+        assetFileMap.scan();
+        var resourceMap = this.createLocalResourceMap(assetFileMap);
         for (var i = 0; i < sceneFiles.length; i++) {
-            _loop_1(i);
+            var sceneFile = sceneFiles[i];
+            var sceneJson = this.loadSceneFile(sceneFile);
+            var graph = this.createSceneGraph(sceneJson);
+            this.appendComponents(sceneJson, graph, resourceMap);
+            graphs.set(sceneFile, graph);
+            if (plugins) {
+                this.pluginPostProcess(graph, sceneJson, assetFileMap, plugins);
+            }
         }
         return graphs;
     };
@@ -99,7 +93,7 @@ var CocosCreator = /** @class */ (function () {
         var resourceMap = new Map();
         assetFileMap.forEach(function (item) {
             var entities = _this.createResourceMapEntities(item.filePath);
-            entities.forEach(function (entity) { return resourceMap.set(entity.id, entity); });
+            entities.forEach(function (entity) { resourceMap.set(entity.id, entity); });
         });
         return resourceMap;
     };
@@ -377,14 +371,21 @@ var CocosCreator = /** @class */ (function () {
                 var colorStr = '#FFFFFF';
                 if (schemaNode.renderer && schemaNode.renderer.color) {
                     // Label uses node color
-                    var color = schemaNode.renderer.color;
-                    colorStr = "#" + color.r.toString(16) + color.g.toString(16) + color.b.toString(16);
+                    colorStr = "#" + this.colorToHexString(schemaNode.renderer.color);
                 }
                 schemaNode.text.style.color = colorStr;
                 break;
             }
             default: break;
         }
+    };
+    CocosCreator.prototype.colorToHexString = function (color) {
+        var colorStrs = {
+            r: (color.r < 0x10) ? "0" + color.r.toString(16) : color.r.toString(16),
+            g: (color.g < 0x10) ? "0" + color.g.toString(16) : color.g.toString(16),
+            b: (color.b < 0x10) ? "0" + color.b.toString(16) : color.b.toString(16)
+        };
+        return "" + colorStrs.r + colorStrs.g + colorStrs.b;
     };
     /**
      * Find and return component data if node has target component

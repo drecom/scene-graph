@@ -1,4 +1,4 @@
-import { SchemaJson } from '@drecom/scene-graph-schema';
+import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import AssetExporter from '../../interface/AssetExporter';
 import AssetExporterPlugin from '../../interface/AssetExporterPlugin';
 import AssetExportMapEntity from '../../interface/AssetExportMapEntity';
@@ -14,6 +14,7 @@ export default class CocosCreator implements AssetExporter {
      * Create asset export map.
      */
     createExportMap(sceneGraphMap: Map<string, SchemaJson>, assetRoot: string, destDir: string, urlNameSpace: string, plugins?: Map<string, AssetExporterPlugin>): Map<string, AssetExportMapEntity>;
+    pluginPostProcess(node: Node, exportMap: Map<string, AssetExportMapEntity>, assetRoot: string, destDir: string, urlNameSpace: string, plugins?: Map<string, AssetExporterPlugin>): void;
     /**
      * Replace paths in scene graph from absolute local path to relative path/url.
      */

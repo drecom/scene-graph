@@ -182,7 +182,8 @@ export default class CocosAnimationRuntimeExtension {
           currentFrame = curve.keyFrames[currentFrameIndex - 1];
         }
 
-        timeRatio = this.elapsedTime / this.animation.duration;
+        // TODO: next version feature
+        timeRatio = this.elapsedTime / (this.animation as any).duration;
         if (timeRatio < 1.0) {
           activeCurveExists = true;
         } else {
