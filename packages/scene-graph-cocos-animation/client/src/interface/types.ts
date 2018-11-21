@@ -15,6 +15,7 @@ declare namespace CocosAnimationClientTypes {
 
   type Animation = {
     url: string;
+    duration: number;
     sample: number;
     speed: number;
     curves: {
