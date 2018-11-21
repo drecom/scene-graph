@@ -4,6 +4,7 @@ import * as path from 'path';
 import Args from './interface/Args';
 import ExportManager from './exporter/ExportManager';
 import parseArgs from './modules/parseArgs';
+import mkdirp from './modules/mkdirp';
 import { CliHelptext } from './constants';
 
 /**
@@ -30,7 +31,7 @@ export default function cli(): void {
   const sceneGraphs = manager.exportScene(args.runtime, args.sceneFiles, args.assetRoot);
 
   // scene graph file manages assets
-  const exportExportMap = manager.exportAsset(
+  const assetExportMap = manager.exportAsset(
     sceneGraphs,
     args.runtime,
     args.assetRoot,
@@ -38,24 +39,9 @@ export default function cli(): void {
     args.assetNameSpace
   );
 
-  let newDirRoot = args.assetDestDir;
-  const directories: string[] = newDirRoot.split(path.sep);
-  const makingDirectories: string[] = [];
+  const newDirRoot = args.assetDestDir;
 
-  // create dest directory recursively
-  while (!fs.existsSync(newDirRoot)) {
-    const dir = directories.pop();
-    if (!dir) break;
-    makingDirectories.push(dir);
-    newDirRoot = directories.join(path.sep);
-  }
-
-  while (makingDirectories.length > 0) {
-    const dir = makingDirectories.pop();
-    if (!dir) break;
-    newDirRoot = path.join(newDirRoot, dir);
-    fs.mkdirSync(newDirRoot);
-  }
+  mkdirp(newDirRoot);
 
   // write scene graph file
   sceneGraphs.forEach((sceneGraph, sceneFilePath) => {
@@ -69,11 +55,9 @@ export default function cli(): void {
   });
 
   // copy assets
-  exportExportMap.forEach((entity) => {
+  assetExportMap.forEach((entity) => {
     const targetDir = path.dirname(entity.localDestPath);
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir);
-    }
+    mkdirp(targetDir);
 
     fs.copyFile(entity.localSrcPath, entity.localDestPath, () => {});
   });
