@@ -1,6 +1,6 @@
 {
   "name": "@drecom/scene-graph-cocos-animation-rt",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "lib/scene-graph-cocos-animation-rt.min.js",
   "types": "lib-ts/index.d.ts",
@@ -20,7 +20,7 @@
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
     "@drecom/scene-graph-cocos-animation-cli": "^0.0.3",
-    "@drecom/scene-graph-mediator-rt": "^1.1.3",
+    "@drecom/scene-graph-mediator-rt": "^1.1.4",
     "@drecom/scene-graph-schema": "0.0.6",
     "@types/pixi.js": "^4.8.2",
     "ts-loader": "^5.2.2",
