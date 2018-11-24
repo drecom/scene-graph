@@ -62,8 +62,17 @@ export const Pixi: PropertyConverter.Interface = {
     }
 
     if (target.anchor) {
-      convertedObject.position.x += target.width  * convertedObject.scale.x * transform.anchor.x;
-      convertedObject.position.y += target.height * convertedObject.scale.y * transform.anchor.y;
+      const size = {
+        width: target.width,
+        height: target.height
+      };
+      // should calcurate with original size
+      if (target.texture) {
+        size.width  = target.texture.width;
+        size.height = target.texture.height;
+      }
+      convertedObject.position.x += size.width  * convertedObject.scale.x * transform.anchor.x;
+      convertedObject.position.y += size.height * convertedObject.scale.y * transform.anchor.y;
     }
   },
 
