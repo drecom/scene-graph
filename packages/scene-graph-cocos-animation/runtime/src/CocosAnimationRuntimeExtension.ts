@@ -122,6 +122,10 @@ export default class CocosAnimationRuntimeExtension {
    * Also it returns the length of key frame to indicate all key frames are passed.
    */
   private getCurrentKeyFrameIndex(keyFrames: ClientTypes.AnimationFrame[], elapsedTime: number, fps: number): number {
+    if (keyFrames.length === 0) {
+      return 0;
+    }
+
     const spf = 1.0 / fps;
 
     for (let i = keyFrames.length - 1; i >= 0; i--) {
