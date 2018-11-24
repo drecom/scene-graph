@@ -278,6 +278,9 @@ var CocosAnimationRuntimeExtension = /** @class */ (function () {
      * Also it returns the length of key frame to indicate all key frames are passed.
      */
     CocosAnimationRuntimeExtension.prototype.getCurrentKeyFrameIndex = function (keyFrames, elapsedTime, fps) {
+        if (keyFrames.length === 0) {
+            return 0;
+        }
         var spf = 1.0 / fps;
         for (var i = keyFrames.length - 1; i >= 0; i--) {
             // 60fps: 0.1 = 6 frames, 0.016 * 6 sec
