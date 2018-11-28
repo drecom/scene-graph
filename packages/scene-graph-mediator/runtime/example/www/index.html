@@ -77,11 +77,7 @@
         //   importer.fixCoordinate(schema, container, node, parentNode);
         // };
 
-        const sceneGraph    = PIXI.loader.resources.scenegraph.data;
-        if (sceneGraph.root) {
-          sceneGraph.scene    = sceneGraph.root.scene;
-          sceneGraph.metadata = sceneGraph.root.metadata;
-        }
+        const sceneGraph   = PIXI.loader.resources.scenegraph.data;
         const importOption = { autoCoordinateFix: true };
 
         // import scene-graph
