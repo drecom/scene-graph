@@ -806,8 +806,13 @@ var Pixi = {
                 width: target.width,
                 height: target.height
             };
+            if (transform.width !== undefined && transform.height !== undefined) {
+                size.width = transform.width;
+                size.height = transform.height;
+            }
             // should calcurate with original size
-            if (target.texture) {
+            // TODO: text exclusion may be an Cocos specific feature
+            if (target.texture && !node.text) {
                 size.width = target.texture.width;
                 size.height = target.texture.height;
             }
