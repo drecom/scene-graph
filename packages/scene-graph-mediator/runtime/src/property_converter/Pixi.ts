@@ -71,7 +71,7 @@ export const Pixi: PropertyConverter.Interface = {
         size.height = transform.height;
       }
       // should calcurate with original size
-      // TODO: text exclusion may be an Cocos specific feature
+      // TODO: text exclusion may be Cocos specific feature
       if (target.texture && !node.text) {
         size.width  = target.texture.width;
         size.height = target.texture.height;
