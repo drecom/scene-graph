@@ -78,7 +78,7 @@ export const Pixi: PropertyConverter.Interface = {
         size.width  = transform.width;
         size.height = transform.height;
       }
-      
+
       convertedObject.position.x += size.width  * convertedObject.scale.x * transform.anchor.x;
       convertedObject.position.y += size.height * convertedObject.scale.y * transform.anchor.y;
     }
