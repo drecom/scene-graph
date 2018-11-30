@@ -66,11 +66,19 @@ export const Pixi: PropertyConverter.Interface = {
         width: target.width,
         height: target.height
       };
+
       // should calcurate with original size
-      if (target.texture) {
+      // TODO: text exclusion may be Cocos specific feature
+      if (target.texture && !node.text) {
         size.width  = target.texture.width;
         size.height = target.texture.height;
       }
+
+      if (transform.width !== undefined && transform.height !== undefined) {
+        size.width  = transform.width;
+        size.height = transform.height;
+      }
+
       convertedObject.position.x += size.width  * convertedObject.scale.x * transform.anchor.x;
       convertedObject.position.y += size.height * convertedObject.scale.y * transform.anchor.y;
     }
