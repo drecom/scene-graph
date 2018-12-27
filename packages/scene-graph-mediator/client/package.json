@@ -49,6 +49,6 @@
   },
   "gitHead": "dcffa7b570bc44899cc9e6324769587db6fe3b18",
   "dependencies": {
-    "command-line-args": "^5.0.2"
+    "commander": "^2.19.0"
   }
 }

@@ -54,16 +54,27 @@ export default class ExportManager {
   /**
    * Dynamically loads user defined plugin by absolute module path
    */
-  public loadPlugins(paths: string[]): void {
-    for (let i = 0; i < paths.length; i++) {
-      const Plugin = require(paths[i]).default;
-      const instance = new Plugin() as AssetExporterPlugin | SceneExporterPlugin;
+  public loadPlugins(plugins: string[] | AssetExporterPlugin[] | SceneExporterPlugin[]): void {
+    for (let i = 0; i < plugins.length; i++) {
+      const plugin: string | AssetExporterPlugin | SceneExporterPlugin = plugins[i];
+      let instance;
+      let pluginName;
+
+      if (typeof plugin === 'string') {
+        const Plugin = require(plugins[i] as string).default;
+        instance = new Plugin() as AssetExporterPlugin | SceneExporterPlugin;
+        pluginName = Plugin.name;
+      } else {
+        instance = plugin as AssetExporterPlugin | SceneExporterPlugin;
+        pluginName = plugin.constructor.name;
+      }
+
       if ((instance as AssetExporterPlugin).replaceExtendedPaths) {
-        this.plugins.assets.set(Plugin.name, instance as AssetExporterPlugin);
+        this.plugins.assets.set(pluginName, instance as AssetExporterPlugin);
       }
       // plugin implementations can be unified
       if ((instance as SceneExporterPlugin).extendSceneGraph) {
-        this.plugins.scenes.set(Plugin.name, instance as SceneExporterPlugin);
+        this.plugins.scenes.set(pluginName, instance as SceneExporterPlugin);
       }
     }
   }
