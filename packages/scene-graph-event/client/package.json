@@ -1,0 +1,19 @@
+{
+  "name": "@drecom/scene-graph-event-cli",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drecom/scene-graph/tree/master/packages/scene-graph-event/client"
+  },
+  "scripts": {
+    "build:lib": "tsc -p ."
+  },
+  "author": "Drecom Co.,Ltd."
+}

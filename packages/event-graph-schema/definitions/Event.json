@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Event.json",
+
+  "definitions": {
+    "Event": {
+      "id": "#Event",
+      "type": "object",
+      "properties": {
+        "targetId": { "type": "string" },
+        "type"    : { "type": "string" },
+        "callback": { "type": "string" },
+        "params"  : {
+          "type":  "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [
+        "targetId",
+        "type",
+        "callback"
+      ]
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@drecom/event-graph-schema",
+  "version": "0.0.1",
+  "description": "event-graph-schema is a intermediate data schema that represents common data structure of an event in game application.",
+  "main": "index.js",
+  "typings": "types/definitions/Event.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drecom/scene-graph/tree/master/packages/event-graph-schema"
+  },
+  "scripts": {
+    "dts": "node scripts/dts.js"
+  },
+  "keywords": [
+    "game",
+    "event",
+    "schema"
+  ],
+  "bugs": {
+    "url": "https://github.com/drecom/scene-graph-schema/issues"
+  },
+  "homepage": "https://github.com/drecom/scene-graph-schema",
+  "author": "Drecom Co.,Ltd.",
+  "dependencies": {
+    "jsonschema": "^1.2.4"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^6.1.0"
+  }
+}
