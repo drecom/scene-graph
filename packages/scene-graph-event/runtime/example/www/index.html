@@ -9,6 +9,18 @@
 <head/>
 <body>
   <script type='text/javascript'>
+    class Button extends PIXI.Sprite {
+      buttonTest(str, num, bool) {
+        console.log("buttonTest invoked!", str, num, bool);
+      }
+      anotherButtonTest(str, num, bool) {
+        console.log("anotherButtonTest invoked!", str, num, bool);
+      }
+      moreButtonTest(str, num, bool) {
+        console.log("moreButtonTest invoked!", str, num, bool);
+      };
+    }
+
     const eventAdapter = (event) => {
       const params     = event.params[0].split(',');
       const methodName = params.shift();
@@ -45,7 +57,7 @@
         callback: methodName,
         params: params
       };
-console.log(parsedEvent);
+
       return parsedEvent;
     };
 
@@ -78,20 +90,12 @@ console.log(parsedEvent);
           }
         };
 
-        importer.setOnRuntimeObjectCreated((id, obj) => {
-          if (id === "34") {
-            obj.buttonTest = (str, num, bool) => {
-              console.log("buttonTest invoked!", str, num, bool);
-            };
+        importer.setOnRestoreNode((node, resources) => {
+          if (!node.events) {
+            return null;
           }
-          if (id === "39") {
-            obj.anotherButtonTest = (str, num, bool) => {
-              console.log("anotherButtonTest invoked!", str, num, bool);
-            };
-            obj.moreButtonTest = (str, num, bool) => {
-              console.log("moreButtonTest invoked!", str, num, bool);
-            };
-          }
+
+          return new Button(resources[node.sprite.url].texture);
         });
 
         const sceneGraph   = PIXI.loader.resources.scenegraph.data;
