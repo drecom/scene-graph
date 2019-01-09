@@ -1,6 +1,6 @@
 {
   "name": "@drecom/event-graph-schema",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "event-graph-schema is a intermediate data schema that represents common data structure of an event in game application.",
   "main": "index.js",
   "typings": "types/definitions/Event.d.ts",
