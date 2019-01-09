@@ -1,4 +1,6 @@
 import { SchemaJson } from '@drecom/scene-graph-schema';
+import SceneExporterPlugin from '../interface/SceneExporterPlugin';
+import AssetExporterPlugin from '../interface/AssetExporterPlugin';
 import SceneExporterConstructor from '../interface/SceneExporterConstructor';
 import AssetExporterConstructor from '../interface/AssetExporterConstructor';
 import AssetExportMapEntity from '../interface/AssetExportMapEntity';
@@ -21,7 +23,7 @@ export default class ExportManager {
     /**
      * Dynamically loads user defined plugin by absolute module path
      */
-    loadPlugins(paths: string[]): void;
+    loadPlugins(plugins: string[] | AssetExporterPlugin[] | SceneExporterPlugin[]): void;
     /**
      * Exports scene graphs for given scene file paths
      */

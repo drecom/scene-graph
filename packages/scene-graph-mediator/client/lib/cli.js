@@ -15,6 +15,7 @@ function cli() {
         args = parseArgs_1.default();
     }
     catch (e) {
+        console.log(e);
         console.log(constants_1.CliHelptext);
         return;
     }

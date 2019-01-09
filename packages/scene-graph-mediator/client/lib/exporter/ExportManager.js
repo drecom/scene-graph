@@ -44,16 +44,26 @@ var ExportManager = /** @class */ (function () {
     /**
      * Dynamically loads user defined plugin by absolute module path
      */
-    ExportManager.prototype.loadPlugins = function (paths) {
-        for (var i = 0; i < paths.length; i++) {
-            var Plugin = require(paths[i]).default;
-            var instance = new Plugin();
+    ExportManager.prototype.loadPlugins = function (plugins) {
+        for (var i = 0; i < plugins.length; i++) {
+            var plugin = plugins[i];
+            var instance = void 0;
+            var pluginName = void 0;
+            if (typeof plugin === 'string') {
+                var Plugin = require(plugins[i]).default;
+                instance = new Plugin();
+                pluginName = Plugin.name;
+            }
+            else {
+                instance = plugin;
+                pluginName = plugin.constructor.name;
+            }
             if (instance.replaceExtendedPaths) {
-                this.plugins.assets.set(Plugin.name, instance);
+                this.plugins.assets.set(pluginName, instance);
             }
             // plugin implementations can be unified
             if (instance.extendSceneGraph) {
-                this.plugins.scenes.set(Plugin.name, instance);
+                this.plugins.scenes.set(pluginName, instance);
             }
         }
     };

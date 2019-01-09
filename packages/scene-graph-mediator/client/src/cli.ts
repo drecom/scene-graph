@@ -15,6 +15,7 @@ export default function cli(): void {
   try {
     args = parseArgs();
   } catch (e) {
+    console.log(e);
     console.log(CliHelptext);
     return;
   }
