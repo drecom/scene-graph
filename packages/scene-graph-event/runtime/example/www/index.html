@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, user-scalable=no" />
+  <script type='text/javascript' src='/pixi.min.js'></script>
+  <script type='text/javascript' src='/scene-graph-mediator-rt.js'></script>
+  <script type='text/javascript' src='/scene-graph-event-rt.js'></script>
+<head/>
+<body>
+  <script type='text/javascript'>
+    class Button extends PIXI.Sprite {
+      buttonTest(str, num, bool) {
+        console.log("buttonTest invoked!", str, num, bool);
+      }
+      anotherButtonTest(str, num, bool) {
+        console.log("anotherButtonTest invoked!", str, num, bool);
+      }
+      moreButtonTest(str, num, bool) {
+        console.log("moreButtonTest invoked!", str, num, bool);
+      };
+    }
+
+    const eventAdapter = (event) => {
+      const params     = event.params[0].split(',');
+      const methodName = params.shift();
+      const eventName  = params.shift();
+
+      const strRegex = /^["'](.*)?["']$/;
+
+      for (let i = 0; i < params.length; i++) {
+        let param = params[i];
+        param = param.trim();
+
+        const head = param[0];
+        const tail = param[param.length - 1];
+
+        if ((head === '"' && tail === '"') ||
+          (head === "'" && tail === "'")) {
+          param = param.substr(1, param.length - 2);
+        } else if (param === 'true') {
+          param = true;
+        } else if (param === 'false') {
+          param = false;
+        } else {
+          param = (param.substr(0, 2) === '0x')
+            ? Number.parseInt(param)
+            : Number.parseFloat(param);
+        }
+
+        params[i] = param;
+      }
+
+      const parsedEvent = {
+        targetId: event.targetId,
+        type: eventName,
+        callback: methodName,
+        params: params
+      };
+
+      return parsedEvent;
+    };
+
+    window.onload = function() {
+      // pixi runtime mediator
+      const Importer = window["scene-graph-mediator-rt"].Importers.Pixi;
+      // Plugin example
+      const EventRuntime = window["scene-graph-event-rt"].EventRuntime;
+
+      window.app = new PIXI.Application(640, 1136, {backgroundColor : 0x1099bb});
+      document.body.appendChild(app.view);
+
+      PIXI.loader.add({ name: 'scenegraph', url: '/graph.json' }).load(() => {
+        // instantiate scene-graph family
+        const importer = new Importer();
+        const eventRuntime = new EventRuntime();
+
+        importer.addPlugin(eventRuntime);
+
+        // Scene graph used in this sample is exported from Cocos Creator.
+        // Sprite sheet may be described in plist.
+        // In this example, it should be converted to json.
+        // Of cources you can modify this path ahead of runtime.
+        importer.onAddLoaderAsset = function (node, assset) {
+          if (node.sprite && node.sprite.atlasUrl) {
+            const names = assset.url.split('.');
+            names.pop();
+            names.push('json');
+            assset.url = names.join('.');;
+          }
+        };
+
+        importer.setOnRestoreNode((node, resources) => {
+          if (!node.events) {
+            return null;
+          }
+
+          return new Button(resources[node.sprite.url].texture);
+        });
+
+        const sceneGraph   = PIXI.loader.resources.scenegraph.data;
+        const importOption = {
+          autoCoordinateFix: true,
+          customEventAdapter: eventAdapter
+        };
+
+        // import scene-graph
+        importer.import(sceneGraph, (root) => app.stage.addChild(root), importOption);
+      });
+    };
+  </script>
+</body>
+</html>
