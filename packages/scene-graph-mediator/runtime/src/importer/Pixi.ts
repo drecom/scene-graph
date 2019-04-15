@@ -2,6 +2,7 @@ import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
 import ImporterPlugin from '../interface/ImporterPlugin';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
+import { LayoutComponent } from './component/Layout';
 
 type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;
@@ -16,6 +17,10 @@ declare module 'pixi.js' {
       anchor?: {
         x: number,
         y: number
+      },
+      originalSize?: {
+        width: number,
+        height: number
       }
     };
   }
@@ -388,6 +393,10 @@ export default class Pixi extends Importer {
         x: node.transform.anchor.x,
         y: node.transform.anchor.y
       };
+      container.sgmed.originalSize = {
+        width: transform.width || 0,
+        height: transform.height || 0
+      };
 
       if (option.autoCoordinateFix) {
         // scene-graph-mediator extended properties
@@ -395,6 +404,16 @@ export default class Pixi extends Importer {
       } else {
         this.applyCoordinate(schema, container, node);
       }
+    });
+
+    // update under Layout component node
+    containerMap.forEach((container, id) => {
+      const node = nodeMap.get(id);
+      if (!node || !node.layout) {
+        return;
+      }
+
+      LayoutComponent.fixLayout(container, node);
     });
 
     this.pluginPostProcess(schema, nodeMap, containerMap, option);
