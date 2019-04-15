@@ -19,7 +19,6 @@ function cli() {
         console.log(constants_1.CliHelptext);
         return;
     }
-    console.log(args);
     /**
      * Instantiate exporter implement
      */
