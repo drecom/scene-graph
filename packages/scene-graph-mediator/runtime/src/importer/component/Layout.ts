@@ -75,7 +75,6 @@ export module LayoutComponent {
       }
 
       const childWidth = sgmed.originalSize.width * child.scale.x;
-      console.log(childWidth);
       child.position.x = calcPositionX(layout, sgmed.anchor.x, childWidth, offsetX);
       offsetX = calcOffsetX(layout, childWidth, offsetX);
     });
