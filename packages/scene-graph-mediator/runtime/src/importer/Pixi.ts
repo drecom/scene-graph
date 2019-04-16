@@ -2,7 +2,7 @@ import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
 import ImporterPlugin from '../interface/ImporterPlugin';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
-import { LayoutComponent } from './component/Layout';
+import LayoutComponent from './component/Layout';
 
 type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;
@@ -17,10 +17,6 @@ declare module 'pixi.js' {
       anchor?: {
         x: number,
         y: number
-      },
-      originalSize?: {
-        width: number,
-        height: number
       }
     };
   }
@@ -299,13 +295,13 @@ export default class Pixi extends Importer {
       // TODO: support spine
       // object = new PIXI.spine.Spine(resources[node.id].data);
     } else if (node.sprite) {
-      // TODO: base64 image
-
       let texture = null;
       if (node.sprite.atlasUrl && node.sprite.frameName) {
         texture = PIXI.Texture.fromFrame(node.sprite.frameName);
       } else if (node.sprite.url) {
         texture = resources[node.sprite.url].texture;
+      } else if (node.sprite.base64) {
+        texture = PIXI.Texture.fromImage(node.sprite.base64);
       }
 
       if (!texture) {
@@ -392,10 +388,6 @@ export default class Pixi extends Importer {
       container.sgmed.anchor = {
         x: node.transform.anchor.x,
         y: node.transform.anchor.y
-      };
-      container.sgmed.originalSize = {
-        width: transform.width || 0,
-        height: transform.height || 0
       };
 
       if (option.autoCoordinateFix) {
