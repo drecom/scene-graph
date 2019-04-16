@@ -9,10 +9,6 @@ declare module 'pixi.js' {
                 x: number;
                 y: number;
             };
-            originalSize?: {
-                width: number;
-                height: number;
-            };
         };
     }
 }

@@ -557,13 +557,15 @@ var Pixi = /** @class */ (function (_super) {
             // object = new PIXI.spine.Spine(resources[node.id].data);
         }
         else if (node.sprite) {
-            // TODO: base64 image
             var texture = null;
             if (node.sprite.atlasUrl && node.sprite.frameName) {
                 texture = PIXI.Texture.fromFrame(node.sprite.frameName);
             }
             else if (node.sprite.url) {
                 texture = resources[node.sprite.url].texture;
+            }
+            else if (node.sprite.base64) {
+                texture = PIXI.Texture.fromImage(node.sprite.base64);
             }
             if (!texture) {
                 return null;
@@ -643,10 +645,6 @@ var Pixi = /** @class */ (function (_super) {
                 x: node.transform.anchor.x,
                 y: node.transform.anchor.y
             };
-            container.sgmed.originalSize = {
-                width: transform.width || 0,
-                height: transform.height || 0
-            };
             if (option.autoCoordinateFix) {
                 // scene-graph-mediator extended properties
                 _this.fixCoordinate(schema, container, node, parentNode);
@@ -661,7 +659,7 @@ var Pixi = /** @class */ (function (_super) {
             if (!node || !node.layout) {
                 return;
             }
-            _component_Layout__WEBPACK_IMPORTED_MODULE_2__["LayoutComponent"].fixLayout(container, node);
+            _component_Layout__WEBPACK_IMPORTED_MODULE_2__["default"].fixLayout(container, node);
         });
         this.pluginPostProcess(schema, nodeMap, containerMap, option);
         containerMap.forEach(function (container, id) {
@@ -725,12 +723,11 @@ var Pixi = /** @class */ (function (_super) {
 /*!******************************************!*\
   !*** ./src/importer/component/Layout.ts ***!
   \******************************************/
-/*! exports provided: LayoutComponent */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutComponent", function() { return LayoutComponent; });
 var LayoutType;
 (function (LayoutType) {
     LayoutType[LayoutType["NONE"] = 0] = "NONE";
@@ -759,31 +756,32 @@ var HorizontalDirection;
 //   CONTAINER = 1,
 //   CHILDREN = 2
 // }
-var LayoutComponent;
-(function (LayoutComponent) {
-    function fixLayout(container, node) {
+var LayoutComponent = /** @class */ (function () {
+    function LayoutComponent() {
+    }
+    LayoutComponent.fixLayout = function (container, node) {
         if (!node || !node.layout) {
             return;
         }
         switch (node.layout.layoutType) {
             case LayoutType.HORIZONTAL: {
-                fixHorizontal(container, node);
+                this.fixHorizontal(container, node);
                 break;
             }
             case LayoutType.VERTICAL: {
-                fixVertical(container, node);
+                this.fixVertical(container, node);
                 break;
             }
             case LayoutType.GRID: {
-                fixGrid(container, node);
+                this.fixGrid(container, node);
                 return;
             }
             default:
                 return;
         }
-    }
-    LayoutComponent.fixLayout = fixLayout;
-    function fixHorizontal(container, node) {
+    };
+    LayoutComponent.fixHorizontal = function (container, node) {
+        var _this = this;
         if (!node || !node.layout) {
             return;
         }
@@ -792,19 +790,20 @@ var LayoutComponent;
             return;
         }
         var layout = node.layout;
-        var offsetX = calcLayoutBasePointX(layout, baseWidth);
+        var offsetX = this.calcLayoutBasePointX(layout, baseWidth);
         container.children.forEach(function (child) {
-            var sgmed = child.sgmed;
-            if (!sgmed || !sgmed.anchor || !sgmed.originalSize) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
                 return;
             }
-            var childWidth = sgmed.originalSize.width * child.scale.x;
-            console.log(childWidth);
-            child.position.x = calcPositionX(layout, sgmed.anchor.x, childWidth, offsetX);
-            offsetX = calcOffsetX(layout, childWidth, offsetX);
+            var childWidth = childContainer.width * child.scale.x;
+            var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+            child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+            offsetX = _this.calcOffsetX(layout, childWidth, offsetX);
         });
-    }
-    function fixVertical(container, node) {
+    };
+    LayoutComponent.fixVertical = function (container, node) {
+        var _this = this;
         if (!node || !node.layout) {
             return;
         }
@@ -813,18 +812,20 @@ var LayoutComponent;
             return;
         }
         var layout = node.layout;
-        var offsetY = calcLayoutBasePointY(layout, baseHeight);
+        var offsetY = this.calcLayoutBasePointY(layout, baseHeight);
         container.children.forEach(function (child) {
-            var sgmed = child.sgmed;
-            if (!sgmed || !sgmed.anchor || !sgmed.originalSize) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
                 return;
             }
-            var childHeight = sgmed.originalSize.height * child.scale.y;
-            child.position.y = calcPositionY(layout, sgmed.anchor.y, childHeight, offsetY);
-            offsetY = calcOffsetY(layout, childHeight, offsetY);
+            var childHeight = childContainer.height * child.scale.y;
+            var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+            child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+            offsetY = _this.calcOffsetY(layout, childHeight, offsetY);
         });
-    }
-    function fixGrid(container, node) {
+    };
+    LayoutComponent.fixGrid = function (container, node) {
+        var _this = this;
         if (!node || !node.layout) {
             return;
         }
@@ -834,19 +835,19 @@ var LayoutComponent;
             return;
         }
         var layout = node.layout;
-        var basePointX = calcLayoutBasePointX(layout, baseWidth);
-        var basePointY = calcLayoutBasePointY(layout, baseHeight);
+        var basePointX = this.calcLayoutBasePointX(layout, baseWidth);
+        var basePointY = this.calcLayoutBasePointY(layout, baseHeight);
         var horizontalPadding = (layout.paddingLeft || 0) + (layout.paddingRight || 0);
         var verticalPadding = (layout.paddingBottom || 0) + (layout.paddingTop || 0);
         var offsetX = basePointX;
         var offsetY = basePointY;
         container.children.forEach(function (child) {
-            var sgmed = child.sgmed;
-            if (!sgmed || !sgmed.anchor || !sgmed.originalSize) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
                 return;
             }
-            var childWidth = Math.abs(sgmed.originalSize.width * child.scale.x);
-            var childHeight = Math.abs(sgmed.originalSize.height * child.scale.y);
+            var childWidth = Math.abs(childContainer.width * child.scale.x);
+            var childHeight = Math.abs(childContainer.height * child.scale.y);
             var maxSize = 0;
             if (layout.startAxis === AxisDirection.HORIZONTAL) {
                 maxSize = Math.max(maxSize, childHeight, 0);
@@ -862,9 +863,11 @@ var LayoutComponent;
                     offsetX = basePointX;
                     maxSize = 0;
                 }
-                child.position.x = calcPositionX(layout, sgmed.anchor.x, childWidth, offsetX);
-                child.position.y = calcPositionY(layout, sgmed.anchor.y, childHeight, offsetY);
-                offsetX = calcOffsetX(layout, childWidth, offsetX);
+                var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+                var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+                child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+                child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+                offsetX = _this.calcOffsetX(layout, childWidth, offsetX);
             }
             else {
                 maxSize = Math.max(maxSize, childWidth, 0);
@@ -880,49 +883,53 @@ var LayoutComponent;
                     offsetY = basePointY;
                     maxSize = 0;
                 }
-                child.position.x = calcPositionX(layout, sgmed.anchor.x, childWidth, offsetX);
-                child.position.y = calcPositionY(layout, sgmed.anchor.y, childHeight, offsetY);
-                offsetY = calcOffsetY(layout, childHeight, offsetY);
+                var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+                var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+                child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+                child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+                offsetY = _this.calcOffsetY(layout, childHeight, offsetY);
             }
         });
-    }
-    function calcLayoutBasePointX(layout, baseWidth) {
+    };
+    LayoutComponent.calcLayoutBasePointX = function (layout, baseWidth) {
         if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
             return layout.paddingLeft || 0;
         }
         return baseWidth + (layout.paddingRight || 0);
-    }
-    function calcLayoutBasePointY(layout, baseHeight) {
+    };
+    LayoutComponent.calcLayoutBasePointY = function (layout, baseHeight) {
         if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
             return baseHeight + (layout.paddingBottom || 0);
         }
         return layout.paddingTop || 0;
-    }
-    function calcPositionX(layout, anchorX, width, offsetX) {
+    };
+    LayoutComponent.calcPositionX = function (layout, anchorX, width, offsetX) {
         if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
             return offsetX + anchorX * width;
         }
         return offsetX - (1 - anchorX) * width;
-    }
-    function calcPositionY(layout, anchorY, height, offsetY) {
+    };
+    LayoutComponent.calcPositionY = function (layout, anchorY, height, offsetY) {
         if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
             return offsetY - (1 - anchorY) * height;
         }
         return offsetY + anchorY * height;
-    }
-    function calcOffsetX(layout, width, currentOffsetX) {
+    };
+    LayoutComponent.calcOffsetX = function (layout, width, currentOffsetX) {
         if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
             return currentOffsetX + width + (layout.spacingX || 0);
         }
         return currentOffsetX - (width + (layout.spacingX || 0));
-    }
-    function calcOffsetY(layout, height, currentOffsetY) {
+    };
+    LayoutComponent.calcOffsetY = function (layout, height, currentOffsetY) {
         if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
             return currentOffsetY - (height + (layout.spacingY || 0));
         }
         return currentOffsetY + height + (layout.spacingY || 0);
-    }
-})(LayoutComponent || (LayoutComponent = {}));
+    };
+    return LayoutComponent;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (LayoutComponent);
 
 
 /***/ }),
