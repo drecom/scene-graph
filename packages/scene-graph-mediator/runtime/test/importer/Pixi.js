@@ -558,6 +558,9 @@ describe('Pixi', () => {
       describe('when layout component is given', () => {
         
         before(async()=>{
+          //  FIXME:
+          //  Measures to avoid the problem that sprite size becomes default size (1, 1).
+          //  want to delete if there is another solution.
           const root = pixi.import(schema);
         });
 
