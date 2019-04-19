@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Layout.json",
+
+  "definitions": {
+    "Layout": {
+      "id": "#Layout",
+      "type": "object",
+      "properties": {
+        "layoutSize": {
+          "type": "object",
+          "properties": {
+            "width":  { "type": "number" },
+            "height": { "type": "number" }
+          },
+          "required": [
+            "width",
+            "height"
+          ]
+        },
+        "resize":    { "type": "number" },
+        "layoutType": { "type": "number" },
+        "cellSize": {
+          "type": "object",
+          "properties": {
+            "width":  { "type": "number" },
+            "height": { "type": "number" }
+          },
+          "required": [
+            "width",
+            "height"
+          ]
+        },
+        "startAxis":            { "type": "number" },
+        "paddingLeft":          { "type": "number" },
+        "paddingRight":         { "type": "number" },
+        "paddingTop":           { "type": "number" },
+        "paddingBottom":        { "type": "number" },
+        "spacingX":             { "type": "number" },
+        "spacingY":             { "type": "number" },
+        "verticalDirection":    { "type": "number" },
+        "horizontalDirection":  { "type": "number" }
+      },
+      "required": [
+        "layoutType",
+        "resize"
+      ]
+    }
+  }
+}

@@ -20,6 +20,7 @@ export interface Node {
   spine?: Spine;
   sprite?: Sprite;
   text?: Text;
+  layout?: Layout;
   [k: string]: any;
 }
 export interface Transform {
@@ -85,5 +86,29 @@ export interface Text {
     color?: string;
     [k: string]: any;
   };
+  [k: string]: any;
+}
+export interface Layout {
+  layoutSize?: {
+    width: number;
+    height: number;
+    [k: string]: any;
+  };
+  resize: number;
+  layoutType: number;
+  cellSize?: {
+    width: number;
+    height: number;
+    [k: string]: any;
+  };
+  startAxis?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
+  spacingX?: number;
+  spacingY?: number;
+  verticalDirection?: number;
+  horizontalDirection?: number;
   [k: string]: any;
 }

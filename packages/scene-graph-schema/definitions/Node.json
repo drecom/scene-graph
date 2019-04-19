@@ -16,7 +16,8 @@
         "renderer":  { "$ref": "Renderer.json#/definitions/Renderer" },
         "spine":     { "$ref": "Spine.json#/definitions/Spine" },
         "sprite":    { "$ref": "Sprite.json#/definitions/Sprite" },
-        "text":      { "$ref": "Text.json#/definitions/Text" }
+        "text":      { "$ref": "Text.json#/definitions/Text" },
+        "layout":    { "$ref": "Layout.json#/definitions/Layout"}
       },
       "required": [
         "id",
