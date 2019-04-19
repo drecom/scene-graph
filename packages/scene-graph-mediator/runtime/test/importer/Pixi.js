@@ -18,14 +18,6 @@ function clearCache() {
   PIXI.BaseTexture.removeFromCache(testSpriteUrl);
 }
 
-function sleep(msec) {
-  return new Promise((resolve, reject)=>{
-    setTimeout(()=>{
-      resolve();
-    }, msec);
-  });
-}
-
 describe('Pixi', () => {
   describe('import', () => {
     const pixi = new Pixi();
