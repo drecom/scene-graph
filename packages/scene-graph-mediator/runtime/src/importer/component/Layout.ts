@@ -139,7 +139,7 @@ export default class LayoutComponent {
       if (layout.startAxis === AxisDirection.HORIZONTAL) {
         maxSize = Math.max(maxSize, childHeight, 0);
         const rowSize = Math.abs(offsetX - basePointX) + childWidth + horizontalPadding;
-        if (baseWidth <= rowSize) {        
+        if (baseWidth <= rowSize) {
           // wrap
           if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
             offsetY -= maxSize + (layout.spacingY || 0);
@@ -159,7 +159,7 @@ export default class LayoutComponent {
       } else {
         maxSize = Math.max(maxSize, childWidth, 0);
         const columnSize = Math.abs(offsetY - basePointY) + childHeight + verticalPadding;
-        if (baseHeight <= columnSize) {        
+        if (baseHeight <= columnSize) {
           // wrap
           if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
             offsetX += maxSize + (layout.spacingX || 0);
@@ -201,7 +201,12 @@ export default class LayoutComponent {
 
   }
 
-  private static calcPositionY(layout:Layout, anchorY:number, height:number, offsetY:number):number {
+  private static calcPositionY(
+    layout:Layout,
+    anchorY:number,
+    height:number,
+    offsetY:number
+  ):number {
     if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
       return offsetY - (1 - anchorY) * height;
     }
