@@ -17,8 +17,8 @@ export interface Layout {
     height: number;
     [k: string]: any;
   };
-  resize?: number;
-  layoutType?: number;
+  resize: number;
+  layoutType: number;
   cellSize?: {
     width: number;
     height: number;

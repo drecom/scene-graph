@@ -41,7 +41,11 @@
         "spacingY":             { "type": "number" },
         "verticalDirection":    { "type": "number" },
         "horizontalDirection":  { "type": "number" }
-      }
+      },
+      "required": [
+        "layoutType",
+        "resize"
+      ]
     }
   }
 }
