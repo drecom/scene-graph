@@ -1,6 +1,6 @@
 import { Container } from 'pixi.js';
 import { Node } from '@drecom/scene-graph-schema';
-export default class LayoutComponent {
+export declare class LayoutComponent {
     static fixLayout(container: Container, node: Node): void;
     private static fixHorizontal;
     private static fixVertical;

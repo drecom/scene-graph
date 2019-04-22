@@ -659,7 +659,7 @@ var Pixi = /** @class */ (function (_super) {
             if (!node || !node.layout) {
                 return;
             }
-            _component_Layout__WEBPACK_IMPORTED_MODULE_2__["default"].fixLayout(container, node);
+            _component_Layout__WEBPACK_IMPORTED_MODULE_2__["LayoutComponent"].fixLayout(container, node);
         });
         this.pluginPostProcess(schema, nodeMap, containerMap, option);
         containerMap.forEach(function (container, id) {
@@ -723,11 +723,12 @@ var Pixi = /** @class */ (function (_super) {
 /*!******************************************!*\
   !*** ./src/importer/component/Layout.ts ***!
   \******************************************/
-/*! exports provided: default */
+/*! exports provided: LayoutComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutComponent", function() { return LayoutComponent; });
 var LayoutType;
 (function (LayoutType) {
     LayoutType[LayoutType["NONE"] = 0] = "NONE";
@@ -929,7 +930,7 @@ var LayoutComponent = /** @class */ (function () {
     };
     return LayoutComponent;
 }());
-/* harmony default export */ __webpack_exports__["default"] = (LayoutComponent);
+
 
 
 /***/ }),
