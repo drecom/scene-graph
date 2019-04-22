@@ -2,6 +2,7 @@ import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
 import ImporterPlugin from '../interface/ImporterPlugin';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
+import { LayoutComponent } from './component/Layout';
 
 type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;
@@ -294,13 +295,13 @@ export default class Pixi extends Importer {
       // TODO: support spine
       // object = new PIXI.spine.Spine(resources[node.id].data);
     } else if (node.sprite) {
-      // TODO: base64 image
-
       let texture = null;
       if (node.sprite.atlasUrl && node.sprite.frameName) {
         texture = PIXI.Texture.fromFrame(node.sprite.frameName);
       } else if (node.sprite.url) {
         texture = resources[node.sprite.url].texture;
+      } else if (node.sprite.base64) {
+        texture = PIXI.Texture.fromImage(node.sprite.base64);
       }
 
       if (!texture) {
@@ -395,6 +396,16 @@ export default class Pixi extends Importer {
       } else {
         this.applyCoordinate(schema, container, node);
       }
+    });
+
+    // update under Layout component node
+    containerMap.forEach((container, id) => {
+      const node = nodeMap.get(id);
+      if (!node || !node.layout) {
+        return;
+      }
+
+      LayoutComponent.fixLayout(container, node);
     });
 
     this.pluginPostProcess(schema, nodeMap, containerMap, option);

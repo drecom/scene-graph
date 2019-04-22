@@ -8,7 +8,8 @@ exports.MetaTypes = Object.freeze({
     CANVAS: 'cc.Canvas',
     NODE: 'cc.Node',
     SPRITE: 'cc.Sprite',
-    LABEL: 'cc.Label'
+    LABEL: 'cc.Label',
+    LAYOUT: 'cc.Layout'
 });
 // TODO: expose or float this definition, scene-graph-mediator-rt importer may refer this
 exports.SpriteType = Object.freeze({

@@ -127,3 +127,18 @@ export interface Label extends Component {
     _N$fontFamily: string;
     _N$horizontalAlign: number;
 }
+export interface Layout extends Component {
+    _layoutSize: Size;
+    _resize: number;
+    _N$layoutType: number;
+    _N$cellSize: Size;
+    _N$startAxis: number;
+    _N$paddingLeft: number;
+    _N$paddingRight: number;
+    _N$paddingTop: number;
+    _N$paddingBottom: number;
+    _N$spacingX: number;
+    _N$spacingY: number;
+    _N$verticalDirection: number;
+    _N$horizontalDirection: number;
+}

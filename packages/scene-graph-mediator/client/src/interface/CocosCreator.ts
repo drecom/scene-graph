@@ -7,7 +7,8 @@ export const MetaTypes: { [keys: string]: string } = Object.freeze({
   CANVAS: 'cc.Canvas',
   NODE:   'cc.Node',
   SPRITE: 'cc.Sprite',
-  LABEL:  'cc.Label'
+  LABEL:  'cc.Label',
+  LAYOUT: 'cc.Layout'
 });
 
 // TODO: expose or float this definition, scene-graph-mediator-rt importer may refer this
@@ -148,4 +149,20 @@ export interface Label extends Component {
   _N$string: string;
   _N$fontFamily: string;
   _N$horizontalAlign: number;
+}
+
+export interface Layout extends Component {
+  _layoutSize: Size;
+  _resize:number;
+  _N$layoutType: number;
+  _N$cellSize: Size;
+  _N$startAxis: number;
+  _N$paddingLeft: number;
+  _N$paddingRight: number;
+  _N$paddingTop: number;
+  _N$paddingBottom: number;
+  _N$spacingX: number;
+  _N$spacingY: number;
+  _N$verticalDirection: number;
+  _N$horizontalDirection: number;
 }
