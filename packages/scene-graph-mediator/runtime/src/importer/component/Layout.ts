@@ -30,7 +30,7 @@ enum HorizontalDirection {
 //   CHILDREN = 2
 // }
 
-export default class LayoutComponent {
+export class LayoutComponent {
   public static fixLayout(container: Container, node: Node): void {
     if (!node || !node.layout) {
       return;

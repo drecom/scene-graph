@@ -2,7 +2,7 @@ import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
 import ImporterPlugin from '../interface/ImporterPlugin';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
-import LayoutComponent from './component/Layout';
+import { LayoutComponent } from './component/Layout';
 
 type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;

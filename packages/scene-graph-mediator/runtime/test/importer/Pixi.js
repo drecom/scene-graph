@@ -2,7 +2,7 @@ import assert from 'power-assert';
 import { spy } from 'sinon';
 import 'pixi.js';
 import Pixi from 'importer/Pixi';
-import LayoutComponent from 'importer/component/Layout';
+import { LayoutComponent } from 'importer/component/Layout';
 
 const parentTestName = 'parentTestName';
 const childTestName  = 'childTestName';
