@@ -2,6 +2,7 @@ import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
 import ImporterPlugin from '../interface/ImporterPlugin';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
+import { LayoutComponent } from './component/Layout';
 
 type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;
@@ -294,13 +295,13 @@ export default class Pixi extends Importer {
       // TODO: support spine
       // object = new PIXI.spine.Spine(resources[node.id].data);
     } else if (node.sprite) {
-      // TODO: base64 image
-
       let texture = null;
       if (node.sprite.atlasUrl && node.sprite.frameName) {
         texture = PIXI.Texture.fromFrame(node.sprite.frameName);
       } else if (node.sprite.url) {
         texture = resources[node.sprite.url].texture;
+      } else if (node.sprite.base64) {
+        texture = PIXI.Texture.fromImage(node.sprite.base64);
       }
 
       if (!texture) {
@@ -315,8 +316,8 @@ export default class Pixi extends Importer {
           node.sprite.slice.right,
           node.sprite.slice.bottom
         );
-        object.width  = node.transform.width;
-        object.height = node.transform.height;
+        object.width  = node.transform!.width;
+        object.height = node.transform!.height;
       } else {
         object = new PIXI.Sprite(texture);
       }
@@ -359,7 +360,7 @@ export default class Pixi extends Importer {
     containerMap.forEach((container, id) => {
       // node that is not from schema
       const node = nodeMap.get(id);
-      if (!node) {
+      if (!node || !node.transform) {
         return;
       }
 
@@ -397,11 +398,21 @@ export default class Pixi extends Importer {
       }
     });
 
+    // update under Layout component node
+    containerMap.forEach((container, id) => {
+      const node = nodeMap.get(id);
+      if (!node || !node.layout || !node.transform) {
+        return;
+      }
+
+      LayoutComponent.fixLayout(container, node);
+    });
+
     this.pluginPostProcess(schema, nodeMap, containerMap, option);
 
     containerMap.forEach((container, id) => {
       const node = nodeMap.get(id);
-      if (!node) {
+      if (!node || !node.transform) {
         return;
       }
 
@@ -412,12 +423,12 @@ export default class Pixi extends Importer {
   }
 
   public fixCoordinate(schema: SchemaJson, obj: any, node: Node, parentNode?: Node): void {
-    const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform);
+    const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform!);
     PropertyConverter.fixCoordinate(obj, convertedValues, node, parentNode);
     PropertyConverter.applyConvertedObject(obj, convertedValues);
   }
   public applyCoordinate(schema: SchemaJson, obj: any, node: Node): void {
-    const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform);
+    const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform!);
     PropertyConverter.applyConvertedObject(obj, convertedValues);
   }
 

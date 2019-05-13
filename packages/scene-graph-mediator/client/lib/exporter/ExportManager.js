@@ -43,7 +43,6 @@ var ExportManager = /** @class */ (function () {
             return require('../exporter/asset/CocosCreator').default;
         }
         if (constants_1.RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
-            // return require('../exporter/asset/CocosCreatorV2').default;
             return require('../exporter/asset/Unity').default;
         }
         return null;

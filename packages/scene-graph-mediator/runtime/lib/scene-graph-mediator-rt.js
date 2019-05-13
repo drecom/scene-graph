@@ -49380,6 +49380,7 @@ var Importer = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var importer_Importer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! importer/Importer */ "./src/importer/Importer.ts");
 /* harmony import */ var _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../property_converter/Pixi */ "./src/property_converter/Pixi.ts");
+/* harmony import */ var _component_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component/Layout */ "./src/importer/component/Layout.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -49390,6 +49391,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 var defaultImportOption = {
@@ -49612,13 +49614,15 @@ var Pixi = /** @class */ (function (_super) {
             // object = new PIXI.spine.Spine(resources[node.id].data);
         }
         else if (node.sprite) {
-            // TODO: base64 image
             var texture = null;
             if (node.sprite.atlasUrl && node.sprite.frameName) {
                 texture = PIXI.Texture.fromFrame(node.sprite.frameName);
             }
             else if (node.sprite.url) {
                 texture = resources[node.sprite.url].texture;
+            }
+            else if (node.sprite.base64) {
+                texture = PIXI.Texture.fromImage(node.sprite.base64);
             }
             if (!texture) {
                 return null;
@@ -49673,7 +49677,7 @@ var Pixi = /** @class */ (function (_super) {
         containerMap.forEach(function (container, id) {
             // node that is not from schema
             var node = nodeMap.get(id);
-            if (!node) {
+            if (!node || !node.transform) {
                 return;
             }
             var transform = node.transform;
@@ -49706,10 +49710,18 @@ var Pixi = /** @class */ (function (_super) {
                 _this.applyCoordinate(schema, container, node);
             }
         });
+        // update under Layout component node
+        containerMap.forEach(function (container, id) {
+            var node = nodeMap.get(id);
+            if (!node || !node.layout || !node.transform) {
+                return;
+            }
+            _component_Layout__WEBPACK_IMPORTED_MODULE_2__["LayoutComponent"].fixLayout(container, node);
+        });
         this.pluginPostProcess(schema, nodeMap, containerMap, option);
         containerMap.forEach(function (container, id) {
             var node = nodeMap.get(id);
-            if (!node) {
+            if (!node || !node.transform) {
                 return;
             }
             var parentNode = node.transform.parent ? nodeMap.get(node.transform.parent) : undefined;
@@ -50056,7 +50068,7 @@ var Three = /** @class */ (function (_super) {
      */
     Three.prototype.createThreeObject = function (node) {
         var object;
-        if (node.meshRenderer) {
+        if (node.meshRenderer && node.meshRenderer.mesh) {
             object = this.resources.get(node.meshRenderer.mesh.url);
         }
         return object;
@@ -50074,7 +50086,7 @@ var Three = /** @class */ (function (_super) {
         objectMap.forEach(function (object, id) {
             // node that is not from schema
             var node = nodeMap.get(id);
-            if (!node) {
+            if (!node || !node.transform3d) {
                 return;
             }
             var transform = node.transform3d;
@@ -50096,7 +50108,7 @@ var Three = /** @class */ (function (_super) {
         this.pluginPostProcess(schema, nodeMap, objectMap, option);
         objectMap.forEach(function (object, id) {
             var node = nodeMap.get(id);
-            if (!node) {
+            if (!node || !node.transform3d) {
                 return;
             }
             var parentNode = node.transform3d.parent ? nodeMap.get(node.transform3d.parent) : undefined;
@@ -50110,6 +50122,222 @@ var Three = /** @class */ (function (_super) {
     return Three;
 }(importer_Importer__WEBPACK_IMPORTED_MODULE_1__["Importer"]));
 /* harmony default export */ __webpack_exports__["default"] = (Three);
+
+
+/***/ }),
+
+/***/ "./src/importer/component/Layout.ts":
+/*!******************************************!*\
+  !*** ./src/importer/component/Layout.ts ***!
+  \******************************************/
+/*! exports provided: LayoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutComponent", function() { return LayoutComponent; });
+var LayoutType;
+(function (LayoutType) {
+    LayoutType[LayoutType["NONE"] = 0] = "NONE";
+    LayoutType[LayoutType["HORIZONTAL"] = 1] = "HORIZONTAL";
+    LayoutType[LayoutType["VERTICAL"] = 2] = "VERTICAL";
+    LayoutType[LayoutType["GRID"] = 3] = "GRID";
+})(LayoutType || (LayoutType = {}));
+var AxisDirection;
+(function (AxisDirection) {
+    AxisDirection[AxisDirection["HORIZONTAL"] = 0] = "HORIZONTAL";
+    AxisDirection[AxisDirection["VERTICAL"] = 1] = "VERTICAL";
+})(AxisDirection || (AxisDirection = {}));
+var VerticalDirection;
+(function (VerticalDirection) {
+    VerticalDirection[VerticalDirection["BOTTOM_TO_TOP"] = 0] = "BOTTOM_TO_TOP";
+    VerticalDirection[VerticalDirection["TOP_TO_BOTTOM"] = 1] = "TOP_TO_BOTTOM";
+})(VerticalDirection || (VerticalDirection = {}));
+var HorizontalDirection;
+(function (HorizontalDirection) {
+    HorizontalDirection[HorizontalDirection["LEFT_TO_RIGHT"] = 0] = "LEFT_TO_RIGHT";
+    HorizontalDirection[HorizontalDirection["RIGHT_TO_LEFT"] = 1] = "RIGHT_TO_LEFT";
+})(HorizontalDirection || (HorizontalDirection = {}));
+// resize not supported.
+// enum ResizeMode {
+//   NONE = 0,
+//   CONTAINER = 1,
+//   CHILDREN = 2
+// }
+var LayoutComponent = /** @class */ (function () {
+    function LayoutComponent() {
+    }
+    LayoutComponent.fixLayout = function (container, node) {
+        if (!node || !node.layout) {
+            return;
+        }
+        switch (node.layout.layoutType) {
+            case LayoutType.HORIZONTAL: {
+                this.fixHorizontal(container, node);
+                break;
+            }
+            case LayoutType.VERTICAL: {
+                this.fixVertical(container, node);
+                break;
+            }
+            case LayoutType.GRID: {
+                this.fixGrid(container, node);
+                return;
+            }
+            default:
+                return;
+        }
+    };
+    LayoutComponent.fixHorizontal = function (container, node) {
+        var _this = this;
+        if (!node || !node.layout || !node.transform) {
+            return;
+        }
+        var baseWidth = node.transform.width || 0;
+        if (baseWidth <= 0) {
+            return;
+        }
+        var layout = node.layout;
+        var offsetX = this.calcLayoutBasePointX(layout, baseWidth);
+        container.children.forEach(function (child) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
+                return;
+            }
+            var childWidth = childContainer.width * child.scale.x;
+            var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+            child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+            offsetX = _this.calcOffsetX(layout, childWidth, offsetX);
+        });
+    };
+    LayoutComponent.fixVertical = function (container, node) {
+        var _this = this;
+        if (!node || !node.layout || !node.transform) {
+            return;
+        }
+        var baseHeight = node.transform.height || 0;
+        if (baseHeight <= 0) {
+            return;
+        }
+        var layout = node.layout;
+        var offsetY = this.calcLayoutBasePointY(layout, baseHeight);
+        container.children.forEach(function (child) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
+                return;
+            }
+            var childHeight = childContainer.height * child.scale.y;
+            var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+            child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+            offsetY = _this.calcOffsetY(layout, childHeight, offsetY);
+        });
+    };
+    LayoutComponent.fixGrid = function (container, node) {
+        var _this = this;
+        if (!node || !node.layout || !node.transform) {
+            return;
+        }
+        var baseWidth = node.transform.width || 0;
+        var baseHeight = node.transform.height || 0;
+        if (baseWidth <= 0 || baseHeight <= 0) {
+            return;
+        }
+        var layout = node.layout;
+        var basePointX = this.calcLayoutBasePointX(layout, baseWidth);
+        var basePointY = this.calcLayoutBasePointY(layout, baseHeight);
+        var horizontalPadding = (layout.paddingLeft || 0) + (layout.paddingRight || 0);
+        var verticalPadding = (layout.paddingBottom || 0) + (layout.paddingTop || 0);
+        var offsetX = basePointX;
+        var offsetY = basePointY;
+        container.children.forEach(function (child) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
+                return;
+            }
+            var childWidth = Math.abs(childContainer.width * child.scale.x);
+            var childHeight = Math.abs(childContainer.height * child.scale.y);
+            var maxSize = 0;
+            if (layout.startAxis === AxisDirection.HORIZONTAL) {
+                maxSize = Math.max(maxSize, childHeight, 0);
+                var rowSize = Math.abs(offsetX - basePointX) + childWidth + horizontalPadding;
+                if (baseWidth <= rowSize) {
+                    // wrap
+                    if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+                        offsetY -= maxSize + (layout.spacingY || 0);
+                    }
+                    else {
+                        offsetY += maxSize + (layout.spacingY || 0);
+                    }
+                    offsetX = basePointX;
+                    maxSize = 0;
+                }
+                var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+                var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+                child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+                child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+                offsetX = _this.calcOffsetX(layout, childWidth, offsetX);
+            }
+            else {
+                maxSize = Math.max(maxSize, childWidth, 0);
+                var columnSize = Math.abs(offsetY - basePointY) + childHeight + verticalPadding;
+                if (baseHeight <= columnSize) {
+                    // wrap
+                    if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+                        offsetX += maxSize + (layout.spacingX || 0);
+                    }
+                    else {
+                        offsetX -= maxSize + (layout.spacingX || 0);
+                    }
+                    offsetY = basePointY;
+                    maxSize = 0;
+                }
+                var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+                var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+                child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+                child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+                offsetY = _this.calcOffsetY(layout, childHeight, offsetY);
+            }
+        });
+    };
+    LayoutComponent.calcLayoutBasePointX = function (layout, baseWidth) {
+        if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+            return layout.paddingLeft || 0;
+        }
+        return baseWidth + (layout.paddingRight || 0);
+    };
+    LayoutComponent.calcLayoutBasePointY = function (layout, baseHeight) {
+        if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+            return baseHeight + (layout.paddingBottom || 0);
+        }
+        return layout.paddingTop || 0;
+    };
+    LayoutComponent.calcPositionX = function (layout, anchorX, width, offsetX) {
+        if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+            return offsetX + anchorX * width;
+        }
+        return offsetX - (1 - anchorX) * width;
+    };
+    LayoutComponent.calcPositionY = function (layout, anchorY, height, offsetY) {
+        if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+            return offsetY - (1 - anchorY) * height;
+        }
+        return offsetY + anchorY * height;
+    };
+    LayoutComponent.calcOffsetX = function (layout, width, currentOffsetX) {
+        if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+            return currentOffsetX + width + (layout.spacingX || 0);
+        }
+        return currentOffsetX - (width + (layout.spacingX || 0));
+    };
+    LayoutComponent.calcOffsetY = function (layout, height, currentOffsetY) {
+        if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+            return currentOffsetY - (height + (layout.spacingY || 0));
+        }
+        return currentOffsetY + height + (layout.spacingY || 0);
+    };
+    return LayoutComponent;
+}());
+
 
 
 /***/ }),
@@ -50144,7 +50372,7 @@ var Importers = {
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
-/*! exports provided: Importers, Exporters, PixiPropertyConverter, ThreeModules */
+/*! exports provided: Importers, Exporters, PixiPropertyConverter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50157,9 +50385,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! property_converter/Pixi */ "./src/property_converter/Pixi.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PixiPropertyConverter", function() { return property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__["Pixi"]; });
-
-/* harmony import */ var _runtime_three__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./runtime/three */ "./src/runtime/three/index.ts");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "ThreeModules", function() { return _runtime_three__WEBPACK_IMPORTED_MODULE_3__; });
 
 
 
@@ -50209,7 +50434,10 @@ var Pixi = {
     },
     fixCoordinate: function (target, convertedObject, node, parentNode) {
         var transform = node.transform;
-        if (parentNode) {
+        if (!transform) {
+            return;
+        }
+        if (parentNode && parentNode.transform) {
             var scale = transform.scale || { x: 1, y: 1 };
             convertedObject.position.x += ((parentNode.transform.width || 0) - (transform.width || 0) * scale.x) * transform.anchor.x;
             convertedObject.position.y += ((parentNode.transform.height || 0) - (transform.height || 0) * scale.y) * transform.anchor.y;
@@ -51421,39 +51649,6 @@ var Zip = {
 var Huffman = {
     buildHuffmanTable: buildHuffmanTable
 };
-
-
-
-/***/ }),
-
-/***/ "./src/runtime/three/index.ts":
-/*!************************************!*\
-  !*** ./src/runtime/three/index.ts ***!
-  \************************************/
-/*! exports provided: FbxLoader, TgaLoader, NURBSCurve, NURBSUtils, Zlib */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _loaders_FbxLoader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loaders/FbxLoader */ "./src/runtime/three/loaders/FbxLoader.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FbxLoader", function() { return _loaders_FbxLoader__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _loaders_TgaLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loaders/TgaLoader */ "./src/runtime/three/loaders/TgaLoader.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TgaLoader", function() { return _loaders_TgaLoader__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _NURBSCurve__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NURBSCurve */ "./src/runtime/three/NURBSCurve.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NURBSCurve", function() { return _NURBSCurve__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-/* harmony import */ var _NURBSUtils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NURBSUtils */ "./src/runtime/three/NURBSUtils.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NURBSUtils", function() { return _NURBSUtils__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-/* harmony import */ var _Zlib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Zlib */ "./src/runtime/three/Zlib.ts");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "Zlib", function() { return _Zlib__WEBPACK_IMPORTED_MODULE_4__; });
-
-
-
-
-
 
 
 

@@ -72,6 +72,15 @@
 								<li class="tsd-kind-module"><a href="modules/propertyconverter.html" class="tsd-kind-icon">Property<wbr>Converter</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-is-not-exported"><a href="enums/axisdirection.html" class="tsd-kind-icon">Axis<wbr>Direction</a></li>
+								<li class="tsd-kind-enum tsd-is-not-exported"><a href="enums/horizontaldirection.html" class="tsd-kind-icon">Horizontal<wbr>Direction</a></li>
+								<li class="tsd-kind-enum tsd-is-not-exported"><a href="enums/layouttype.html" class="tsd-kind-icon">Layout<wbr>Type</a></li>
+								<li class="tsd-kind-enum tsd-is-not-exported"><a href="enums/verticaldirection.html" class="tsd-kind-icon">Vertical<wbr>Direction</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
@@ -84,6 +93,7 @@
 								<li class="tsd-kind-class tsd-is-not-exported"><a href="classes/geometryparser.html" class="tsd-kind-icon">Geometry<wbr>Parser</a></li>
 								<li class="tsd-kind-class"><a href="classes/importer.html" class="tsd-kind-icon">Importer</a></li>
 								<li class="tsd-kind-class tsd-is-not-exported"><a href="classes/inflate.html" class="tsd-kind-icon">Inflate</a></li>
+								<li class="tsd-kind-class"><a href="classes/layoutcomponent.html" class="tsd-kind-icon">Layout<wbr>Component</a></li>
 								<li class="tsd-kind-class"><a href="classes/nurbscurve.html" class="tsd-kind-icon">NURBSCurve</a></li>
 								<li class="tsd-kind-class"><a href="classes/nurbsutils.html" class="tsd-kind-icon">NURBSUtils</a></li>
 								<li class="tsd-kind-class"><a href="classes/pixi.html" class="tsd-kind-icon">Pixi</a></li>
@@ -169,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">Container<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Container</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L7">importer/Pixi.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L8">importer/Pixi.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -248,8 +258,8 @@
 					<div class="tsd-signature tsd-kind-icon">Node<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L6">importer/Pixi.ts:6</a></li>
-							<li>Defined in importer/Three.ts:9</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L7">importer/Pixi.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L9">importer/Three.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -259,7 +269,7 @@
 					<div class="tsd-signature tsd-kind-icon">Three<wbr>Asset<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in importer/Three.ts:35</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L35">importer/Three.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -283,7 +293,7 @@
 					<div class="tsd-signature tsd-kind-icon">Three<wbr>Object<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Object3D</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in importer/Three.ts:10</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L10">importer/Three.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -306,7 +316,7 @@
 					<div class="tsd-signature tsd-kind-icon">Three<wbr>Asset<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({FBX: &#x27;fbx&#x27;,UNITY_MATERIAL: &#x27;mat&#x27;,UNKNOWN: &#x27;unknown&#x27;})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in importer/Three.ts:29</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L29">importer/Three.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -321,7 +331,7 @@
 					<div class="tsd-signature tsd-kind-icon">USE_<wbr>TYPEDARRAY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/Zlib.ts:1</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L1">runtime/three/Zlib.ts:1</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -331,7 +341,7 @@
 					<div class="tsd-signature tsd-kind-icon">ZLIB_<wbr>RAW_<wbr>INFLATE_<wbr>BUFFER_<wbr>SIZE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">32768</span><span class="tsd-signature-symbol"> =&nbsp;32768</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/Zlib.ts:2</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L2">runtime/three/Zlib.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -341,7 +351,7 @@
 					<div class="tsd-signature tsd-kind-icon">connections<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/loaders/FbxLoader.ts:33</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L33">runtime/three/loaders/FbxLoader.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -380,7 +390,7 @@
 					<div class="tsd-signature tsd-kind-icon">data<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/loaders/FbxLoader.ts:2351</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2351">runtime/three/loaders/FbxLoader.ts:2351</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -390,7 +400,7 @@
 					<div class="tsd-signature tsd-kind-icon">scene<wbr>Graph<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/loaders/FbxLoader.ts:34</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L34">runtime/three/loaders/FbxLoader.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -400,7 +410,7 @@
 					<div class="tsd-signature tsd-kind-icon">temp<wbr>Euler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Euler</span><span class="tsd-signature-symbol"> =&nbsp;new THREE.Euler()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/loaders/FbxLoader.ts:2376</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2376">runtime/three/loaders/FbxLoader.ts:2376</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -410,7 +420,7 @@
 					<div class="tsd-signature tsd-kind-icon">temp<wbr>Vec<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Vector3</span><span class="tsd-signature-symbol"> =&nbsp;new THREE.Vector3()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/loaders/FbxLoader.ts:2377</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2377">runtime/three/loaders/FbxLoader.ts:2377</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -427,7 +437,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/Zlib.ts:21</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L21">runtime/three/Zlib.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -450,7 +460,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2482</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2482">runtime/three/loaders/FbxLoader.ts:2482</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -476,7 +486,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/Zlib.ts:54</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L54">runtime/three/Zlib.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -499,7 +509,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2477</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2477">runtime/three/loaders/FbxLoader.ts:2477</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -528,7 +538,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2348</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2348">runtime/three/loaders/FbxLoader.ts:2348</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -551,7 +561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2381</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2381">runtime/three/loaders/FbxLoader.ts:2381</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -574,7 +584,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2353</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2353">runtime/three/loaders/FbxLoader.ts:2353</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -606,7 +616,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2455</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2455">runtime/three/loaders/FbxLoader.ts:2455</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -629,7 +639,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2338</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2338">runtime/three/loaders/FbxLoader.ts:2338</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -652,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2494</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2494">runtime/three/loaders/FbxLoader.ts:2494</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -681,7 +691,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2321</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2321">runtime/three/loaders/FbxLoader.ts:2321</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -704,7 +714,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2317</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2317">runtime/three/loaders/FbxLoader.ts:2317</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -727,7 +737,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2474</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2474">runtime/three/loaders/FbxLoader.ts:2474</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -750,7 +760,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/loaders/FbxLoader.ts:2487</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/loaders/FbxLoader.ts#L2487">runtime/three/loaders/FbxLoader.ts:2487</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -782,7 +792,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in runtime/three/Zlib.ts:9</li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L9">runtime/three/Zlib.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -804,7 +814,7 @@
 					<div class="tsd-signature tsd-kind-icon">Compression<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/Zlib.ts:4</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L4">runtime/three/Zlib.ts:4</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -813,7 +823,7 @@
 						<div class="tsd-signature tsd-kind-icon">DEFLATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;8</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in runtime/three/Zlib.ts:6</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L6">runtime/three/Zlib.ts:6</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -823,7 +833,7 @@
 						<div class="tsd-signature tsd-kind-icon">STORE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in runtime/three/Zlib.ts:5</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L5">runtime/three/Zlib.ts:5</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -864,7 +874,7 @@
 					<div class="tsd-signature tsd-kind-icon">Huffman<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/Zlib.ts:876</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L876">runtime/three/Zlib.ts:876</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -873,7 +883,7 @@
 						<div class="tsd-signature tsd-kind-icon">build<wbr>Huffman<wbr>Table<span class="tsd-signature-symbol">:</span> <a href="globals.html#buildhuffmantable" class="tsd-signature-type">buildHuffmanTable</a><span class="tsd-signature-symbol"> =&nbsp;buildHuffmanTable</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in runtime/three/Zlib.ts:877</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L877">runtime/three/Zlib.ts:877</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -924,7 +934,7 @@
 					<div class="tsd-signature tsd-kind-icon">Zip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in runtime/three/Zlib.ts:873</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L873">runtime/three/Zlib.ts:873</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -933,7 +943,7 @@
 						<div class="tsd-signature tsd-kind-icon">Compression<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;CompressionMethod</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in runtime/three/Zlib.ts:874</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/runtime/three/Zlib.ts#L874">runtime/three/Zlib.ts:874</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-type-declaration">
@@ -955,8 +965,8 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Import<wbr>Option<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L9">importer/Pixi.ts:9</a></li>
-							<li>Defined in importer/Three.ts:12</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L10">importer/Pixi.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L12">importer/Three.ts:12</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -965,8 +975,8 @@
 						<div class="tsd-signature tsd-kind-icon">auto<wbr>Coordinate<wbr>Fix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L10">importer/Pixi.ts:10</a></li>
-								<li>Defined in importer/Three.ts:13</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L11">importer/Pixi.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L13">importer/Three.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -989,6 +999,18 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-is-not-exported">
+						<a href="enums/axisdirection.html" class="tsd-kind-icon">Axis<wbr>Direction</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-is-not-exported">
+						<a href="enums/horizontaldirection.html" class="tsd-kind-icon">Horizontal<wbr>Direction</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-is-not-exported">
+						<a href="enums/layouttype.html" class="tsd-kind-icon">Layout<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-is-not-exported">
+						<a href="enums/verticaldirection.html" class="tsd-kind-icon">Vertical<wbr>Direction</a>
+					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/animationparser.html" class="tsd-kind-icon">Animation<wbr>Parser</a>
 					</li>
@@ -1015,6 +1037,9 @@
 					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/inflate.html" class="tsd-kind-icon">Inflate</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/layoutcomponent.html" class="tsd-kind-icon">Layout<wbr>Component</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/nurbscurve.html" class="tsd-kind-icon">NURBSCurve</a>

@@ -468,6 +468,25 @@ export default class CocosCreator implements SceneExporter {
 
         break;
       }
+      case cc.MetaTypes.LAYOUT: {
+        const layout: cc.Layout = component as cc.Layout;
+        schemaNode.layout = {
+          layoutSize: layout._layoutSize,
+          resize: layout._resize,
+          layoutType: layout._N$layoutType,
+          cellSize: layout._N$cellSize,
+          startAxis: layout._N$startAxis,
+          paddingLeft: layout._N$paddingLeft,
+          paddingRight: layout._N$paddingRight,
+          paddingTop: layout._N$paddingTop,
+          paddingBottom: layout._N$paddingBottom,
+          spacingX: layout._N$spacingX,
+          spacingY: layout._N$spacingY,
+          verticalDirection: layout._N$verticalDirection,
+          horizontalDirection: layout._N$horizontalDirection
+        };
+        break;
+      }
       default: break;
     }
   }

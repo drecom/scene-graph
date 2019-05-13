@@ -49,8 +49,11 @@ export const Pixi: PropertyConverter.Interface = {
     parentNode?: Node
   ): void => {
     const transform = node.transform;
+    if (!transform) {
+      return;
+    }
 
-    if (parentNode) {
+    if (parentNode && parentNode.transform) {
       const scale = transform.scale || { x: 1, y: 1 };
 
       convertedObject.position.x += (

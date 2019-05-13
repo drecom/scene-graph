@@ -333,7 +333,7 @@ export default class Three extends Importer {
   private createThreeObject(node: Node): any {
     let object: any;
 
-    if (node.meshRenderer) {
+    if (node.meshRenderer && node.meshRenderer.mesh) {
       object = this.resources.get(node.meshRenderer.mesh.url);
     }
 
@@ -357,7 +357,7 @@ export default class Three extends Importer {
     objectMap.forEach((object, id) => {
       // node that is not from schema
       const node = nodeMap.get(id);
-      if (!node) {
+      if (!node || !node.transform3d) {
         return;
       }
 
@@ -383,7 +383,7 @@ export default class Three extends Importer {
 
     objectMap.forEach((object, id) => {
       const node = nodeMap.get(id);
-      if (!node) {
+      if (!node || !node.transform3d) {
         return;
       }
 

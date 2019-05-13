@@ -1,6 +1,6 @@
 {
   "name": "@drecom/scene-graph-mediator-rt",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "",
   "main": "lib/scene-graph-mediator-rt.min.js",
   "types": "lib/lib-ts/index.d.ts",
@@ -25,7 +25,7 @@
   "keywords": [],
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-schema": "^0.1.0",
+    "@drecom/scene-graph-schema": "^0.1.1",
     "@types/chai": "^4.1.2",
     "@types/mocha": "^5.2.0",
     "@types/pixi.js": "^4.7.3",
