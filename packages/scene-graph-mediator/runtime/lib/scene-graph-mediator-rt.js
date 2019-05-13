@@ -49950,7 +49950,7 @@ var Three = /** @class */ (function (_super) {
         // resources
         var assets = new Map();
         var addLoaderAsset = function (node, url, type) {
-            var asset = { url: url, name: url, type: type };
+            var asset = { url: url, type: type, name: url };
             _this.onAddLoaderAsset(node, asset);
             assets.set(url, asset);
         };
@@ -50500,6 +50500,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
 })();
 
 
+/* tslint:disable */
 /**
  * @author renej
  * NURBS curve object
@@ -50569,6 +50570,7 @@ var NURBSCurve = /** @class */ (function (_super) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 
+/* tslint:disable */
 /**
  * @author renej
  * NURBS utils
@@ -50901,6 +50903,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Huffman", function() { return Huffman; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RawInflate", function() { return RawInflate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inflate", function() { return Inflate; });
+/* tslint:disable */
 var USE_TYPEDARRAY = true;
 var ZLIB_RAW_INFLATE_BUFFER_SIZE = 0x8000; // [ 0x8000 >= ZLIB_BUFFER_BLOCK_SIZE ]
 var CompressionMethod = {
@@ -51671,6 +51674,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/* tslint:disable */
 /**
  * @author Kyle-Larson https://github.com/Kyle-Larson
  * @author Takahiro https://github.com/takahirox

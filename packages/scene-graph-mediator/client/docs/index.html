@@ -69,20 +69,20 @@
 				<h1 id="usage">Usage</h1>
 				<pre><code>$ sgmed
 Usage:
-  <span class="hljs-keyword">set</span> environment variable <span class="hljs-keyword">as</span> below, <span class="hljs-keyword">then</span> execute lib/<span class="hljs-keyword">index</span>.js <span class="hljs-keyword">with</span> node
+  set environment <span class="hljs-keyword">variable</span> <span class="hljs-keyword">as</span> below, <span class="hljs-keyword">then</span> execute lib/index.js with <span class="hljs-type">node</span>
     required:
-      RUNTIME          runtime identifier, currently supports only <span class="hljs-string">'cc'</span>
-      ASSET_ROOT       root directory <span class="hljs-keyword">for</span> assets
-      SCENE_FILE       exporting scene <span class="hljs-keyword">file</span>
+      RUNTIME          runtime identifier, currently supports <span class="hljs-keyword">only</span> <span class="hljs-string">'cc'</span>
+      ASSET_ROOT      <span class="hljs-built_in"> root</span> directory <span class="hljs-keyword">for</span> assets
+      SCENE_FILE       exporting scene file
 
     optional:
       DEST             destination directory;       <span class="hljs-keyword">default</span> <span class="hljs-string">'./scene-graph'</span>
-      ASSET_NAME_SPACE asset directory <span class="hljs-keyword">name</span>;        <span class="hljs-keyword">default</span> <span class="hljs-string">'assets'</span>,
-      ASSET_DEST       asset destination directory; <span class="hljs-keyword">default</span> $<span class="hljs-comment">{DEST}</span>/$<span class="hljs-comment">{ASSET_NAME_SPACE}</span>
-      GRAPH_FILE_NAME  scene graph <span class="hljs-keyword">file</span> <span class="hljs-keyword">name</span>;       <span class="hljs-keyword">default</span> <span class="hljs-string">'graph.json'</span>,
+      ASSET_NAME_SPACE asset directory<span class="hljs-built_in"> name</span>;        <span class="hljs-keyword">default</span> <span class="hljs-string">'assets'</span>,
+      ASSET_DEST       asset destination directory; <span class="hljs-keyword">default</span> ${DEST}/${ASSET_NAME_SPACE}
+      GRAPH_FILE_NAME  scene graph file<span class="hljs-built_in"> name</span>;       <span class="hljs-keyword">default</span> <span class="hljs-string">'graph.json'</span>,
 
   e.g;
-    RUNTIME=cc ASSET_ROOT=path/<span class="hljs-keyword">to</span>/asset SCENE_FILE=path/<span class="hljs-keyword">to</span>/scene sgmed
+    RUNTIME=cc ASSET_ROOT<span class="hljs-built_in">=path</span>/<span class="hljs-keyword">to</span>/asset SCENE_FILE<span class="hljs-built_in">=path</span>/<span class="hljs-keyword">to</span>/scene sgmed
 </code></pre>
 			</div>
 		</div>

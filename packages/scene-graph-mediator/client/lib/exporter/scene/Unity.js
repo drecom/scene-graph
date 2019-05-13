@@ -61,7 +61,7 @@ var Unity = /** @class */ (function () {
             var data = json[componentName];
             var entity = { prefab: prefab, componentName: componentName, data: data };
             components[anchor] = entity;
-            if (entity.componentName == IUnity.Component.Name.PREFAB_INSTANCE) {
+            if (entity.componentName === IUnity.Component.Name.PREFAB_INSTANCE) {
                 childEntities.push({ anchor: anchor, entity: entity });
             }
         });
@@ -276,7 +276,7 @@ var Unity = /** @class */ (function () {
                         break;
                     }
                     var renderer_1 = {
-                        mesh: { url: "" },
+                        mesh: { url: '' },
                         materials: []
                     };
                     var meshFile = entity.sgmed.assets['m_Mesh'][0].file;
