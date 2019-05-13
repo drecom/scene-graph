@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 const USE_TYPEDARRAY = true;
 const ZLIB_RAW_INFLATE_BUFFER_SIZE = 0x8000; // [ 0x8000 >= ZLIB_BUFFER_BLOCK_SIZE ]
 

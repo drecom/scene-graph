@@ -11,7 +11,6 @@ import AssetFileMap from '../../asset/AssetFileMap';
 import * as IUnity from '../../interface/Unity';
 import UnityAssetFile from '../../asset/UnityAssetFile';
 
-
 /**
  * CocosCreator V1.x scene exporter
  */
@@ -80,7 +79,7 @@ export default class Unity implements SceneExporter {
       const entity: IUnity.SceneEntity = { prefab, componentName, data };
       components[anchor] = entity;
 
-      if (entity.componentName == IUnity.Component.Name.PREFAB_INSTANCE) {
+      if (entity.componentName === IUnity.Component.Name.PREFAB_INSTANCE) {
         childEntities.push({ anchor, entity });
       }
     });
@@ -207,7 +206,7 @@ export default class Unity implements SceneExporter {
         const json: IUnity.File.Meta = yaml.parse(content);
         const assetFile = UnityAssetFile.createWithMetaFile(metaFile);
         guidMap.set(json.guid, assetFile);
-      } catch(e) {
+      } catch (e) {
         // can not avoid unity's invalid yaml semantic
         console.warn(metaFile, e.message);
       }
@@ -251,7 +250,8 @@ export default class Unity implements SceneExporter {
     entity.sgmed.assets = entity.sgmed.assets || {};
     entity.sgmed.assets[key] = [];
 
-    let assets: IUnity.File.Element.FileReference[] = (value.constructor.name === 'Array') ? value : [value];
+    const assets: IUnity.File.Element.FileReference[]
+      = (value.constructor.name === 'Array') ? value : [value];
     assets.forEach((item: IUnity.File.Element.FileReference) => {
       const ref = item as IUnity.File.Element.FileReference;
       if (!ref.guid) {
@@ -339,7 +339,7 @@ export default class Unity implements SceneExporter {
           }
 
           const renderer: MeshRenderer = {
-            mesh: { url: "" },
+            mesh: { url: '' },
             materials: []
           };
 

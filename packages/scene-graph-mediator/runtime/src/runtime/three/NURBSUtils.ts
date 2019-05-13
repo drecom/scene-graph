@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+/* tslint:disable */
+
 /**
  * @author renej
  * NURBS utils

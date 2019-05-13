@@ -4,6 +4,8 @@ import * as Zlib from 'runtime/three/Zlib';
 import NURBSCurve from 'runtime/three/NURBSCurve';
 import TgaLoader from 'runtime/three/loaders/TgaLoader';
 
+/* tslint:disable */
+
 /**
  * @author Kyle-Larson https://github.com/Kyle-Larson
  * @author Takahiro https://github.com/takahirox

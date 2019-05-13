@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import ThreeLoader from 'runtime/three/interface/ThreeLoader';
 
+/* tslint:disable */
+
 interface OffscreenCanvas extends HTMLCanvasElement {
 }
 declare var OffscreenCanvas: {

@@ -19,7 +19,7 @@ export interface SceneEntity {
     assets?: {
       [key: string]: SgmedAssetInfo[];
     };
-  }
+  };
 }
 
 /**
@@ -31,9 +31,9 @@ export interface Scene {
 }
 
 export interface Vec2 {
-  x: number,
-  y: number,
-  z: number
+  x: number;
+  y: number;
+  z: number;
 }
 
 export interface Vec2 {
@@ -71,7 +71,7 @@ export namespace Component {
     m_CorrespondingSourceObject?: File.Element.FileReference;
     m_Component?: {
       component: File.Element.FileReference;
-    }[]
+    }[];
   }
   export interface Transform extends IComponent {
     m_LocalRotation: Quaternion;
@@ -126,6 +126,6 @@ export namespace File {
           [key: string]: File.Element.TextureProperty
         }[];
       }
-    }
+    };
   }
 }

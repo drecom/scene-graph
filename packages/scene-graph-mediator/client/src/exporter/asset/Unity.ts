@@ -45,7 +45,13 @@ export default class Unity implements AssetExporter {
               movePath = parentAssetPaths.join('/');
             }
           }
-          const entity = this.createExportMapEntity(path, assetRoot, destDir, urlNameSpace, movePath);
+          const entity = this.createExportMapEntity(
+            path,
+            assetRoot,
+            destDir,
+            urlNameSpace,
+            movePath
+          );
           exportMap.set(path, entity);
         });
 

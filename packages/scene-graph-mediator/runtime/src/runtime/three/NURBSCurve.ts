@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import NURBSUtils from './NURBSUtils';
 
+/* tslint:disable */
+
 /**
  * @author renej
  * NURBS curve object

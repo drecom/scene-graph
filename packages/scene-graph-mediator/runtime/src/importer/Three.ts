@@ -173,10 +173,15 @@ export default class Three extends Importer {
         const loader = this.getThreeLoaderByAssetType(asset.type);
         loadingResourceCount++;
         // TODO: error handling
-        loader.load(asset.url, (object: any) => {
-          this.resources.set(asset.url, object);
-          onLoad();
-        }, undefined, onLoad.bind(this));
+        loader.load(
+          asset.url,
+          (object: any) => {
+            this.resources.set(asset.url, object);
+            onLoad();
+          },
+          undefined,
+          onLoad.bind(this)
+        );
       });
     } else {
       this.restoreScene(root, schema, option);
@@ -195,7 +200,7 @@ export default class Three extends Importer {
     const assets = new Map<string, ThreeAssetInfo>();
 
     const addLoaderAsset = (node: Node, url: string, type: string) => {
-      const asset: ThreeAssetInfo = { url, name: url, type };
+      const asset: ThreeAssetInfo = { url, type, name: url };
       this.onAddLoaderAsset(node, asset);
       assets.set(url, asset);
     };
