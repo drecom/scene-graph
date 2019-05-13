@@ -11,10 +11,7 @@ export declare abstract class Importer {
     /**
      * Callback called when any asset added to pixi loader
      */
-    abstract setOnAddLoaderAsset(callback: (node: Node, asset: {
-        url: string;
-        name: string;
-    }) => void): void;
+    abstract setOnAddLoaderAsset(callback: (node: Node, asset: any) => void): void;
     /**
      * Callback called when restoring a node to pixi container<br />
      * If null is returned, default initiator creates pixi object.

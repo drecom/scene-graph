@@ -31,5 +31,5 @@ export default interface SceneExporter {
    * Create scene graph<br />
    * Given json and resource map may be retrieved via createLocalResourceMap and loadSceneFile
    */
-  createSceneGraph(json: any[]): SchemaJson;
+  createSceneGraph(json: any): SchemaJson;
 }

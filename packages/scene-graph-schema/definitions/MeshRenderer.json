@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/MeshRenderer.json",
+
+  "definitions": {
+    "MeshRenderer": {
+      "id": "#MeshRenderer",
+      "type": "object",
+      "properties": {
+        "mesh": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string" }
+          },
+          "required": [
+            "url"
+          ]
+        },
+        "materials":  {
+          "type":  "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        },
+        "atlasUrl":  { "type": "string" },
+        "frameName": { "type": "string" },
+        "slice":     {
+          "type": "object",
+          "properties": {
+            "top":    { "type": "number" },
+            "bottom": { "type": "number" },
+            "left":   { "type": "number" },
+            "right":  { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}

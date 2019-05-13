@@ -25,6 +25,9 @@ var ExportManager = /** @class */ (function () {
         if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
             return require('../exporter/scene/CocosCreatorV2').default;
         }
+        if (constants_1.RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
+            return require('../exporter/scene/Unity').default;
+        }
         return null;
     };
     /**
@@ -38,6 +41,10 @@ var ExportManager = /** @class */ (function () {
         if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
             // return require('../exporter/asset/CocosCreatorV2').default;
             return require('../exporter/asset/CocosCreator').default;
+        }
+        if (constants_1.RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
+            // return require('../exporter/asset/CocosCreatorV2').default;
+            return require('../exporter/asset/Unity').default;
         }
         return null;
     };

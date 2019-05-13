@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Transform3D.json",
+
+  "definitions": {
+    "Transform3D": {
+      "id": "#Transform3D",
+      "type": "object",
+      "properties": {
+        "x":        { "type": "number" },
+        "y":        { "type": "number" },
+        "z":        { "type": "number" },
+        "rotation": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" },
+            "w": { "type": "number" }
+          },
+          "required": [
+            "x",
+            "y",
+            "z"
+          ]
+        },
+        "scale": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          },
+          "required": [
+            "x",
+            "y",
+            "z"
+          ]
+        },
+        "parent": { "type": "string" },
+        "children": {
+          "type":  "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z",
+        "rotation"
+      ]
+    }
+  }
+}

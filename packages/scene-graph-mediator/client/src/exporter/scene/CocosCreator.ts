@@ -87,7 +87,7 @@ export default class CocosCreator implements SceneExporter {
   /**
    * Create scene graph with scene file dto and collected resource map
    */
-  public createSceneGraph(json: any[]): SchemaJson {
+  public createSceneGraph(json: any): SchemaJson {
     const graph: SchemaJson = {
       scene: [],
       metadata: {
@@ -270,12 +270,12 @@ export default class CocosCreator implements SceneExporter {
         }
       };
 
-      schemaNode.transform.children = [];
+      schemaNode.transform!.children = [];
 
       // detect children and push
       const children = node._children;
       for (let j = 0; j < children.length; j++) {
-        schemaNode.transform.children.push(children[j].__id__.toString());
+        schemaNode.transform!.children!.push(children[j].__id__.toString());
       }
 
       graph.scene.push(schemaNode);

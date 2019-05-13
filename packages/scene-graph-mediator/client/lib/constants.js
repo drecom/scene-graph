@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 exports.RuntimeIdentifiers = Object.freeze({
     COCOS_CREATOR_V1: ['cc1', 'cocos1', 'cocoscreator1'],
-    COCOS_CREATOR_V2: ['cc', 'cc2', 'cocos', 'cocos2', 'cocoscreator', 'cocoscreator2']
+    COCOS_CREATOR_V2: ['cc', 'cc2', 'cocos', 'cocos2', 'cocoscreator', 'cocoscreator2'],
+    UNITY: ['unity']
 });
 /**
  * Help text for CLI

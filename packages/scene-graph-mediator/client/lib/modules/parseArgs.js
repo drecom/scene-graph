@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
 var path = require("path");
 var commander = require("commander");
 /**
@@ -7,17 +8,34 @@ var commander = require("commander");
  */
 function parseArgs() {
     var packageJson = require('../../package.json');
-    var spaceSeparated = function (value) { return value.split(' '); };
+    var spaceSeparatedPaths = function (value) {
+        var parts = [];
+        var frags = value.split(' ');
+        for (var i = 0; i < frags.length; i++) {
+            var frag = frags[i];
+            if (fs.existsSync(frag)) {
+                parts.push(frag);
+            }
+            else {
+                var nextFrag = frags[i + 1];
+                if (!nextFrag) {
+                    break;
+                }
+                frags[i + 1] = frag + " " + nextFrag;
+            }
+        }
+        return parts;
+    };
     commander
         .version(packageJson.version)
         .option('-c, --config [value]', 'config file path')
         .option('-r, --runtime [value]', "runtime identifier, currently supports only 'cc'")
         .option('-ar, --assetRoot [value]', 'root directory for assets')
-        .option('-s, --sceneFiles [value]', 'exporting scene files (space separated)', spaceSeparated)
+        .option('-s, --sceneFiles [value]', 'exporting scene files (space separated)', spaceSeparatedPaths)
         .option('-d, --destDir [value]', "destination directory;                          default './scene-graph'")
         .option('-ad, --assetDestDir [value]', 'asset destination directory;                    default \${DEST}/\${ASSET_NAME_SPACE}')
         .option('-an, --assetNameSpace [value]', "asset directory name;                           default 'assets'")
-        .option('-p, --plugins [value]', "space separated plugin names (space separated); default ''", spaceSeparated)
+        .option('-p, --plugins [value]', "space separated plugin names (space separated); default ''", spaceSeparatedPaths)
         .parse(process.argv);
     // passing option via process.env is deprecated
     var config = {};
@@ -45,7 +63,7 @@ function parseArgs() {
             || '',
         sceneFiles: commander.sceneFiles
             || config.sceneFiles
-            || (process.env.SCENE_FILE ? process.env.SCENE_FILE.split(' ') : []),
+            || (process.env.SCENE_FILE ? spaceSeparatedPaths(process.env.SCENE_FILE) : []),
         destDir: commander.destDir
             || config.destDir
             || process.env.DEST
@@ -60,7 +78,7 @@ function parseArgs() {
             || 'assets',
         plugins: commander.plugins
             || config.plugins
-            || (process.env.PLUGINS ? process.env.PLUGINS.split(' ') : [])
+            || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : [])
     };
     args.assetDestDir = args.assetDestDir || path.resolve(args.destDir, args.assetNameSpace);
     if (!args.runtime) {

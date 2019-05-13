@@ -12,17 +12,18 @@
         "name":            { "type": "string" },
         "constructorName": { "type": "string" },
 
-        "transform": { "$ref": "Transform.json#/definitions/Transform" },
-        "renderer":  { "$ref": "Renderer.json#/definitions/Renderer" },
-        "spine":     { "$ref": "Spine.json#/definitions/Spine" },
-        "sprite":    { "$ref": "Sprite.json#/definitions/Sprite" },
-        "text":      { "$ref": "Text.json#/definitions/Text" }
+        "transform":    { "$ref": "Transform.json#/definitions/Transform" },
+        "transform3d":  { "$ref": "Transform3D.json#/definitions/Transform3D" },
+        "renderer":     { "$ref": "Renderer.json#/definitions/Renderer" },
+        "meshRenderer": { "$ref": "MeshRenderer.json#/definitions/MeshRenderer" },
+        "spine":        { "$ref": "Spine.json#/definitions/Spine" },
+        "sprite":       { "$ref": "Sprite.json#/definitions/Sprite" },
+        "text":         { "$ref": "Text.json#/definitions/Text" }
       },
       "required": [
         "id",
         "name",
-        "constructorName",
-        "transform"
+        "constructorName"
       ]
     }
   }

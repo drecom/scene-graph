@@ -34,7 +34,7 @@ export default class CocosCreator implements SceneExporter {
     /**
      * Create scene graph with scene file dto and collected resource map
      */
-    createSceneGraph(json: any[]): SchemaJson;
+    createSceneGraph(json: any): SchemaJson;
     /**
      * Execute plugin post process
      */
