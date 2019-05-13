@@ -2,18 +2,28 @@ import * as path from 'path';
 import { assert, expect } from 'chai';
 import { describe, it } from 'mocha';
 
+import * as commander from 'commander';
+
 import parseArgs from '../../src/modules/parseArgs';
+
+
+commander.option(
+  '-r, --runtime [value]',
+  "-r option duplicates with test command"
+);
 
 describe('parseArgs',  () => {
   describe('define via environmental variables [deprecated]',  () => {
     before(() => {
       process.env.RUNTIME          = 'myRuntime';
       process.env.ASSET_ROOT       = '/path/to/asset/root';
-      process.env.SCENE_FILE       = 'scene1.scene scene2.scene';
+      process.env.SCENE_FILE       = `${__filename} ${__filename}`;
       process.env.DEST             = '/path/to/dest';
       process.env.ASSET_DEST       = '/path/to/asset/dest';
       process.env.ASSET_NAME_SPACE = 'myAssetName';
-      process.env.PLUGINS          = 'plugin1 plugin2';
+      process.env.PLUGINS          = `${__filename} ${__filename}`;
+
+      commander.parse(process.argv);
     });
 
     after(() => {
@@ -32,14 +42,13 @@ describe('parseArgs',  () => {
       const expectedSceneFiles = process.env.SCENE_FILE ? process.env.SCENE_FILE.split(' ')
         .map((item) => path.resolve(process.cwd(), item)) : assert.fail();
 
-
-      expect(parsed.runtime).to.equal(process.env.RUNTIME);
+      expect(parsed.runtime).to.equal(commander.runtime || process.env.RUNTIME);
       expect(parsed.assetRoot).to.equal(process.env.ASSET_ROOT);
       expect(parsed.sceneFiles).to.deep.equal(expectedSceneFiles);
       expect(parsed.destDir).to.equal(process.env.DEST);
       expect(parsed.assetDestDir).to.equal(process.env.ASSET_DEST);
       expect(parsed.assetNameSpace).to.equal(process.env.ASSET_NAME_SPACE);
-      expect(parsed.plugins).to.deep.equal(process.env.PLUGINS ? process.env.PLUGINS.split(' ') : assert.fail());
+      expect(parsed.plugins).to.deep.equal((process.env.PLUGINS ? process.env.PLUGINS.split(' ') : assert.fail()));
     });
   });
 
@@ -48,11 +57,11 @@ describe('parseArgs',  () => {
     const testValue = {
       runtime:        'cc2',
       assetRoot:      '/path/to/asset/root',
-      sceneFiles:     '/path/to/scene/1 /path/to/scene/2',
+      sceneFiles:     `${__filename} ${__filename}`,
       destDir:        '/path/to/dest',
       assetDestDir:   '/path/to/asset/dest',
       assetNameSpace: 'myassetnamespace',
-      plugins:        '/path/to/plugin/1 /path/to/plugin/2'
+      plugins:        `${__filename} ${__filename}`
     };
 
     before(() => {
@@ -92,11 +101,11 @@ describe('parseArgs',  () => {
     const testValue = {
       runtime:        'cliopt_cc2',
       assetRoot:      '/cliopt/path/to/asset/root',
-      sceneFiles:     '/cliopt/path/to/scene/1 /cliopt/path/to/scene/2',
+      sceneFiles:     `${__filename} ${__filename}`,
       destDir:        '/cliopt/path/to/dest',
       assetDestDir:   '/cliopt/path/to/asset/dest',
       assetNameSpace: 'clioptmyassetnamespace',
-      plugins:        '/cliopt/path/to/plugin/1 /cliopt/path/to/plugin/2'
+      plugins:        `${__filename} ${__filename}`
     };
 
     before(() => {
