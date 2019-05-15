@@ -118,7 +118,6 @@
 								<li class="tsd-kind-type-alias tsd-is-not-exported"><a href="globals.html#containermap" class="tsd-kind-icon">Container<wbr>Map</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#convertedobject" class="tsd-kind-icon">Converted<wbr>Object</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#importoption" class="tsd-kind-icon">Import<wbr>Option</a></li>
-								<li class="tsd-kind-type-alias tsd-is-not-exported"><a href="globals.html#nodemap" class="tsd-kind-icon">Node<wbr>Map</a></li>
 								<li class="tsd-kind-type-alias tsd-is-not-exported"><a href="globals.html#threeassetinfo" class="tsd-kind-icon">Three<wbr>Asset<wbr>Info</a></li>
 								<li class="tsd-kind-type-alias tsd-is-not-exported"><a href="globals.html#threeobjectmap" class="tsd-kind-icon">Three<wbr>Object<wbr>Map</a></li>
 							</ul>
@@ -126,8 +125,9 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#assettypes" class="tsd-kind-icon">Asset<wbr>Types</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#degree_to_radian" class="tsd-kind-icon">DEGREE_<wbr>TO_<wbr>RADIAN</a></li>
-								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#threeassettypes" class="tsd-kind-icon">Three<wbr>Asset<wbr>Types</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#supportedexportformat" class="tsd-kind-icon">Supported<wbr>Export<wbr>Format</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#use_typedarray" class="tsd-kind-icon">USE_<wbr>TYPEDARRAY</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#zlib_raw_inflate_buffer_size" class="tsd-kind-icon">ZLIB_<wbr>RAW_<wbr>INFLATE_<wbr>BUFFER_<wbr>SIZE</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#connections" class="tsd-kind-icon">connections</a></li>
@@ -179,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">Container<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Container</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L8">importer/Pixi.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L6">importer/Pixi.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -253,23 +253,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-is-not-exported">
-					<a name="nodemap" class="tsd-anchor"></a>
-					<h3>Node<wbr>Map</h3>
-					<div class="tsd-signature tsd-kind-icon">Node<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L7">importer/Pixi.ts:7</a></li>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L9">importer/Three.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-is-not-exported">
 					<a name="threeassetinfo" class="tsd-anchor"></a>
 					<h3>Three<wbr>Asset<wbr>Info</h3>
 					<div class="tsd-signature tsd-kind-icon">Three<wbr>Asset<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L35">importer/Three.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L30">importer/Three.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -293,13 +282,28 @@
 					<div class="tsd-signature tsd-kind-icon">Three<wbr>Object<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Object3D</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L10">importer/Three.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L8">importer/Three.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="assettypes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Asset<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">Asset<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({Unity: {FBX: &#x27;fbx&#x27;,MATERIAL: &#x27;mat&#x27;,UNKNOWN: &#x27;unknown&#x27;},Default: {UNKNOWN: &#x27;unknown&#x27;}})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L19">importer/Three.ts:19</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+						</ul>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
 					<a name="degree_to_radian" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> DEGREE_<wbr>TO_<wbr>RADIAN</h3>
@@ -311,12 +315,12 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
-					<a name="threeassettypes" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Three<wbr>Asset<wbr>Types</h3>
-					<div class="tsd-signature tsd-kind-icon">Three<wbr>Asset<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({FBX: &#x27;fbx&#x27;,UNITY_MATERIAL: &#x27;mat&#x27;,UNKNOWN: &#x27;unknown&#x27;})</span></div>
+					<a name="supportedexportformat" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Supported<wbr>Export<wbr>Format</h3>
+					<div class="tsd-signature tsd-kind-icon">Supported<wbr>Export<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({UNITY: &#x27;unity&#x27;})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L29">importer/Three.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L15">importer/Three.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -965,8 +969,9 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Import<wbr>Option<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L10">importer/Pixi.ts:10</a></li>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L12">importer/Three.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L8">importer/Importer.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L8">importer/Pixi.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L10">importer/Three.ts:10</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -975,8 +980,9 @@
 						<div class="tsd-signature tsd-kind-icon">auto<wbr>Coordinate<wbr>Fix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L11">importer/Pixi.ts:11</a></li>
-								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L13">importer/Three.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L9">importer/Importer.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Pixi.ts#L9">importer/Pixi.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L11">importer/Three.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1084,19 +1090,19 @@
 						<a href="globals.html#importoption" class="tsd-kind-icon">Import<wbr>Option</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#nodemap" class="tsd-kind-icon">Node<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
 						<a href="globals.html#threeassetinfo" class="tsd-kind-icon">Three<wbr>Asset<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-not-exported">
 						<a href="globals.html#threeobjectmap" class="tsd-kind-icon">Three<wbr>Object<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#assettypes" class="tsd-kind-icon">Asset<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#degree_to_radian" class="tsd-kind-icon">DEGREE_<wbr>TO_<wbr>RADIAN</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#threeassettypes" class="tsd-kind-icon">Three<wbr>Asset<wbr>Types</a>
+						<a href="globals.html#supportedexportformat" class="tsd-kind-icon">Supported<wbr>Export<wbr>Format</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#use_typedarray" class="tsd-kind-icon">USE_<wbr>TYPEDARRAY</a>

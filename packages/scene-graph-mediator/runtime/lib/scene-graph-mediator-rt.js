@@ -49339,13 +49339,53 @@ var Exporters = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Importer", function() { return Importer; });
+var defaultImportOption = {
+    autoCoordinateFix: true
+};
 /**
  * Abstract class for runtime mediation.<br />
  * It handles runtime object like Unity's GameObject or Cocos's Node
  */
 var Importer = /** @class */ (function () {
     function Importer() {
+        this.onAddLoaderAsset = function (_node, _asset) { };
+        this.onRestoreNode = function (_n, _r) { return null; };
+        this.onRuntimeObjectCreated = function (_i, _o) { };
+        this.onTransformRestored = function (_s, _i, _o, _n, _p) { };
+        /**
+         * Plugins container
+         */
+        this.plugins = [];
     }
+    /**
+     * Callback called when any asset added to runtime resource loader
+     */
+    Importer.prototype.setOnAddLoaderAsset = function (callback) {
+        if (callback === void 0) { callback = function (_n, _a) { }; }
+        this.onAddLoaderAsset = callback;
+    };
+    /**
+     * Callback called when restoring a node to runtime<br />
+     * If null is returned, default initiator creates runtime object.
+     */
+    Importer.prototype.setOnRestoreNode = function (callback) {
+        if (callback === void 0) { callback = function (_n, _r) { return null; }; }
+        this.onRestoreNode = callback;
+    };
+    /**
+     * Callback called when each runtime object is instantiated
+     */
+    Importer.prototype.setOnRuntimeObjectCreated = function (callback) {
+        if (callback === void 0) { callback = function (_i, _o) { }; }
+        this.onRuntimeObjectCreated = callback;
+    };
+    /**
+     * Callback called when each runtime object's transform/transform3d is restored
+     */
+    Importer.prototype.setOnTransformRestored = function (callback) {
+        if (callback === void 0) { callback = function (_s, _i, _o, _n, _p) { }; }
+        this.onTransformRestored = callback;
+    };
     /**
      * Returns initiate methods related to class name.<br />
      * Often it is used to define initiation of a class instance
@@ -49361,6 +49401,81 @@ var Importer = /** @class */ (function () {
      */
     Importer.prototype.hasInitiator = function (_name) {
         return false;
+    };
+    /**
+     * Add plugin to extend import process.
+     */
+    Importer.prototype.addPlugin = function (plugin) {
+        this.plugins.push(plugin);
+    };
+    /**
+     * Extend scene graph with user plugins.
+     */
+    Importer.prototype.pluginPostProcess = function (schema, nodeMap, runtimeObjectMap, option) {
+        for (var i = 0; i < this.plugins.length; i++) {
+            var plugin = this.plugins[i];
+            plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
+        }
+    };
+    Importer.prototype.assembleImportOption = function (param1, param2) {
+        var option = {
+            callback: function (_) { },
+            config: defaultImportOption
+        };
+        if (param2) {
+            option.callback = param1;
+            option.config = param2;
+        }
+        else {
+            if (param1) {
+                console.log(param1.constructor.name);
+                if (param1.constructor.name === 'Function') {
+                    option.callback = param1;
+                }
+                else {
+                    option.config = param1;
+                }
+            }
+        }
+        return option;
+    };
+    /**
+     * Map all nodes from given schema
+     */
+    Importer.prototype.createNodeMap = function (schema) {
+        var nodeMap = new Map();
+        for (var i = 0; i < schema.scene.length; i++) {
+            var node = schema.scene[i];
+            nodeMap.set(node.id, node);
+        }
+        return nodeMap;
+    };
+    /**
+     * Create and map all Containers from given nodeMap.
+     * This method uses createRuntimeObject interface to create each object
+     */
+    Importer.prototype.createRuntimeObjectMap = function (nodeMap, resources) {
+        var _this = this;
+        var objectMap = new Map();
+        nodeMap.forEach(function (node, id) {
+            // give prior to user custome initialization
+            var object = _this.onRestoreNode(node, resources);
+            // then process default initialization
+            if (!object) {
+                object = _this.createRuntimeObject(node, resources);
+            }
+            // skip if not supported
+            if (!object) {
+                return;
+            }
+            // name with node name if no name given
+            if (!object.name) {
+                object.name = node.name;
+            }
+            _this.onRuntimeObjectCreated(id, object);
+            objectMap.set(id, object);
+        });
+        return objectMap;
     };
     return Importer;
 }());
@@ -49403,45 +49518,13 @@ var defaultImportOption = {
 var Pixi = /** @class */ (function (_super) {
     __extends(Pixi, _super);
     function Pixi() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.onAddLoaderAsset = function (_node, _asset) { };
-        _this.onRestoreNode = function (_n, _r) { return null; };
-        _this.onPixiObjectCreated = function (_i, _o) { };
-        _this.onTransformRestored = function (_s, _i, _o, _n, _p) { };
-        _this.plugins = [];
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
      * Dtect if given colors are default color
      */
     Pixi.isDefaultColor = function (r, g, b, a) {
         return (r === 255 && g === 255 && b === 255 && (!a || a === 255));
-    };
-    /**
-     * Callback called when any asset added to pixi loader
-     */
-    Pixi.prototype.setOnAddLoaderAsset = function (callback) {
-        if (callback === void 0) { callback = function (_n, _a) { }; }
-        this.onAddLoaderAsset = callback;
-    };
-    /**
-     * Callback called when restoring a node to pixi container<br />
-     * If null is returned, default initiator creates pixi object.
-     */
-    Pixi.prototype.setOnRestoreNode = function (callback) {
-        if (callback === void 0) { callback = function (_n, _r) { return null; }; }
-        this.onRestoreNode = callback;
-    };
-    /**
-     * Callback called when each pixi object is instantiated
-     */
-    Pixi.prototype.setOnRuntimeObjectCreated = function (callback) {
-        if (callback === void 0) { callback = function (_i, _o) { }; }
-        this.onPixiObjectCreated = callback;
-    };
-    Pixi.prototype.setOnTransformRestored = function (callback) {
-        if (callback === void 0) { callback = function (_s, _i, _o, _n, _p) { }; }
-        this.onTransformRestored = callback;
     };
     /**
      * Returns atlas resource name with node id
@@ -49460,40 +49543,13 @@ var Pixi = /** @class */ (function (_super) {
         return PIXI.hasOwnProperty(name);
     };
     /**
-     * Add plugin to extend import process.
-     */
-    Pixi.prototype.addPlugin = function (plugin) {
-        this.plugins.push(plugin);
-    };
-    /**
      * Import Schema and rebuild runtime node structure.<br />
      * Resources are automatically downloaded.<br />
      * Use createAssetMap if any customized workflow are preffered.
      */
     Pixi.prototype.import = function (schema, param1, param2) {
         var _this = this;
-        var callback;
-        var option;
-        if (param2) {
-            callback = param1;
-            option = param2;
-        }
-        else {
-            if (param1) {
-                if (param1.constructor.name === 'Function') {
-                    callback = param1;
-                    option = defaultImportOption;
-                }
-                else {
-                    callback = function (_) { };
-                    option = param1;
-                }
-            }
-            else {
-                callback = function (_) { };
-                option = defaultImportOption;
-            }
-        }
+        var option = this.assembleImportOption(param1, param2);
         var root = new PIXI.Container();
         // create asset list to download
         var assets = this.createAssetMap(schema);
@@ -49501,13 +49557,13 @@ var Pixi = /** @class */ (function (_super) {
         if (assets.size > 0) {
             assets.forEach(function (asset) { PIXI.loader.add(asset); });
             PIXI.loader.load(function () {
-                _this.restoreScene(root, schema, option);
-                callback(root);
+                _this.restoreScene(root, schema, option.config);
+                option.callback(root);
             });
         }
         else {
-            this.restoreScene(root, schema, option);
-            callback(root);
+            this.restoreScene(root, schema, option.config);
+            option.callback(root);
         }
         return root;
     };
@@ -49551,63 +49607,17 @@ var Pixi = /** @class */ (function (_super) {
         // map all nodes in schema first
         var nodeMap = this.createNodeMap(schema);
         // then instantiate all containers from node map
-        var containerMap = this.createContainerMap(nodeMap, PIXI.loader.resources);
+        var containerMap = this.createRuntimeObjectMap(nodeMap, PIXI.loader.resources);
         // restore renderer
         this.restoreRenderer(nodeMap, containerMap);
         // restore transform in the end
         this.restoreTransform(root, schema, nodeMap, containerMap, option);
     };
     /**
-     * Extend scene graph with user plugins.
-     */
-    Pixi.prototype.pluginPostProcess = function (schema, nodeMap, runtimeObjectMap, option) {
-        for (var i = 0; i < this.plugins.length; i++) {
-            var plugin = this.plugins[i];
-            plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
-        }
-    };
-    /**
-     * Map all nodes from given schema
-     */
-    Pixi.prototype.createNodeMap = function (schema) {
-        var nodeMap = new Map();
-        for (var i = 0; i < schema.scene.length; i++) {
-            var node = schema.scene[i];
-            nodeMap.set(node.id, node);
-        }
-        return nodeMap;
-    };
-    /**
-     * Create and map all Containers from given nodeMap
-     */
-    Pixi.prototype.createContainerMap = function (nodeMap, resources) {
-        var _this = this;
-        var containerMap = new Map();
-        nodeMap.forEach(function (node, id) {
-            // give prior to user custome initialization
-            var object = _this.onRestoreNode(node, resources);
-            // then process default initialization
-            if (!object) {
-                object = _this.createContainer(node, resources);
-            }
-            // skip if not supported
-            if (!object) {
-                return;
-            }
-            // name with node name if no name given
-            if (!object.name) {
-                object.name = node.name;
-            }
-            _this.onPixiObjectCreated(id, object);
-            containerMap.set(id, object);
-        });
-        return containerMap;
-    };
-    /**
      * Create container instance from given node<br />
      * Textures in loader.resources may be refered.
      */
-    Pixi.prototype.createContainer = function (node, resources) {
+    Pixi.prototype.createRuntimeObject = function (node, resources) {
         var object;
         if (node.spine) {
             // TODO: support spine
@@ -49806,65 +49816,38 @@ var __extends = (undefined && undefined.__extends) || (function () {
 var defaultImportOption = {
     autoCoordinateFix: true
 };
-/*
-declare module 'pixi.js' {
-  interface Container {
-    sgmed?: {
-      anchor?: {
-        x: number,
-        y: number
-      }
-    };
-  }
-}
-*/
-var ThreeAssetTypes = Object.freeze({
-    FBX: 'fbx',
-    UNITY_MATERIAL: 'mat',
-    UNKNOWN: 'unknown'
+// TODO: consider user extension
+var SupportedExportFormat = Object.freeze({
+    UNITY: 'unity'
+});
+// TODO: consider user extension
+var AssetTypes = Object.freeze({
+    Unity: {
+        FBX: 'fbx',
+        MATERIAL: 'mat',
+        UNKNOWN: 'unknown'
+    },
+    Default: {
+        UNKNOWN: 'unknown'
+    }
 });
 /**
- * Pixi implementation of Importer
+ * Three implementation of Importer
  */
 var Three = /** @class */ (function (_super) {
     __extends(Three, _super);
     function Three() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * container for loader instance caches
+         */
         _this.loaderCache = new Map();
+        /**
+         * container for loaded resource caches
+         */
         _this.resources = new Map();
-        _this.onAddLoaderAsset = function (_node, _asset) { };
-        _this.onRestoreNode = function (_n, _r) { return null; };
-        _this.onRuntimeObjectCreated = function (_i, _o) { };
-        _this.onTransformRestored = function (_s, _i, _o, _n, _p) { };
-        _this.plugins = [];
         return _this;
     }
-    /**
-     * Callback called when any asset added to pixi loader
-     */
-    Three.prototype.setOnAddLoaderAsset = function (callback) {
-        if (callback === void 0) { callback = function (_n, _a) { }; }
-        this.onAddLoaderAsset = callback;
-    };
-    /**
-     * Callback called when restoring a node to pixi container<br />
-     * If null is returned, default initiator creates pixi object.
-     */
-    Three.prototype.setOnRestoreNode = function (callback) {
-        if (callback === void 0) { callback = function (_n, _r) { return null; }; }
-        this.onRestoreNode = callback;
-    };
-    /**
-     * Callback called when each pixi object is instantiated
-     */
-    Three.prototype.setOnRuntimeObjectCreated = function (callback) {
-        if (callback === void 0) { callback = function (_i, _o) { }; }
-        this.onRuntimeObjectCreated = callback;
-    };
-    Three.prototype.setOnTransformRestored = function (callback) {
-        if (callback === void 0) { callback = function (_s, _i, _o, _n, _p) { }; }
-        this.onTransformRestored = callback;
-    };
     /**
      * Returns three class as initializer
      */
@@ -49878,66 +49861,39 @@ var Three = /** @class */ (function (_super) {
         return three__WEBPACK_IMPORTED_MODULE_0__["hasOwnProperty"](name);
     };
     /**
-     * Add plugin to extend import process.
-     */
-    Three.prototype.addPlugin = function (plugin) {
-        this.plugins.push(plugin);
-    };
-    /**
      * Import Schema and rebuild runtime node structure.<br />
      * Resources are automatically downloaded.<br />
      * Use createAssetMap if any customized workflow are preffered.
      */
     Three.prototype.import = function (schema, param1, param2) {
         var _this = this;
-        var callback;
-        var option;
-        if (param2) {
-            callback = param1;
-            option = param2;
-        }
-        else {
-            if (param1) {
-                if (param1.constructor.name === 'Function') {
-                    callback = param1;
-                    option = defaultImportOption;
-                }
-                else {
-                    callback = function (_) { };
-                    option = param1;
-                }
-            }
-            else {
-                callback = function (_) { };
-                option = defaultImportOption;
-            }
-        }
+        var option = this.assembleImportOption(param1, param2);
         var root = new three__WEBPACK_IMPORTED_MODULE_0__["Group"]();
         // create asset list to download
         var assets = this.createAssetMap(schema);
+        var loadingResourceCount = 0;
+        var onLoad = function () {
+            loadingResourceCount--;
+            if (loadingResourceCount <= 0) {
+                _this.restoreScene(root, schema, option.config);
+                option.callback(root);
+            }
+        };
         // load if any asset is required
         if (assets.size > 0) {
-            var loadingResourceCount_1 = 0;
-            var onLoad_1 = function () {
-                loadingResourceCount_1--;
-                if (loadingResourceCount_1 === 0) {
-                    _this.restoreScene(root, schema, option);
-                    callback(root);
-                }
-            };
             assets.forEach(function (asset) {
-                var loader = _this.getThreeLoaderByAssetType(asset.type);
-                loadingResourceCount_1++;
+                var loader = _this.getThreeLoaderByAssetType(asset.type, schema.metadata.format);
+                loadingResourceCount++;
                 // TODO: error handling
                 loader.load(asset.url, function (object) {
                     _this.resources.set(asset.url, object);
-                    onLoad_1();
-                }, undefined, onLoad_1.bind(_this));
+                    onLoad();
+                }, undefined, onLoad.bind(_this) // error calback
+                );
             });
         }
         else {
-            this.restoreScene(root, schema, option);
-            callback(root);
+            onLoad();
         }
         return root;
     };
@@ -49947,7 +49903,6 @@ var Three = /** @class */ (function (_super) {
      */
     Three.prototype.createAssetMap = function (schema) {
         var _this = this;
-        // resources
         var assets = new Map();
         var addLoaderAsset = function (node, url, type) {
             var asset = { url: url, type: type, name: url };
@@ -49960,116 +49915,36 @@ var Three = /** @class */ (function (_super) {
             if (node.meshRenderer) {
                 if (node.meshRenderer.mesh) {
                     var url = node.meshRenderer.mesh.url;
-                    var type = this.detectThreeAssetTypeByUrl(url);
+                    var type = this.detectThreeAssetTypeByUrl(url, schema.metadata.format);
                     addLoaderAsset(node, url, type);
                 }
-                /*
-                if (node.meshRenderer.materials) {
-                  for (let j = 0; j < node.meshRenderer.materials.length; j++) {
-                    const url = node.meshRenderer.materials[j].url;
-                    const type = this.detectThreeAssetTypeByUrl(url);
-                    addLoaderAsset(node, url, type);
-                  }
-                }
-                */
             }
         }
         return assets;
     };
-    Three.prototype.detectThreeAssetTypeByUrl = function (url) {
-        if (/\.fbx$/i.test(url)) {
-            return ThreeAssetTypes.FBX;
-        }
-        if (/\.mat$/i.test(url)) {
-            return ThreeAssetTypes.UNITY_MATERIAL;
-        }
-        return ThreeAssetTypes.UNKNOWN;
-    };
-    Three.prototype.getThreeLoaderByAssetType = function (type) {
-        var loader = this.loaderCache.get(type);
-        if (!loader) {
-            switch (type) {
-                case ThreeAssetTypes.FBX:
-                    loader = new runtime_three_loaders_FbxLoader__WEBPACK_IMPORTED_MODULE_2__["default"]();
-                    break;
-                case ThreeAssetTypes.UNITY_MATERIAL:
-                    loader = new runtime_three_loaders_TgaLoader__WEBPACK_IMPORTED_MODULE_3__["default"]();
-                    break;
-                case ThreeAssetTypes.UNKNOWN:
-                default:
-                    loader = new three__WEBPACK_IMPORTED_MODULE_0__["FileLoader"]();
-                    break;
-            }
-            this.loaderCache.set(type, loader);
-        }
-        return loader;
-    };
     /**
-     * Rstore pixi container to given root container from schema
+     * Restore three.js objects
      */
     Three.prototype.restoreScene = function (root, schema, option) {
         if (option === void 0) { option = defaultImportOption; }
         // map all nodes in schema first
         var nodeMap = this.createNodeMap(schema);
         // then instantiate all containers from node map
-        var objectMap = this.createThreeObjectMap(nodeMap);
+        var objectMap = this.createRuntimeObjectMap(nodeMap, this.resources);
         // restore transform in the end
         this.restoreTransform(root, schema, nodeMap, objectMap, option);
     };
     /**
-     * Extend scene graph with user plugins.
+     * Returns three.js object. <br />
+     * If any loader loads assets as three.js object, it will return cached object.
      */
-    Three.prototype.pluginPostProcess = function (schema, nodeMap, runtimeObjectMap, option) {
-        for (var i = 0; i < this.plugins.length; i++) {
-            var plugin = this.plugins[i];
-            plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
-        }
-    };
-    /**
-     * Map all nodes from given schema
-     */
-    Three.prototype.createNodeMap = function (schema) {
-        var nodeMap = new Map();
-        for (var i = 0; i < schema.scene.length; i++) {
-            var node = schema.scene[i];
-            nodeMap.set(node.id, node);
-        }
-        return nodeMap;
-    };
-    /**
-     * Create and map all Containers from given nodeMap
-     */
-    Three.prototype.createThreeObjectMap = function (nodeMap) {
-        var _this = this;
-        var objectMap = new Map();
-        nodeMap.forEach(function (node, id) {
-            // give prior to user custome initialization
-            var object = _this.onRestoreNode(node, _this.resources);
-            // then process default initialization
-            if (!object) {
-                object = _this.createThreeObject(node);
-            }
-            // skip if not supported
-            if (!object) {
-                return;
-            }
-            // name with node name if no name given
-            if (!object.name) {
-                object.name = node.name;
-            }
-            _this.onRuntimeObjectCreated(id, object);
-            objectMap.set(id, object);
-        });
-        return objectMap;
-    };
-    /**
-     * Create container instance from given node<br />
-     * Textures in loader.resources may be refered.
-     */
-    Three.prototype.createThreeObject = function (node) {
+    Three.prototype.createRuntimeObject = function (node, resources) {
         var object;
         if (node.meshRenderer && node.meshRenderer.mesh) {
-            object = this.resources.get(node.meshRenderer.mesh.url);
+            object = resources.get(node.meshRenderer.mesh.url);
+        }
+        else {
+            object = new three__WEBPACK_IMPORTED_MODULE_0__["Object3D"]();
         }
         return object;
     };
@@ -50116,8 +49991,53 @@ var Three = /** @class */ (function (_super) {
         });
     };
     Three.prototype.fixCoordinate = function (_schema, _obj, _node, _parentNode) {
+        // noop
     };
     Three.prototype.applyCoordinate = function (_schema, _obj, _node) {
+        // noop
+    };
+    /**
+     * Returns asset type used in three.js based on exported format
+     */
+    Three.prototype.detectThreeAssetTypeByUrl = function (url, format) {
+        // TODO: consider user extension
+        if (format === SupportedExportFormat.UNITY) {
+            if (/\.fbx$/i.test(url)) {
+                return AssetTypes.Unity.FBX;
+            }
+            if (/\.mat$/i.test(url)) {
+                return AssetTypes.Unity.MATERIAL;
+            }
+        }
+        return AssetTypes.Default.UNKNOWN;
+    };
+    /**
+     * three.js have multiple loader types for each asset type.
+     * This method returns a loader instance by asset type.
+     */
+    Three.prototype.getThreeLoaderByAssetType = function (type, format) {
+        var loader = this.loaderCache.get(type);
+        if (!loader) {
+            if (format === SupportedExportFormat.UNITY) {
+                switch (type) {
+                    case AssetTypes.Unity.FBX:
+                        loader = new runtime_three_loaders_FbxLoader__WEBPACK_IMPORTED_MODULE_2__["default"]();
+                        break;
+                    case AssetTypes.Unity.MATERIAL:
+                        loader = new runtime_three_loaders_TgaLoader__WEBPACK_IMPORTED_MODULE_3__["default"]();
+                        break;
+                    case AssetTypes.Unity.UNKNOWN:
+                    default:
+                        loader = new three__WEBPACK_IMPORTED_MODULE_0__["FileLoader"]();
+                        break;
+                }
+            }
+            else {
+                loader = new three__WEBPACK_IMPORTED_MODULE_0__["FileLoader"]();
+            }
+            this.loaderCache.set(type, loader);
+        }
+        return loader;
     };
     return Three;
 }(importer_Importer__WEBPACK_IMPORTED_MODULE_1__["Importer"]));

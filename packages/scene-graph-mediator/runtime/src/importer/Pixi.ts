@@ -1,10 +1,8 @@
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
-import ImporterPlugin from '../interface/ImporterPlugin';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
 import { LayoutComponent } from './component/Layout';
 
-type NodeMap      = Map<string, Node>;
 type ContainerMap = Map<string, PIXI.Container>;
 
 const defaultImportOption: ImportOption = {
@@ -35,62 +33,6 @@ export default class Pixi extends Importer {
   }
 
   /**
-   * Callback called when any asset added to pixi loader
-   */
-  public setOnAddLoaderAsset(
-    callback: (node: Node, asset: { url: string, name: string }) => void = (_n, _a) => {}
-  ): void {
-    this.onAddLoaderAsset = callback;
-  }
-
-  /**
-   * Callback called when restoring a node to pixi container<br />
-   * If null is returned, default initiator creates pixi object.
-   */
-  public setOnRestoreNode(
-    callback: (node: Node, resources: any) => any | null | undefined = (_n, _r) => { return null; }
-  ): void {
-    this.onRestoreNode = callback;
-  }
-
-  /**
-   * Callback called when each pixi object is instantiated
-   */
-  public setOnRuntimeObjectCreated(
-    callback: (id: string, obj: any) => void = (_i, _o) => {}
-  ): void {
-    this.onPixiObjectCreated = callback;
-  }
-
-  public setOnTransformRestored(
-    callback: (
-      schema: SchemaJson,
-      id: string,
-      obj: any,
-      node: Node,
-      parentNode?: Node
-    ) => void = (_s, _i, _o, _n, _p) => {}
-  ): void {
-    this.onTransformRestored = callback;
-  }
-
-  private onAddLoaderAsset: (node: Node, asset: { url: string, name: string }) => void
-    = (_node: Node, _asset: { url: string, name: string }) => {}
-  private onRestoreNode: (node: Node, resources: any) => any | null | undefined
-    = (_n, _r) => { return null; }
-  private onPixiObjectCreated: (id: string, obj: any) => void
-    = (_i, _o) => {}
-  private onTransformRestored: (
-    schema: SchemaJson,
-    id: string,
-    obj: any,
-    node: Node,
-    parentNode?: Node
-  ) => void = (_s, _i, _o, _n, _p) => {}
-
-  private plugins: ImporterPlugin[] = [];
-
-  /**
    * Returns atlas resource name with node id
    */
   public getAtlasResourceNameByNodeId(id: string): string { return `${id}_atlas`; }
@@ -110,13 +52,6 @@ export default class Pixi extends Importer {
   }
 
   /**
-   * Add plugin to extend import process.
-   */
-  public addPlugin(plugin: ImporterPlugin): void {
-    this.plugins.push(plugin);
-  }
-
-  /**
    * Import Schema and rebuild runtime node structure.<br />
    * Resources are automatically downloaded.<br />
    * Use createAssetMap if any customized workflow are preffered.
@@ -126,26 +61,7 @@ export default class Pixi extends Importer {
     param1?: (root: any) => void | ImportOption,
     param2?: ImportOption
   ): any {
-    let callback: (root: any) => void;
-    let option: ImportOption;
-
-    if (param2) {
-      callback = param1 as any;
-      option   = param2;
-    } else {
-      if (param1) {
-        if (param1.constructor.name === 'Function') {
-          callback = param1;
-          option   = defaultImportOption;
-        } else {
-          callback = (_) => {};
-          option   = param1 as any;
-        }
-      } else {
-        callback = (_) => {};
-        option   = defaultImportOption;
-      }
-    }
+    const option = this.assembleImportOption(param1, param2);
 
     const root = new PIXI.Container();
 
@@ -157,12 +73,12 @@ export default class Pixi extends Importer {
       assets.forEach((asset) => { PIXI.loader.add(asset); });
 
       PIXI.loader.load(() => {
-        this.restoreScene(root, schema, option);
-        callback(root);
+        this.restoreScene(root, schema, option.config);
+        option.callback(root);
       });
     } else {
-      this.restoreScene(root, schema, option);
-      callback(root);
+      this.restoreScene(root, schema, option.config);
+      option.callback(root);
     }
 
     return root;
@@ -217,7 +133,7 @@ export default class Pixi extends Importer {
     // map all nodes in schema first
     const nodeMap = this.createNodeMap(schema);
     // then instantiate all containers from node map
-    const containerMap = this.createContainerMap(nodeMap, PIXI.loader.resources);
+    const containerMap = this.createRuntimeObjectMap(nodeMap, PIXI.loader.resources);
     // restore renderer
     this.restoreRenderer(nodeMap, containerMap);
     // restore transform in the end
@@ -225,70 +141,10 @@ export default class Pixi extends Importer {
   }
 
   /**
-   * Extend scene graph with user plugins.
-   */
-  public pluginPostProcess(
-    schema: SchemaJson,
-    nodeMap: Map<string, Node>,
-    runtimeObjectMap: Map<string, any>,
-    option: ImportOption
-  ): void {
-    for (let i = 0; i < this.plugins.length; i++) {
-      const plugin = this.plugins[i];
-      plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
-    }
-  }
-
-  /**
-   * Map all nodes from given schema
-   */
-  private createNodeMap(schema: SchemaJson): NodeMap {
-    const nodeMap = new Map<string, Node>();
-    for (let i = 0; i < schema.scene.length; i++) {
-      const node = schema.scene[i];
-      nodeMap.set(node.id, node);
-    }
-    return nodeMap;
-  }
-
-  /**
-   * Create and map all Containers from given nodeMap
-   */
-  private createContainerMap(nodeMap: NodeMap, resources: any): ContainerMap {
-    const containerMap = new Map<string, PIXI.Container>();
-
-    nodeMap.forEach((node, id) => {
-      // give prior to user custome initialization
-      let object = this.onRestoreNode(node, resources);
-
-      // then process default initialization
-      if (!object) {
-        object = this.createContainer(node, resources);
-      }
-
-      // skip if not supported
-      if (!object) {
-        return;
-      }
-
-      // name with node name if no name given
-      if (!object.name) {
-        object.name = node.name;
-      }
-
-      this.onPixiObjectCreated(id, object);
-
-      containerMap.set(id, object);
-    });
-
-    return containerMap;
-  }
-
-  /**
    * Create container instance from given node<br />
    * Textures in loader.resources may be refered.
    */
-  private createContainer(node: Node, resources: any): any {
+  public createRuntimeObject(node: Node, resources: any): any {
     let object: any;
 
     if (node.spine) {
@@ -351,7 +207,7 @@ export default class Pixi extends Importer {
   private restoreTransform(
     root: PIXI.Container,
     schema: SchemaJson,
-    nodeMap: NodeMap,
+    nodeMap: Map<string, Node>,
     containerMap: ContainerMap,
     option: ImportOption = defaultImportOption
   ): void {
@@ -432,7 +288,7 @@ export default class Pixi extends Importer {
     PropertyConverter.applyConvertedObject(obj, convertedValues);
   }
 
-  private restoreRenderer(nodeMap: NodeMap, containerMap: ContainerMap): void {
+  private restoreRenderer(nodeMap: Map<string, Node>, containerMap: ContainerMap): void {
     containerMap.forEach((container, id) => {
       // node that is not from schema
       const node = nodeMap.get(id);

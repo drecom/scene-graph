@@ -1,7 +1,6 @@
 /// <reference types="pixi.js" />
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
-import ImporterPlugin from '../interface/ImporterPlugin';
 declare module 'pixi.js' {
     interface Container {
         sgmed?: {
@@ -21,28 +20,6 @@ export default class Pixi extends Importer {
      */
     private static isDefaultColor;
     /**
-     * Callback called when any asset added to pixi loader
-     */
-    setOnAddLoaderAsset(callback?: (node: Node, asset: {
-        url: string;
-        name: string;
-    }) => void): void;
-    /**
-     * Callback called when restoring a node to pixi container<br />
-     * If null is returned, default initiator creates pixi object.
-     */
-    setOnRestoreNode(callback?: (node: Node, resources: any) => any | null | undefined): void;
-    /**
-     * Callback called when each pixi object is instantiated
-     */
-    setOnRuntimeObjectCreated(callback?: (id: string, obj: any) => void): void;
-    setOnTransformRestored(callback?: (schema: SchemaJson, id: string, obj: any, node: Node, parentNode?: Node) => void): void;
-    private onAddLoaderAsset;
-    private onRestoreNode;
-    private onPixiObjectCreated;
-    private onTransformRestored;
-    private plugins;
-    /**
      * Returns atlas resource name with node id
      */
     getAtlasResourceNameByNodeId(id: string): string;
@@ -54,10 +31,6 @@ export default class Pixi extends Importer {
      * Returns if pixi has property with given name
      */
     hasInitiator(name: string): boolean;
-    /**
-     * Add plugin to extend import process.
-     */
-    addPlugin(plugin: ImporterPlugin): void;
     /**
      * Import Schema and rebuild runtime node structure.<br />
      * Resources are automatically downloaded.<br />
@@ -77,22 +50,10 @@ export default class Pixi extends Importer {
      */
     restoreScene(root: PIXI.Container, schema: SchemaJson, option?: ImportOption): void;
     /**
-     * Extend scene graph with user plugins.
-     */
-    pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
-    /**
-     * Map all nodes from given schema
-     */
-    private createNodeMap;
-    /**
-     * Create and map all Containers from given nodeMap
-     */
-    private createContainerMap;
-    /**
      * Create container instance from given node<br />
      * Textures in loader.resources may be refered.
      */
-    private createContainer;
+    createRuntimeObject(node: Node, resources: any): any;
     /**
      * Restore transform<br />
      * Process this method after applying textures

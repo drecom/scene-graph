@@ -1,37 +1,23 @@
 import * as THREE from 'three';
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from 'importer/Importer';
-import ImporterPlugin from 'interface/ImporterPlugin';
 declare type ThreeAssetInfo = {
     url: string;
     name: string;
     type: string;
 };
 /**
- * Pixi implementation of Importer
+ * Three implementation of Importer
  */
 export default class Three extends Importer {
+    /**
+     * container for loader instance caches
+     */
     private loaderCache;
+    /**
+     * container for loaded resource caches
+     */
     private resources;
-    /**
-     * Callback called when any asset added to pixi loader
-     */
-    setOnAddLoaderAsset(callback?: (node: Node, asset: ThreeAssetInfo) => void): void;
-    /**
-     * Callback called when restoring a node to pixi container<br />
-     * If null is returned, default initiator creates pixi object.
-     */
-    setOnRestoreNode(callback?: (node: Node, resources: any) => any | null | undefined): void;
-    /**
-     * Callback called when each pixi object is instantiated
-     */
-    setOnRuntimeObjectCreated(callback?: (id: string, obj: any) => void): void;
-    setOnTransformRestored(callback?: (schema: SchemaJson, id: string, obj: any, node: Node, parentNode?: Node) => void): void;
-    private onAddLoaderAsset;
-    private onRestoreNode;
-    private onRuntimeObjectCreated;
-    private onTransformRestored;
-    private plugins;
     /**
      * Returns three class as initializer
      */
@@ -40,10 +26,6 @@ export default class Three extends Importer {
      * Returns if pixi has property with given name
      */
     hasInitiator(name: string): boolean;
-    /**
-     * Add plugin to extend import process.
-     */
-    addPlugin(plugin: ImporterPlugin): void;
     /**
      * Import Schema and rebuild runtime node structure.<br />
      * Resources are automatically downloaded.<br />
@@ -55,29 +37,15 @@ export default class Three extends Importer {
      * Users can use this method and restoreScene individually to inject custom pipeline.
      */
     createAssetMap(schema: SchemaJson): Map<string, ThreeAssetInfo>;
-    private detectThreeAssetTypeByUrl;
-    private getThreeLoaderByAssetType;
     /**
-     * Rstore pixi container to given root container from schema
+     * Restore three.js objects
      */
     restoreScene(root: THREE.Group, schema: SchemaJson, option?: ImportOption): void;
     /**
-     * Extend scene graph with user plugins.
+     * Returns three.js object. <br />
+     * If any loader loads assets as three.js object, it will return cached object.
      */
-    pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
-    /**
-     * Map all nodes from given schema
-     */
-    private createNodeMap;
-    /**
-     * Create and map all Containers from given nodeMap
-     */
-    private createThreeObjectMap;
-    /**
-     * Create container instance from given node<br />
-     * Textures in loader.resources may be refered.
-     */
-    private createThreeObject;
+    createRuntimeObject(node: Node, resources: any): any;
     /**
      * Restore transform<br />
      * Process this method after applying textures
@@ -86,5 +54,14 @@ export default class Three extends Importer {
     private restoreTransform;
     fixCoordinate(_schema: SchemaJson, _obj: any, _node: Node, _parentNode?: Node): void;
     applyCoordinate(_schema: SchemaJson, _obj: any, _node: Node): void;
+    /**
+     * Returns asset type used in three.js based on exported format
+     */
+    private detectThreeAssetTypeByUrl;
+    /**
+     * three.js have multiple loader types for each asset type.
+     * This method returns a loader instance by asset type.
+     */
+    private getThreeLoaderByAssetType;
 }
 export {};
