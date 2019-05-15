@@ -28,6 +28,7 @@ export interface Node {
   sprite?: Sprite;
   text?: Text;
   layout?: Layout;
+  canvas?: Canvas;
   [k: string]: any;
 }
 export interface Transform {
@@ -117,5 +118,13 @@ export interface Layout {
   spacingY?: number;
   verticalDirection?: number;
   horizontalDirection?: number;
+  [k: string]: any;
+}
+export interface Canvas {
+  designResolution: {
+    width: number;
+    height: number;
+    [k: string]: any;
+  };
   [k: string]: any;
 }
