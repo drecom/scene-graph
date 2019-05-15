@@ -190,9 +190,15 @@ var CocosCreator = /** @class */ (function () {
                 }
             }
             var transform = _this.createDefaultTransform(node);
-            if (node.__type__ !== cc.MetaTypes.NODE || isCanvas) {
+            if (node.__type__ !== cc.MetaTypes.NODE) {
                 transform.x = 0;
                 transform.y = 0;
+            }
+            if (isCanvas) {
+                transform.x = (transform.width || 0) * transform.anchor.x;
+                transform.y = (transform.height || 0) * transform.anchor.y;
+                transform.width = 0;
+                transform.height = 0;
             }
             if (node._rotationX !== node._rotationY) {
                 transform.rotation = 0;
