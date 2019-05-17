@@ -323,6 +323,7 @@ var Importer = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var importer_Importer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! importer/Importer */ "./src/importer/Importer.ts");
 /* harmony import */ var _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../property_converter/Pixi */ "./src/property_converter/Pixi.ts");
+/* harmony import */ var _component_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./component/Layout */ "./src/importer/component/Layout.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -333,6 +334,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 var defaultImportOption = {
@@ -555,13 +557,15 @@ var Pixi = /** @class */ (function (_super) {
             // object = new PIXI.spine.Spine(resources[node.id].data);
         }
         else if (node.sprite) {
-            // TODO: base64 image
             var texture = null;
             if (node.sprite.atlasUrl && node.sprite.frameName) {
                 texture = PIXI.Texture.fromFrame(node.sprite.frameName);
             }
             else if (node.sprite.url) {
                 texture = resources[node.sprite.url].texture;
+            }
+            else if (node.sprite.base64) {
+                texture = PIXI.Texture.fromImage(node.sprite.base64);
             }
             if (!texture) {
                 return null;
@@ -643,11 +647,19 @@ var Pixi = /** @class */ (function (_super) {
             };
             if (option.autoCoordinateFix) {
                 // scene-graph-mediator extended properties
-                _this.fixCoordinate(schema, container, node, parentNode);
+                _this.fixCoordinate(schema, container, node);
             }
             else {
                 _this.applyCoordinate(schema, container, node);
             }
+        });
+        // update under Layout component node
+        containerMap.forEach(function (container, id) {
+            var node = nodeMap.get(id);
+            if (!node || !node.layout) {
+                return;
+            }
+            _component_Layout__WEBPACK_IMPORTED_MODULE_2__["LayoutComponent"].fixLayout(container, node);
         });
         this.pluginPostProcess(schema, nodeMap, containerMap, option);
         containerMap.forEach(function (container, id) {
@@ -659,9 +671,9 @@ var Pixi = /** @class */ (function (_super) {
             _this.onTransformRestored(schema, id, container, node, parentNode);
         });
     };
-    Pixi.prototype.fixCoordinate = function (schema, obj, node, parentNode) {
+    Pixi.prototype.fixCoordinate = function (schema, obj, node) {
         var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].createConvertedObject(schema, node.transform);
-        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].fixCoordinate(obj, convertedValues, node, parentNode);
+        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].fixCoordinate(schema, convertedValues, node);
         _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].applyConvertedObject(obj, convertedValues);
     };
     Pixi.prototype.applyCoordinate = function (schema, obj, node) {
@@ -703,6 +715,222 @@ var Pixi = /** @class */ (function (_super) {
     return Pixi;
 }(importer_Importer__WEBPACK_IMPORTED_MODULE_0__["Importer"]));
 /* harmony default export */ __webpack_exports__["default"] = (Pixi);
+
+
+/***/ }),
+
+/***/ "./src/importer/component/Layout.ts":
+/*!******************************************!*\
+  !*** ./src/importer/component/Layout.ts ***!
+  \******************************************/
+/*! exports provided: LayoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutComponent", function() { return LayoutComponent; });
+var LayoutType;
+(function (LayoutType) {
+    LayoutType[LayoutType["NONE"] = 0] = "NONE";
+    LayoutType[LayoutType["HORIZONTAL"] = 1] = "HORIZONTAL";
+    LayoutType[LayoutType["VERTICAL"] = 2] = "VERTICAL";
+    LayoutType[LayoutType["GRID"] = 3] = "GRID";
+})(LayoutType || (LayoutType = {}));
+var AxisDirection;
+(function (AxisDirection) {
+    AxisDirection[AxisDirection["HORIZONTAL"] = 0] = "HORIZONTAL";
+    AxisDirection[AxisDirection["VERTICAL"] = 1] = "VERTICAL";
+})(AxisDirection || (AxisDirection = {}));
+var VerticalDirection;
+(function (VerticalDirection) {
+    VerticalDirection[VerticalDirection["BOTTOM_TO_TOP"] = 0] = "BOTTOM_TO_TOP";
+    VerticalDirection[VerticalDirection["TOP_TO_BOTTOM"] = 1] = "TOP_TO_BOTTOM";
+})(VerticalDirection || (VerticalDirection = {}));
+var HorizontalDirection;
+(function (HorizontalDirection) {
+    HorizontalDirection[HorizontalDirection["LEFT_TO_RIGHT"] = 0] = "LEFT_TO_RIGHT";
+    HorizontalDirection[HorizontalDirection["RIGHT_TO_LEFT"] = 1] = "RIGHT_TO_LEFT";
+})(HorizontalDirection || (HorizontalDirection = {}));
+// resize not supported.
+// enum ResizeMode {
+//   NONE = 0,
+//   CONTAINER = 1,
+//   CHILDREN = 2
+// }
+var LayoutComponent = /** @class */ (function () {
+    function LayoutComponent() {
+    }
+    LayoutComponent.fixLayout = function (container, node) {
+        if (!node || !node.layout) {
+            return;
+        }
+        switch (node.layout.layoutType) {
+            case LayoutType.HORIZONTAL: {
+                this.fixHorizontal(container, node);
+                break;
+            }
+            case LayoutType.VERTICAL: {
+                this.fixVertical(container, node);
+                break;
+            }
+            case LayoutType.GRID: {
+                this.fixGrid(container, node);
+                return;
+            }
+            default:
+                return;
+        }
+    };
+    LayoutComponent.fixHorizontal = function (container, node) {
+        var _this = this;
+        if (!node || !node.layout) {
+            return;
+        }
+        var baseWidth = node.transform.width || 0;
+        if (baseWidth <= 0) {
+            return;
+        }
+        var layout = node.layout;
+        var offsetX = this.calcLayoutBasePointX(layout, baseWidth);
+        container.children.forEach(function (child) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
+                return;
+            }
+            var childWidth = childContainer.width * child.scale.x;
+            var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+            child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+            offsetX = _this.calcOffsetX(layout, childWidth, offsetX);
+        });
+    };
+    LayoutComponent.fixVertical = function (container, node) {
+        var _this = this;
+        if (!node || !node.layout) {
+            return;
+        }
+        var baseHeight = node.transform.height || 0;
+        if (baseHeight <= 0) {
+            return;
+        }
+        var layout = node.layout;
+        var offsetY = this.calcLayoutBasePointY(layout, baseHeight);
+        container.children.forEach(function (child) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
+                return;
+            }
+            var childHeight = childContainer.height * child.scale.y;
+            var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+            child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+            offsetY = _this.calcOffsetY(layout, childHeight, offsetY);
+        });
+    };
+    LayoutComponent.fixGrid = function (container, node) {
+        var _this = this;
+        if (!node || !node.layout) {
+            return;
+        }
+        var baseWidth = node.transform.width || 0;
+        var baseHeight = node.transform.height || 0;
+        if (baseWidth <= 0 || baseHeight <= 0) {
+            return;
+        }
+        var layout = node.layout;
+        var basePointX = this.calcLayoutBasePointX(layout, baseWidth);
+        var basePointY = this.calcLayoutBasePointY(layout, baseHeight);
+        var horizontalPadding = (layout.paddingLeft || 0) + (layout.paddingRight || 0);
+        var verticalPadding = (layout.paddingBottom || 0) + (layout.paddingTop || 0);
+        var offsetX = basePointX;
+        var offsetY = basePointY;
+        container.children.forEach(function (child) {
+            var childContainer = child;
+            if (!childContainer || !childContainer.sgmed) {
+                return;
+            }
+            var childWidth = Math.abs(childContainer.width * child.scale.x);
+            var childHeight = Math.abs(childContainer.height * child.scale.y);
+            var maxSize = 0;
+            if (layout.startAxis === AxisDirection.HORIZONTAL) {
+                maxSize = Math.max(maxSize, childHeight, 0);
+                var rowSize = Math.abs(offsetX - basePointX) + childWidth + horizontalPadding;
+                if (baseWidth <= rowSize) {
+                    // wrap
+                    if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+                        offsetY -= maxSize + (layout.spacingY || 0);
+                    }
+                    else {
+                        offsetY += maxSize + (layout.spacingY || 0);
+                    }
+                    offsetX = basePointX;
+                    maxSize = 0;
+                }
+                var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+                var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+                child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+                child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+                offsetX = _this.calcOffsetX(layout, childWidth, offsetX);
+            }
+            else {
+                maxSize = Math.max(maxSize, childWidth, 0);
+                var columnSize = Math.abs(offsetY - basePointY) + childHeight + verticalPadding;
+                if (baseHeight <= columnSize) {
+                    // wrap
+                    if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+                        offsetX += maxSize + (layout.spacingX || 0);
+                    }
+                    else {
+                        offsetX -= maxSize + (layout.spacingX || 0);
+                    }
+                    offsetY = basePointY;
+                    maxSize = 0;
+                }
+                var ancherX = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.x : 0;
+                var ancherY = childContainer.sgmed.anchor ? childContainer.sgmed.anchor.y : 0;
+                child.position.x = _this.calcPositionX(layout, ancherX, childWidth, offsetX);
+                child.position.y = _this.calcPositionY(layout, ancherY, childHeight, offsetY);
+                offsetY = _this.calcOffsetY(layout, childHeight, offsetY);
+            }
+        });
+    };
+    LayoutComponent.calcLayoutBasePointX = function (layout, baseWidth) {
+        if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+            return layout.paddingLeft || 0;
+        }
+        return baseWidth + (layout.paddingRight || 0);
+    };
+    LayoutComponent.calcLayoutBasePointY = function (layout, baseHeight) {
+        if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+            return baseHeight + (layout.paddingBottom || 0);
+        }
+        return layout.paddingTop || 0;
+    };
+    LayoutComponent.calcPositionX = function (layout, anchorX, width, offsetX) {
+        if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+            return offsetX + anchorX * width;
+        }
+        return offsetX - (1 - anchorX) * width;
+    };
+    LayoutComponent.calcPositionY = function (layout, anchorY, height, offsetY) {
+        if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+            return offsetY - (1 - anchorY) * height;
+        }
+        return offsetY + anchorY * height;
+    };
+    LayoutComponent.calcOffsetX = function (layout, width, currentOffsetX) {
+        if (layout.horizontalDirection === HorizontalDirection.LEFT_TO_RIGHT) {
+            return currentOffsetX + width + (layout.spacingX || 0);
+        }
+        return currentOffsetX - (width + (layout.spacingX || 0));
+    };
+    LayoutComponent.calcOffsetY = function (layout, height, currentOffsetY) {
+        if (layout.verticalDirection === VerticalDirection.BOTTOM_TO_TOP) {
+            return currentOffsetY - (height + (layout.spacingY || 0));
+        }
+        return currentOffsetY + height + (layout.spacingY || 0);
+    };
+    return LayoutComponent;
+}());
+
 
 
 /***/ }),
@@ -794,30 +1022,20 @@ var Pixi = {
             rotation: (transform.rotation) ? transform.rotation * DEGREE_TO_RADIAN : 0
         };
     },
-    fixCoordinate: function (target, convertedObject, node, parentNode) {
-        var transform = node.transform;
-        if (parentNode) {
-            var scale = transform.scale || { x: 1, y: 1 };
-            convertedObject.position.x += ((parentNode.transform.width || 0) - (transform.width || 0) * scale.x) * transform.anchor.x;
-            convertedObject.position.y += ((parentNode.transform.height || 0) - (transform.height || 0) * scale.y) * transform.anchor.y;
-        }
-        if (target.anchor) {
-            var size = {
-                width: target.width,
-                height: target.height
+    fixCoordinate: function (schema, convertedObject, node) {
+        if (!node.transform.parent) {
+            var sceneBasePoint = {
+                width: schema.metadata.positiveCoord.xRight ? 0 : schema.metadata.width,
+                height: schema.metadata.positiveCoord.yDown ? 0 : schema.metadata.height
             };
-            // should calcurate with original size
-            // TODO: text exclusion may be Cocos specific feature
-            if (target.texture && !node.text) {
-                size.width = target.texture.width;
-                size.height = target.texture.height;
-            }
-            if (transform.width !== undefined && transform.height !== undefined) {
-                size.width = transform.width;
-                size.height = transform.height;
-            }
-            convertedObject.position.x += size.width * convertedObject.scale.x * transform.anchor.x;
-            convertedObject.position.y += size.height * convertedObject.scale.y * transform.anchor.y;
+            convertedObject.position.x += sceneBasePoint.width;
+            convertedObject.position.y += sceneBasePoint.height;
+        }
+        else if (node.sprite && node.sprite.slice) {
+            var transform = node.transform;
+            var scale = transform.scale || { x: 1, y: 1 };
+            convertedObject.position.x -= (transform.width || 0) * scale.x * transform.anchor.x;
+            convertedObject.position.y -= (transform.height || 0) * scale.y * transform.anchor.y;
         }
     },
     applyConvertedObject: function (target, convertedObject) {
