@@ -392,7 +392,7 @@ export default class Pixi extends Importer {
 
       if (option.autoCoordinateFix) {
         // scene-graph-mediator extended properties
-        this.fixCoordinate(schema, container, node, parentNode);
+        this.fixCoordinate(schema, container, node);
       } else {
         this.applyCoordinate(schema, container, node);
       }
@@ -422,9 +422,9 @@ export default class Pixi extends Importer {
     });
   }
 
-  public fixCoordinate(schema: SchemaJson, obj: any, node: Node, parentNode?: Node): void {
+  public fixCoordinate(schema: SchemaJson, obj: any, node: Node): void {
     const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform);
-    PropertyConverter.fixCoordinate(obj, convertedValues, node, parentNode);
+    PropertyConverter.fixCoordinate(schema, convertedValues, node);
     PropertyConverter.applyConvertedObject(obj, convertedValues);
   }
   public applyCoordinate(schema: SchemaJson, obj: any, node: Node): void {

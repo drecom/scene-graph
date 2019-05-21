@@ -43,44 +43,22 @@ export const Pixi: PropertyConverter.Interface = {
   },
 
   fixCoordinate: (
-    target: any,
+    schema: SchemaJson,
     convertedObject: ConvertedObject,
-    node: Node,
-    parentNode?: Node
+    node: Node
   ): void => {
-    const transform = node.transform;
-
-    if (parentNode) {
-      const scale = transform.scale || { x: 1, y: 1 };
-
-      convertedObject.position.x += (
-        (parentNode.transform.width  || 0) - (transform.width  || 0) * scale.x
-      ) * transform.anchor.x;
-      convertedObject.position.y += (
-        (parentNode.transform.height || 0) - (transform.height || 0) * scale.y
-      ) * transform.anchor.y;
-    }
-
-    if (target.anchor) {
-      const size = {
-        width: target.width,
-        height: target.height
+    if (!node.transform.parent) {
+      const sceneBasePoint = {
+        x: schema.metadata.positiveCoord.xRight ? 0 : schema.metadata.width,
+        y: schema.metadata.positiveCoord.yDown  ? 0 : schema.metadata.height
       };
-
-      // should calcurate with original size
-      // TODO: text exclusion may be Cocos specific feature
-      if (target.texture && !node.text) {
-        size.width  = target.texture.width;
-        size.height = target.texture.height;
-      }
-
-      if (transform.width !== undefined && transform.height !== undefined) {
-        size.width  = transform.width;
-        size.height = transform.height;
-      }
-
-      convertedObject.position.x += size.width  * convertedObject.scale.x * transform.anchor.x;
-      convertedObject.position.y += size.height * convertedObject.scale.y * transform.anchor.y;
+      convertedObject.position.x += sceneBasePoint.x;
+      convertedObject.position.y += sceneBasePoint.y;
+    } else if (node.sprite && node.sprite.slice) {
+      const transform = node.transform;
+      const scale = transform.scale || { x: 1, y: 1 };
+      convertedObject.position.x -= (transform.width  || 0) * scale.x * transform.anchor.x;
+      convertedObject.position.y -= (transform.height || 0) * scale.y * transform.anchor.y;
     }
   },
 

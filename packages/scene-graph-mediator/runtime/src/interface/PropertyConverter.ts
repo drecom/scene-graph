@@ -5,10 +5,9 @@ declare namespace PropertyConverter {
     createConvertedObject: (schema: SchemaJson, transform: Transform) => any;
 
     fixCoordinate: (
-      target: any,
+      schema: SchemaJson,
       convertedObject: any,
       node: Node,
-      parentNode?: Node
     ) => void;
 
     applyConvertedObject: (target: any, convertedObject: any) => void;

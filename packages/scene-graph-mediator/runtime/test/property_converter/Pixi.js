@@ -6,8 +6,8 @@ import { Pixi } from 'property_converter/Pixi';
 const sceneFixture = {
   scene: [],
   metadata: {
-    width: 0,
-    height: 0,
+    width: 640,
+    height: 1136,
     positiveCoord: {
       xRight: true,
       yDown:true
@@ -151,68 +151,46 @@ describe('Pixi', () => {
         }
       }
     };
-
-
-    describe('when first argument has anchor', () => {
-      const target = {
-        width: 100,
-        height: 100,
+    const canvasNode = {
+      transform: {
+        width: 0,
+        height: 0,
+        x: 320,
+        y: 568,
+        scale: {
+          x: 1.0,
+          y: 1.0
+        },
         anchor: {
           x: 0.5,
           y: 0.5
         }
-      };
+      }
+    };
 
+    describe('when given a node without a parent', () => {
       it ('should modify position of second argument', () => {
         subjectBase.position.x = baseX;
         subjectBase.position.y = baseY;
         const subject = Object.assign({}, subjectBase);
 
-        Pixi.fixCoordinate(target, subject, node);
+        Pixi.fixCoordinate(sceneFixture, subject, node);
 
         assert.notStrictEqual(subject.position.x, baseX);
         assert.notStrictEqual(subject.position.y, baseY);
       });
     });
-
-    describe('when 4th argument with transform.width/height was given', () => {
-      const parentNode = {
-        transform: {
-          width: 200,
-          height: 200,
-          scale: {
-            x: 1.0,
-            y: 1.0
-          },
-          anchor: {
-            x: 0.5,
-            y: 0.5
-          }
-        }
-      };
-
+    
+    describe('when given a canvas node', () => {
       it ('should modify position of second argument', () => {
         subjectBase.position.x = baseX;
         subjectBase.position.y = baseY;
         const subject = Object.assign({}, subjectBase);
 
-        Pixi.fixCoordinate({}, subject, node, parentNode);
+        Pixi.fixCoordinate(sceneFixture, subject, canvasNode);
 
         assert.notStrictEqual(subject.position.x, baseX);
         assert.notStrictEqual(subject.position.y, baseY);
-      });
-    });
-
-    describe('when 4th argument was not given', () => {
-      it ('should not modify position of second argument', () => {
-        subjectBase.position.x = baseX;
-        subjectBase.position.y = baseY;
-        const subject = Object.assign({}, subjectBase);
-
-        Pixi.fixCoordinate({}, subject, node);
-
-        assert.strictEqual(subject.position.x, baseX);
-        assert.strictEqual(subject.position.y, baseY);
       });
     });
   });
