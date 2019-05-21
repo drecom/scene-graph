@@ -1025,11 +1025,11 @@ var Pixi = {
     fixCoordinate: function (schema, convertedObject, node) {
         if (!node.transform.parent) {
             var sceneBasePoint = {
-                width: schema.metadata.positiveCoord.xRight ? 0 : schema.metadata.width,
-                height: schema.metadata.positiveCoord.yDown ? 0 : schema.metadata.height
+                x: schema.metadata.positiveCoord.xRight ? 0 : schema.metadata.width,
+                y: schema.metadata.positiveCoord.yDown ? 0 : schema.metadata.height
             };
-            convertedObject.position.x += sceneBasePoint.width;
-            convertedObject.position.y += sceneBasePoint.height;
+            convertedObject.position.x += sceneBasePoint.x;
+            convertedObject.position.y += sceneBasePoint.y;
         }
         else if (node.sprite && node.sprite.slice) {
             var transform = node.transform;
