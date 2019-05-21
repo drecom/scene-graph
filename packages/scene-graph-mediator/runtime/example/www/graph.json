@@ -5,10 +5,10 @@
       "name": "Canvas",
       "constructorName": "cc.Node",
       "transform": {
-        "width": 640,
-        "height": 1136,
-        "x": 0,
-        "y": 0,
+        "width": 0,
+        "height": 0,
+        "x": 320,
+        "y": 568,
         "rotation": 0,
         "scale": {
           "x": 1,
