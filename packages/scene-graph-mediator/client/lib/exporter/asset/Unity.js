@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 /**
- * CocosCreator scene exporter
+ * Unity scene exporter
  */
 var Unity = /** @class */ (function () {
     function Unity() {

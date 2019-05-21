@@ -3,7 +3,7 @@ import AssetExporter from '../../interface/AssetExporter';
 import AssetExporterPlugin from '../../interface/AssetExporterPlugin';
 import AssetExportMapEntity from '../../interface/AssetExportMapEntity';
 /**
- * CocosCreator scene exporter
+ * Unity scene exporter
  */
 export default class Unity implements AssetExporter {
     /**

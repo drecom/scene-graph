@@ -19,10 +19,12 @@
     "build:lib": "tsc -p .",
     "build:docs": "typedoc 'src/'",
     "test:lint": "tslint -p tsconfig.json --format stylish 'src/**/*.ts*'",
-    "test:unit": "mocha -r ts-node/register test/**/*.test.ts",
+    "test:unit": "mocha -r ts-node/register $(find test | grep .test.ts)",
+    "test:cov:unit": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register $(find test | grep .test.ts) && nyc report",
+    "test:cov:report": "nyc report",
     "test:unit:watch": "karma start --auto-watch --no-single-run",
     "workflow:build": "npm run build:lib && npm run build:docs",
-    "workflow:test": "npm run test:lint && npm run test:unit"
+    "workflow:test": "npm run test:lint && npm run test:cov:unit"
   },
   "keywords": [],
   "author": "Drecom Co.,Ltd.",

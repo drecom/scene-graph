@@ -7,7 +7,7 @@ import AssetExportMapEntity from '../../interface/AssetExportMapEntity';
 type ExportAssetIterator = (owner: any, key: string, path: string, parentAsset?: string) => void;
 
 /**
- * CocosCreator scene exporter
+ * Unity scene exporter
  */
 export default class Unity implements AssetExporter {
 

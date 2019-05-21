@@ -6,7 +6,7 @@ var AssetFileMap_1 = require("../../asset/AssetFileMap");
 var IUnity = require("../../interface/Unity");
 var UnityAssetFile_1 = require("../../asset/UnityAssetFile");
 /**
- * CocosCreator V1.x scene exporter
+ * Unity scene exporter
  */
 var Unity = /** @class */ (function () {
     function Unity() {
@@ -29,16 +29,19 @@ var Unity = /** @class */ (function () {
      *     - loadSceneFile (recursive)
      *   - createSceneGraph
      */
-    Unity.prototype.createSceneGraphSchemas = function (sceneFiles, assetRoot, _plugins) {
+    Unity.prototype.createSceneGraphSchemas = function (sceneFiles, assetRoot, plugins) {
         var _this = this;
         var graphs = new Map();
         var assetFileMap = new AssetFileMap_1.default(assetRoot);
         assetFileMap.scan();
         this.guidMap = this.createGuidMap(assetFileMap);
         sceneFiles.forEach(function (sceneFile) {
-            var unityScene = _this.loadSceneFile(sceneFile);
-            var graph = _this.createSceneGraph(unityScene);
+            var sceneJson = _this.loadSceneFile(sceneFile);
+            var graph = _this.createSceneGraph(sceneJson);
             graphs.set(sceneFile, graph);
+            if (plugins) {
+                _this.pluginPostProcess(graph, sceneJson, assetFileMap, plugins);
+            }
         });
         return graphs;
     };

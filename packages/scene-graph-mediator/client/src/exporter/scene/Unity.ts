@@ -12,7 +12,7 @@ import * as IUnity from '../../interface/Unity';
 import UnityAssetFile from '../../asset/UnityAssetFile';
 
 /**
- * CocosCreator V1.x scene exporter
+ * Unity scene exporter
  */
 export default class Unity implements SceneExporter {
 
@@ -39,7 +39,7 @@ export default class Unity implements SceneExporter {
   public createSceneGraphSchemas(
     sceneFiles: string[],
     assetRoot: string,
-    _plugins?: Map<string, SceneExporterPlugin>
+    plugins?: Map<string, SceneExporterPlugin>
   ): Map<string, SchemaJson> {
     const graphs = new Map<string, SchemaJson>();
 
@@ -49,9 +49,13 @@ export default class Unity implements SceneExporter {
     this.guidMap = this.createGuidMap(assetFileMap);
 
     sceneFiles.forEach((sceneFile) => {
-      const unityScene = this.loadSceneFile(sceneFile);
-      const graph = this.createSceneGraph(unityScene);
+      const sceneJson = this.loadSceneFile(sceneFile);
+      const graph = this.createSceneGraph(sceneJson);
       graphs.set(sceneFile, graph);
+
+      if (plugins) {
+        this.pluginPostProcess(graph, sceneJson, assetFileMap, plugins);
+      }
     });
 
     return graphs;

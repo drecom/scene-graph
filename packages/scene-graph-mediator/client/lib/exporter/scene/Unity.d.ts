@@ -5,7 +5,7 @@ import AssetFileMap from '../../asset/AssetFileMap';
 import * as IUnity from '../../interface/Unity';
 import UnityAssetFile from '../../asset/UnityAssetFile';
 /**
- * CocosCreator V1.x scene exporter
+ * Unity scene exporter
  */
 export default class Unity implements SceneExporter {
     private guidMap;
@@ -24,7 +24,7 @@ export default class Unity implements SceneExporter {
      *     - loadSceneFile (recursive)
      *   - createSceneGraph
      */
-    createSceneGraphSchemas(sceneFiles: string[], assetRoot: string, _plugins?: Map<string, SceneExporterPlugin>): Map<string, SchemaJson>;
+    createSceneGraphSchemas(sceneFiles: string[], assetRoot: string, plugins?: Map<string, SceneExporterPlugin>): Map<string, SchemaJson>;
     /**
      * Read scene file using file system and convert to javascript object.
      */

@@ -29,13 +29,6 @@ export interface SceneEntity {
 export interface Scene {
   [anchor: string]: SceneEntity;
 }
-
-export interface Vec2 {
-  x: number;
-  y: number;
-  z: number;
-}
-
 export interface Vec2 {
   x: number;
   y: number;
