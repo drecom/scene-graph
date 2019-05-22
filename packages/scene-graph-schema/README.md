@@ -2,7 +2,7 @@
 
 scene-graph-schema is a intermediate data schema that represents common data structure of a scene in game application.
 
-The target of the schema is 2D game applications on web browsers
+The target of the schema is game applications on web browsers
 
 Since this schema is not designed for particular runtime, it should be converted to/from any runtime.
 
