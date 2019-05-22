@@ -47,7 +47,11 @@ export const Pixi: PropertyConverter.Interface = {
     convertedObject: ConvertedObject,
     node: Node
   ): void => {
-    if (!node.transform.parent) {
+    const transform = node.transform;
+    if (!transform) {
+      return;
+    }
+    if (!transform.parent) {
       const sceneBasePoint = {
         x: schema.metadata.positiveCoord.xRight ? 0 : schema.metadata.width,
         y: schema.metadata.positiveCoord.yDown  ? 0 : schema.metadata.height
@@ -55,7 +59,6 @@ export const Pixi: PropertyConverter.Interface = {
       convertedObject.position.x += sceneBasePoint.x;
       convertedObject.position.y += sceneBasePoint.y;
     } else if (node.sprite && node.sprite.slice) {
-      const transform = node.transform;
       const scale = transform.scale || { x: 1, y: 1 };
       convertedObject.position.x -= (transform.width  || 0) * scale.x * transform.anchor.x;
       convertedObject.position.y -= (transform.height || 0) * scale.y * transform.anchor.y;

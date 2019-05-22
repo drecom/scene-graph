@@ -59,7 +59,6 @@ export default function cli(): void {
   assetExportMap.forEach((entity) => {
     const targetDir = path.dirname(entity.localDestPath);
     mkdirp(targetDir);
-
     fs.copyFile(entity.localSrcPath, entity.localDestPath, () => {});
   });
 }

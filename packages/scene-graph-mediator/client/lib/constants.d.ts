@@ -4,6 +4,7 @@
 export declare const RuntimeIdentifiers: Readonly<{
     COCOS_CREATOR_V1: string[];
     COCOS_CREATOR_V2: string[];
+    UNITY: string[];
 }>;
 /**
  * Help text for CLI

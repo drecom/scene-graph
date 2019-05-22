@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as path from 'path';
 import * as commander from 'commander';
 import Args from '../interface/Args';
@@ -10,7 +11,24 @@ import AssetExporterPlugin from '../interface/AssetExporterPlugin';
 export default function parseArgs(): Args {
   const packageJson = require('../../package.json');
 
-  const spaceSeparated = (value: string): string[] => value.split(' ');
+  const spaceSeparatedPaths = (value: string): string[] => {
+    const parts = [];
+    const frags = value.split(' ');
+    for (let i = 0; i < frags.length; i++) {
+      const frag = frags[i];
+      if (fs.existsSync(frag)) {
+        parts.push(frag);
+      } else {
+        const nextFrag = frags[i + 1];
+        if (!nextFrag) {
+          break;
+        }
+        frags[i + 1] = `${frag} ${nextFrag}`;
+      }
+    }
+
+    return parts;
+  };
 
   commander
     .version(packageJson.version)
@@ -29,7 +47,7 @@ export default function parseArgs(): Args {
     .option(
       '-s, --sceneFiles [value]',
       'exporting scene files (space separated)',
-      spaceSeparated
+      spaceSeparatedPaths
     )
     .option(
       '-d, --destDir [value]',
@@ -46,7 +64,7 @@ export default function parseArgs(): Args {
     .option(
       '-p, --plugins [value]',
       "space separated plugin names (space separated); default ''",
-      spaceSeparated
+      spaceSeparatedPaths
     )
     .parse(process.argv);
 
@@ -91,7 +109,7 @@ export default function parseArgs(): Args {
     sceneFiles:
       commander.sceneFiles
       || config.sceneFiles
-      || (process.env.SCENE_FILE ? process.env.SCENE_FILE.split(' ') : []),
+      || (process.env.SCENE_FILE ? spaceSeparatedPaths(process.env.SCENE_FILE) : []),
     destDir:
       commander.destDir
       || config.destDir
@@ -110,7 +128,7 @@ export default function parseArgs(): Args {
     plugins:
       commander.plugins
       || config.plugins
-      || (process.env.PLUGINS ? process.env.PLUGINS.split(' ') : [])
+      || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : [])
   };
 
   args.assetDestDir = args.assetDestDir || path.resolve(args.destDir, args.assetNameSpace);

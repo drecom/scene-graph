@@ -114,7 +114,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L97">exporter/ExportManager.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L114">exporter/ExportManager.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -154,7 +154,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L74">exporter/ExportManager.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L91">exporter/ExportManager.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -182,13 +182,13 @@
 					<a name="loadplugins" class="tsd-anchor"></a>
 					<h3>load<wbr>Plugins</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Plugins<span class="tsd-signature-symbol">(</span>paths<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Plugins<span class="tsd-signature-symbol">(</span>plugins<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/assetexporterplugin.html" class="tsd-signature-type">AssetExporterPlugin</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/sceneexporterplugin.html" class="tsd-signature-type">SceneExporterPlugin</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L57">exporter/ExportManager.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L63">exporter/ExportManager.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -199,7 +199,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>paths: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>plugins: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/assetexporterplugin.html" class="tsd-signature-type">AssetExporterPlugin</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/sceneexporterplugin.html" class="tsd-signature-type">SceneExporterPlugin</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -216,7 +216,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L40">exporter/ExportManager.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L43">exporter/ExportManager.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -318,18 +318,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="assetfileentity.html" class="tsd-kind-icon">Asset<wbr>File<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="assetfilemap.html" class="tsd-kind-icon">Asset<wbr>File<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="cocoscreator.html" class="tsd-kind-icon">Cocos<wbr>Creator</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="cocoscreatorv2.html" class="tsd-kind-icon">Cocos<wbr>Creator<wbr>V2</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -357,108 +345,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/args.html" class="tsd-kind-icon">Args</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/assetexporter.html" class="tsd-kind-icon">Asset<wbr>Exporter</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/assetexporterconstructor.html" class="tsd-kind-icon">Asset<wbr>Exporter<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/assetexporterplugin.html" class="tsd-kind-icon">Asset<wbr>Exporter<wbr>Plugin</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/canvas.html" class="tsd-kind-icon">Canvas</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/color.html" class="tsd-kind-icon">Color</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/component.html" class="tsd-kind-icon">Component</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/componentbase.html" class="tsd-kind-icon">Component<wbr>Base</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/componentnodeidentity.html" class="tsd-kind-icon">Component<wbr>Node<wbr>IdEntity</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/componentuuidentity.html" class="tsd-kind-icon">Component<wbr>Uuid<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/importer.html" class="tsd-kind-icon">Importer</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/importerconstructor.html" class="tsd-kind-icon">Importer<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/label.html" class="tsd-kind-icon">Label</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/metabase.html" class="tsd-kind-icon">Meta<wbr>Base</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/metasprite.html" class="tsd-kind-icon">Meta<wbr>Sprite</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/node.html" class="tsd-kind-icon">Node</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/nodev2.html" class="tsd-kind-icon">Node<wbr>V2</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/sceneexporter.html" class="tsd-kind-icon">Scene<wbr>Exporter</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/sceneexporterconstructor.html" class="tsd-kind-icon">Scene<wbr>Exporter<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/sceneexporterplugin.html" class="tsd-kind-icon">Scene<wbr>Exporter<wbr>Plugin</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/size.html" class="tsd-kind-icon">Size</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/sprite.html" class="tsd-kind-icon">Sprite</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/vec2.html" class="tsd-kind-icon">Vec2</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/vec3.html" class="tsd-kind-icon">Vec3</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../globals.html#assetexportmapentity" class="tsd-kind-icon">Asset<wbr>Export<wbr>Map<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="../globals.html#resourcemapentity" class="tsd-kind-icon">Resource<wbr>Map<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#clihelptext" class="tsd-kind-icon">Cli<wbr>Helptext</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#metatypes" class="tsd-kind-icon">Meta<wbr>Types</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#resourcetype" class="tsd-kind-icon">Resource<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#runtimeidentifiers" class="tsd-kind-icon">Runtime<wbr>Identifiers</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#spritetype" class="tsd-kind-icon">Sprite<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#cli" class="tsd-kind-icon">cli</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#mkdirp" class="tsd-kind-icon">mkdirp</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#parseargs" class="tsd-kind-icon">parse<wbr>Args</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

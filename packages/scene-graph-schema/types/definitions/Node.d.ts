@@ -15,8 +15,10 @@ export interface Node {
   id: string;
   name: string;
   constructorName: string;
-  transform: Transform;
+  transform?: Transform;
+  transform3d?: Transform3D;
   renderer?: Renderer;
+  meshRenderer?: MeshRenderer;
   spine?: Spine;
   sprite?: Sprite;
   text?: Text;
@@ -43,12 +45,53 @@ export interface Transform {
   children?: string[];
   [k: string]: any;
 }
+export interface Transform3D {
+  x: number;
+  y: number;
+  z: number;
+  rotation: {
+    x: number;
+    y: number;
+    z: number;
+    w?: number;
+    [k: string]: any;
+  };
+  scale?: {
+    x: number;
+    y: number;
+    z: number;
+    [k: string]: any;
+  };
+  parent?: string;
+  children?: string[];
+  [k: string]: any;
+}
 export interface Renderer {
   color?: {
     r: number;
     g: number;
     b: number;
     a: number;
+    [k: string]: any;
+  };
+  [k: string]: any;
+}
+export interface MeshRenderer {
+  mesh?: {
+    url: string;
+    [k: string]: any;
+  };
+  materials?: {
+    url: string;
+    [k: string]: any;
+  }[];
+  atlasUrl?: string;
+  frameName?: string;
+  slice?: {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
     [k: string]: any;
   };
   [k: string]: any;

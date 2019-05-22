@@ -5,6 +5,10 @@ export type ImportOption = {
   autoCoordinateFix: boolean
 };
 
+const defaultImportOption: ImportOption = {
+  autoCoordinateFix: true
+};
+
 /**
  * Abstract class for runtime mediation.<br />
  * It handles runtime object like Unity's GameObject or Cocos's Node
@@ -12,36 +16,84 @@ export type ImportOption = {
 export abstract class Importer {
 
   /**
-   * Callback called when any asset added to pixi loader
+   * Import Schema and rebuild runtime node structure.
    */
-  abstract setOnAddLoaderAsset(
-    callback: (node: Node, asset: { url: string, name: string }) => void
-  ): void;
+  abstract import(schema: SchemaJson, callback: (root: any) => void): any;
+  /**
+   * Create asset map from schema.<br />
+   * Users can use this method and restoreScene individually to inject custom pipeline.
+   */
+  abstract createAssetMap(schema: SchemaJson): Map<string, any>;
+  /**
+   * Create runtime object for each node.
+   */
+  abstract createRuntimeObject(node: Node, resources: any): any;
+  /**
+   * Restore scene graph as runtime objects
+   */
+  abstract restoreScene(root: any, schema: SchemaJson, option: ImportOption): void;
+
+  protected onAddLoaderAsset: (node: Node, asset: any) => void
+    = (_node: Node, _asset: any) => {}
+  protected onRestoreNode: (node: Node, resources: any) => any | null | undefined
+    = (_n, _r) => { return null; }
+  protected onRuntimeObjectCreated: (id: string, obj: any) => void
+    = (_i, _o) => {}
+  protected onTransformRestored: (
+    schema: SchemaJson,
+    id: string,
+    obj: any,
+    node: Node,
+    parentNode?: Node
+  ) => void = (_s, _i, _o, _n, _p) => {}
 
   /**
-   * Callback called when restoring a node to pixi container<br />
-   * If null is returned, default initiator creates pixi object.
+   * Plugins container
    */
-  abstract setOnRestoreNode(
-    callback: (node: Node, resources: any) => any | null | undefined
-  ): void;
+  protected plugins: ImporterPlugin[] = [];
 
   /**
-   * Callback called when each pixi object is instantiated
+   * Callback called when any asset added to runtime resource loader
    */
-  abstract setOnRuntimeObjectCreated(
-    callback: (id: string, obj: any) => void
-  ): void;
+  public setOnAddLoaderAsset(
+    callback: (node: Node, asset: any) => void = (_n, _a) => {}
+  ): void {
+    this.onAddLoaderAsset = callback;
+  }
 
-  abstract setOnTransformRestored(
+  /**
+   * Callback called when restoring a node to runtime<br />
+   * If null is returned, default initiator creates runtime object.
+   */
+  public setOnRestoreNode(
+    callback: (node: Node, resources: any) => any | null | undefined = (_n, _r) => { return null; }
+  ): void {
+    this.onRestoreNode = callback;
+  }
+
+  /**
+   * Callback called when each runtime object is instantiated
+   */
+  public setOnRuntimeObjectCreated(
+    callback: (id: string, obj: any) => void = (_i, _o) => {}
+  ): void {
+    this.onRuntimeObjectCreated = callback;
+  }
+
+  /**
+   * Callback called when each runtime object's transform/transform3d is restored
+   */
+  public setOnTransformRestored(
     callback: (
       schema: SchemaJson,
       id: string,
       obj: any,
       node: Node,
       parentNode?: Node
-    ) => void
-  ): void;
+    ) => void = (_s, _i, _o, _n, _p) => {}
+  ): void {
+    this.onTransformRestored = callback;
+  }
 
   /**
    * Returns initiate methods related to class name.<br />
@@ -63,18 +115,100 @@ export abstract class Importer {
   /**
    * Add plugin to extend import process.
    */
-  abstract addPlugin(plugin: ImporterPlugin): void;
+  public addPlugin(plugin: ImporterPlugin): void {
+    this.plugins.push(plugin);
+  }
 
   /**
-   * Import Schema and rebuild runtime node structure.
+   * Extend scene graph with user plugins.
    */
-  abstract import(schema: SchemaJson, callback: (root: any) => void): any;
-  abstract createAssetMap(schema: SchemaJson): Map<string, any>;
-  abstract restoreScene(root: any, schema: SchemaJson, option: ImportOption): void;
-  abstract pluginPostProcess(
+  public pluginPostProcess(
     schema: SchemaJson,
     nodeMap: Map<string, Node>,
     runtimeObjectMap: Map<string, any>,
     option: ImportOption
-  ): void;
+  ): void {
+    for (let i = 0; i < this.plugins.length; i++) {
+      const plugin = this.plugins[i];
+      plugin.extendRuntimeObjects(schema, nodeMap, runtimeObjectMap, option);
+    }
+  }
+
+  protected assembleImportOption(
+    param1?: (root: any) => void | ImportOption,
+    param2?: ImportOption
+  ): {
+    callback: (root: any) => void;
+    config: ImportOption;
+  } {
+    const option: {
+      callback: (root: any) => void;
+      config: ImportOption;
+    } = {
+      callback: (_) => {},
+      config: defaultImportOption
+    };
+
+    if (param2) {
+      option.callback = param1 as any;
+      option.config   = param2;
+    } else {
+      if (param1) {
+        console.log(param1.constructor.name);
+        if (param1.constructor.name === 'Function') {
+          option.callback = param1;
+        } else {
+          option.config = param1 as any;
+        }
+      }
+    }
+
+    return option;
+  }
+
+  /**
+   * Map all nodes from given schema
+   */
+  protected createNodeMap(schema: SchemaJson): Map<string, Node> {
+    const nodeMap = new Map<string, Node>();
+    for (let i = 0; i < schema.scene.length; i++) {
+      const node = schema.scene[i];
+      nodeMap.set(node.id, node);
+    }
+    return nodeMap;
+  }
+
+  /**
+   * Create and map all Containers from given nodeMap.
+   * This method uses createRuntimeObject interface to create each object
+   */
+  protected createRuntimeObjectMap(nodeMap: Map<string, Node>, resources: any): Map<string, any> {
+    const objectMap = new Map<string, any>();
+
+    nodeMap.forEach((node: Node, id: string) => {
+      // give prior to user custome initialization
+      let object = this.onRestoreNode(node, resources);
+
+      // then process default initialization
+      if (!object) {
+        object = this.createRuntimeObject(node, resources);
+      }
+
+      // skip if not supported
+      if (!object) {
+        return;
+      }
+
+      // name with node name if no name given
+      if (!object.name) {
+        object.name = node.name;
+      }
+
+      this.onRuntimeObjectCreated(id, object);
+
+      objectMap.set(id, object);
+    });
+
+    return objectMap;
+  }
 }

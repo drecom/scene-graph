@@ -19,19 +19,22 @@
     "build:lib": "tsc -p .",
     "build:docs": "typedoc 'src/'",
     "test:lint": "tslint -p tsconfig.json --format stylish 'src/**/*.ts*'",
-    "test:unit": "karma start --no-auto-watch --single-run",
+    "test:unit": "mocha -r ts-node/register $(find test | grep .test.ts)",
+    "test:cov:unit": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register $(find test | grep .test.ts) && nyc report",
+    "test:cov:report": "nyc report",
     "test:unit:watch": "karma start --auto-watch --no-single-run",
     "workflow:build": "npm run build:lib && npm run build:docs",
-    "workflow:test": "npm run test:lint && npm run test:unit"
+    "workflow:test": "npm run test:lint && npm run test:cov:unit"
   },
   "keywords": [],
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-schema": "0.0.10",
+    "@drecom/scene-graph-schema": "^0.1.1",
     "@types/chai": "^4.1.7",
     "@types/command-line-args": "^5.0.0",
     "@types/mocha": "^5.2.5",
-    "@types/sinon": "^5.0.5",
+    "@types/sinon": "^5.0.2",
+    "@types/yaml": "^1.0.2",
     "chai": "^4.2.0",
     "karma": "^3.1.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -39,15 +42,18 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-typescript": "^3.0.13",
     "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
     "power-assert": "^1.6.0",
     "sinon": "^6.1.4",
     "ts-loader": "^4.4.2",
+    "ts-node": "^8.1.0",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.9.2",
     "typedoc": "^0.11.1",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "yaml": "^1.5.0"
   },
-  "gitHead": "dcffa7b570bc44899cc9e6324769587db6fe3b18",
+  "gitHead": "74a6a4cebe353511caddc925538937a265572b5c",
   "dependencies": {
     "commander": "^2.19.0"
   }

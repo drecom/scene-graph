@@ -9,22 +9,47 @@ export declare type ImportOption = {
  */
 export declare abstract class Importer {
     /**
-     * Callback called when any asset added to pixi loader
+     * Import Schema and rebuild runtime node structure.
      */
-    abstract setOnAddLoaderAsset(callback: (node: Node, asset: {
-        url: string;
-        name: string;
-    }) => void): void;
+    abstract import(schema: SchemaJson, callback: (root: any) => void): any;
     /**
-     * Callback called when restoring a node to pixi container<br />
-     * If null is returned, default initiator creates pixi object.
+     * Create asset map from schema.<br />
+     * Users can use this method and restoreScene individually to inject custom pipeline.
      */
-    abstract setOnRestoreNode(callback: (node: Node, resources: any) => any | null | undefined): void;
+    abstract createAssetMap(schema: SchemaJson): Map<string, any>;
     /**
-     * Callback called when each pixi object is instantiated
+     * Create runtime object for each node.
      */
-    abstract setOnRuntimeObjectCreated(callback: (id: string, obj: any) => void): void;
-    abstract setOnTransformRestored(callback: (schema: SchemaJson, id: string, obj: any, node: Node, parentNode?: Node) => void): void;
+    abstract createRuntimeObject(node: Node, resources: any): any;
+    /**
+     * Restore scene graph as runtime objects
+     */
+    abstract restoreScene(root: any, schema: SchemaJson, option: ImportOption): void;
+    protected onAddLoaderAsset: (node: Node, asset: any) => void;
+    protected onRestoreNode: (node: Node, resources: any) => any | null | undefined;
+    protected onRuntimeObjectCreated: (id: string, obj: any) => void;
+    protected onTransformRestored: (schema: SchemaJson, id: string, obj: any, node: Node, parentNode?: Node) => void;
+    /**
+     * Plugins container
+     */
+    protected plugins: ImporterPlugin[];
+    /**
+     * Callback called when any asset added to runtime resource loader
+     */
+    setOnAddLoaderAsset(callback?: (node: Node, asset: any) => void): void;
+    /**
+     * Callback called when restoring a node to runtime<br />
+     * If null is returned, default initiator creates runtime object.
+     */
+    setOnRestoreNode(callback?: (node: Node, resources: any) => any | null | undefined): void;
+    /**
+     * Callback called when each runtime object is instantiated
+     */
+    setOnRuntimeObjectCreated(callback?: (id: string, obj: any) => void): void;
+    /**
+     * Callback called when each runtime object's transform/transform3d is restored
+     */
+    setOnTransformRestored(callback?: (schema: SchemaJson, id: string, obj: any, node: Node, parentNode?: Node) => void): void;
     /**
      * Returns initiate methods related to class name.<br />
      * Often it is used to define initiation of a class instance
@@ -40,12 +65,22 @@ export declare abstract class Importer {
     /**
      * Add plugin to extend import process.
      */
-    abstract addPlugin(plugin: ImporterPlugin): void;
+    addPlugin(plugin: ImporterPlugin): void;
     /**
-     * Import Schema and rebuild runtime node structure.
+     * Extend scene graph with user plugins.
      */
-    abstract import(schema: SchemaJson, callback: (root: any) => void): any;
-    abstract createAssetMap(schema: SchemaJson): Map<string, any>;
-    abstract restoreScene(root: any, schema: SchemaJson, option: ImportOption): void;
-    abstract pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
+    pluginPostProcess(schema: SchemaJson, nodeMap: Map<string, Node>, runtimeObjectMap: Map<string, any>, option: ImportOption): void;
+    protected assembleImportOption(param1?: (root: any) => void | ImportOption, param2?: ImportOption): {
+        callback: (root: any) => void;
+        config: ImportOption;
+    };
+    /**
+     * Map all nodes from given schema
+     */
+    protected createNodeMap(schema: SchemaJson): Map<string, Node>;
+    /**
+     * Create and map all Containers from given nodeMap.
+     * This method uses createRuntimeObject interface to create each object
+     */
+    protected createRuntimeObjectMap(nodeMap: Map<string, Node>, resources: any): Map<string, any>;
 }

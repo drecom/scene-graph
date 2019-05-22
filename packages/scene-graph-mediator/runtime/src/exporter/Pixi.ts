@@ -41,13 +41,13 @@ export default class Pixi extends Exporter {
     };
 
     if (base.parent) {
-      node.transform.parent = base.parent.name;
+      node.transform!.parent = base.parent.name;
     }
 
     if (base.children) {
-      node.transform.children = [];
+      node.transform!.children = [];
       for (let i = 0; i < base.children.length; i++) {
-        node.transform.children.push(base.children[i].name);
+        node.transform!.children!.push(base.children[i].name);
       }
     }
 

@@ -25,10 +25,11 @@
   "keywords": [],
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-schema": "0.0.10",
+    "@drecom/scene-graph-schema": "^0.1.1",
     "@types/chai": "^4.1.2",
     "@types/mocha": "^5.2.0",
     "@types/pixi.js": "^4.7.3",
+    "@types/three": "^0.103.2",
     "chai": "^4.1.2",
     "karma": "^2.0.2",
     "karma-chrome-launcher": "^2.2.0",
@@ -49,5 +50,6 @@
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14"
   },
-  "gitHead": "dcffa7b570bc44899cc9e6324769587db6fe3b18"
+  "gitHead": "dcffa7b570bc44899cc9e6324769587db6fe3b18",
+  "dependencies": {}
 }

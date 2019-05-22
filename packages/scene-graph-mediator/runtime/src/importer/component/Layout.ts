@@ -56,7 +56,7 @@ export class LayoutComponent {
   }
 
   private static fixHorizontal(container: Container, node: Node): void {
-    if (!node || !node.layout) {
+    if (!node || !node.layout || !node.transform) {
       return;
     }
 
@@ -82,7 +82,7 @@ export class LayoutComponent {
   }
 
   private static fixVertical(container: Container, node: Node): void {
-    if (!node || !node.layout) {
+    if (!node || !node.layout || !node.transform) {
       return;
     }
 
@@ -108,7 +108,7 @@ export class LayoutComponent {
   }
 
   private static fixGrid(container: Container, node: Node): void {
-    if (!node || !node.layout) {
+    if (!node || !node.layout || !node.transform) {
       return;
     }
 
