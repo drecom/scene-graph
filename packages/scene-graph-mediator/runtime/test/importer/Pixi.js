@@ -384,8 +384,8 @@ describe('Pixi', () => {
               });
 
               const container = root.children[0].children[0];
-              assert.ok(container.position.x !== anchorChildNode.transform.x);
-              assert.ok(container.position.y !== anchorChildNode.transform.y);
+              assert.ok(container.getGlobalPosition().x !== anchorChildNode.transform.x);
+              assert.ok(container.getGlobalPosition().y !== anchorChildNode.transform.y);
             });
           });
         });
@@ -419,8 +419,8 @@ describe('Pixi', () => {
               );
 
               const container = root.children[0].children[0];
-              assert.ok(container.position.x !== anchorChildNode.transform.x);
-              assert.ok(container.position.y !== anchorChildNode.transform.y);
+              assert.ok(container.getGlobalPosition().x !== anchorChildNode.transform.x);
+              assert.ok(container.getGlobalPosition().y !== anchorChildNode.transform.y);
             });
           });
         });

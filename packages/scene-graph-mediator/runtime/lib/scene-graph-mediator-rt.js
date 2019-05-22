@@ -49714,7 +49714,7 @@ var Pixi = /** @class */ (function (_super) {
             };
             if (option.autoCoordinateFix) {
                 // scene-graph-mediator extended properties
-                _this.fixCoordinate(schema, container, node, parentNode);
+                _this.fixCoordinate(schema, container, node);
             }
             else {
                 _this.applyCoordinate(schema, container, node);
@@ -49738,9 +49738,9 @@ var Pixi = /** @class */ (function (_super) {
             _this.onTransformRestored(schema, id, container, node, parentNode);
         });
     };
-    Pixi.prototype.fixCoordinate = function (schema, obj, node, parentNode) {
+    Pixi.prototype.fixCoordinate = function (schema, obj, node) {
         var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].createConvertedObject(schema, node.transform);
-        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].fixCoordinate(obj, convertedValues, node, parentNode);
+        _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].fixCoordinate(schema, convertedValues, node);
         _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].applyConvertedObject(obj, convertedValues);
     };
     Pixi.prototype.applyCoordinate = function (schema, obj, node) {
@@ -50352,33 +50352,23 @@ var Pixi = {
             rotation: (transform.rotation) ? transform.rotation * DEGREE_TO_RADIAN : 0
         };
     },
-    fixCoordinate: function (target, convertedObject, node, parentNode) {
+    fixCoordinate: function (schema, convertedObject, node) {
         var transform = node.transform;
         if (!transform) {
             return;
         }
-        if (parentNode && parentNode.transform) {
-            var scale = transform.scale || { x: 1, y: 1 };
-            convertedObject.position.x += ((parentNode.transform.width || 0) - (transform.width || 0) * scale.x) * transform.anchor.x;
-            convertedObject.position.y += ((parentNode.transform.height || 0) - (transform.height || 0) * scale.y) * transform.anchor.y;
-        }
-        if (target.anchor) {
-            var size = {
-                width: target.width,
-                height: target.height
+        if (!transform.parent) {
+            var sceneBasePoint = {
+                x: schema.metadata.positiveCoord.xRight ? 0 : schema.metadata.width,
+                y: schema.metadata.positiveCoord.yDown ? 0 : schema.metadata.height
             };
-            // should calcurate with original size
-            // TODO: text exclusion may be Cocos specific feature
-            if (target.texture && !node.text) {
-                size.width = target.texture.width;
-                size.height = target.texture.height;
-            }
-            if (transform.width !== undefined && transform.height !== undefined) {
-                size.width = transform.width;
-                size.height = transform.height;
-            }
-            convertedObject.position.x += size.width * convertedObject.scale.x * transform.anchor.x;
-            convertedObject.position.y += size.height * convertedObject.scale.y * transform.anchor.y;
+            convertedObject.position.x += sceneBasePoint.x;
+            convertedObject.position.y += sceneBasePoint.y;
+        }
+        else if (node.sprite && node.sprite.slice) {
+            var scale = transform.scale || { x: 1, y: 1 };
+            convertedObject.position.x -= (transform.width || 0) * scale.x * transform.anchor.x;
+            convertedObject.position.y -= (transform.height || 0) * scale.y * transform.anchor.y;
         }
     },
     applyConvertedObject: function (target, convertedObject) {
