@@ -359,6 +359,89 @@ export default class CocosCreator implements SceneExporter {
     }
   }
 
+  private findSpriteData(
+    resourceMap: Map<string, ResourceMapEntity>,
+    spriteFrameUuid: cc.ComponentUuidEntity,
+    atlasUuid: cc.ComponentUuidEntity | null
+  ): any {
+    if (!spriteFrameUuid) {
+      return null;
+    }
+
+    const spriteFrameEntity = resourceMap.get(spriteFrameUuid.__uuid__);
+    if (!spriteFrameEntity) {
+      return null;
+    }
+
+    // _spriteFrame may directs sprite that may contain atlas path
+    if (atlasUuid) {
+      return this.findAtlasData(resourceMap, spriteFrameUuid, atlasUuid);
+    }
+    return this.findSpriteFrameData(spriteFrameEntity);
+  }
+
+  private findAtlasData(
+    resourceMap: Map<string, ResourceMapEntity>,
+    spriteFrameUuid: cc.ComponentUuidEntity,
+    atlasUuid: cc.ComponentUuidEntity
+  ) {
+    const atlasEntity = resourceMap.get(atlasUuid.__uuid__);
+    if (!atlasEntity) {
+      return null;
+    }
+
+    // TODO: shouldn't read file
+    const atlasMetaContent = fs.readFileSync(atlasEntity.metaPath);
+    const atlasMetaJson = JSON.parse(atlasMetaContent.toString()) as cc.MetaBase;
+
+    let frameName: string | null = null;
+    let submeta: cc.MetaSprite | null = null;
+    const keys = Object.keys(atlasMetaJson.subMetas);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (atlasMetaJson.subMetas[key].uuid === spriteFrameUuid.__uuid__) {
+        frameName = key;
+        submeta   = atlasMetaJson.subMetas[key] as cc.MetaSprite;
+        break;
+      }
+    }
+
+    if (!frameName) {
+      return null;
+    }
+
+    // path to sprite
+    const rawTextureEntity = resourceMap.get((submeta as cc.MetaSprite).rawTextureUuid);
+    if (!rawTextureEntity) {
+      return null;
+    }
+
+    return {
+      frameName: frameName,
+      url: rawTextureEntity.path,
+      atlasUrl: atlasEntity.path,
+      submeta: submeta
+    };
+  }
+
+  private findSpriteFrameData(spriteFrameEntity: ResourceMapEntity) {
+    // TODO: shouldn't read file
+    const spriteFrameMetaContent = fs.readFileSync(spriteFrameEntity.metaPath);
+    const spriteFrameMetaJson = JSON.parse(spriteFrameMetaContent.toString()) as cc.MetaBase;
+    const keys = Object.keys(spriteFrameMetaJson.subMetas);
+    if (keys.length === 0) {
+      return null;
+    }
+
+    const frameName = keys[0];
+    const submeta = spriteFrameMetaJson.subMetas[frameName] as cc.MetaSprite;
+    return {
+      frameName: frameName,
+      url: spriteFrameEntity.path,
+      submeta: submeta
+    };
+  }
+
   /**
    * Detect and append supported component to scene graph node
    */
@@ -369,74 +452,21 @@ export default class CocosCreator implements SceneExporter {
   ): void {
     switch (component.__type__) {
       case cc.MetaTypes.SPRITE: {
+
         const spriteFrameUuid = (component as cc.Sprite)._spriteFrame;
-        if (!spriteFrameUuid) {
-          break;
-        }
-
-        const spriteFrameEntity = resourceMap.get(spriteFrameUuid.__uuid__);
-        if (!spriteFrameEntity) {
-          break;
-        }
-
-        let submeta: cc.MetaSprite | null = null;
-
         const atlasUuid = (component as cc.Sprite)._atlas;
-        // _spriteFrame may directs sprite that may contain atlas path
-        if (atlasUuid) {
-          const atlasEntity = resourceMap.get(atlasUuid.__uuid__);
-          if (!atlasEntity) {
-            break;
-          }
-
-          // TODO: shouldn't read file
-          const atlasMetaContent = fs.readFileSync(atlasEntity.metaPath);
-          const atlasMetaJson = JSON.parse(atlasMetaContent.toString()) as cc.MetaBase;
-
-          let frameName: string | null = null;
-
-          const keys = Object.keys(atlasMetaJson.subMetas);
-          for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
-            if (atlasMetaJson.subMetas[key].uuid === spriteFrameUuid.__uuid__) {
-              frameName = key;
-              submeta   = atlasMetaJson.subMetas[key] as cc.MetaSprite;
-              break;
-            }
-          }
-
-          if (!frameName) {
-            break;
-          }
-
-          // path to sprite
-          const rawTextureEntity = resourceMap.get((submeta as cc.MetaSprite).rawTextureUuid);
-          if (!rawTextureEntity) {
-            break;
-          }
-
-          schemaNode.sprite = {
-            frameName,
-            url: rawTextureEntity.path,
-            atlasUrl: atlasEntity.path
-          };
-        } else {
-          // TODO: shouldn't read file
-          const spriteFrameMetaContent = fs.readFileSync(spriteFrameEntity.metaPath);
-          const spriteFrameMetaJson = JSON.parse(spriteFrameMetaContent.toString()) as cc.MetaBase;
-          const keys = Object.keys(spriteFrameMetaJson.subMetas);
-          if (keys.length === 0) {
-            break;
-          }
-
-          const frameName = keys[0];
-          submeta = spriteFrameMetaJson.subMetas[frameName] as cc.MetaSprite;
-          schemaNode.sprite = {
-            frameName,
-            url: spriteFrameEntity.path
-          };
+        const spriteData = this.findSpriteData(resourceMap, spriteFrameUuid, atlasUuid);
+        if (!spriteData) {
+          break;
         }
 
+        schemaNode.sprite = {
+          frameName: spriteData.frameName,
+          url: spriteData.url,
+          atlasUrl: spriteData.atlasUrl
+        };
+
+        const submeta = spriteData.submeta;
         if (
           submeta && (
             submeta.borderTop    !== 0 ||
