@@ -8,7 +8,8 @@ export const MetaTypes: { [keys: string]: string } = Object.freeze({
   NODE:   'cc.Node',
   SPRITE: 'cc.Sprite',
   LABEL:  'cc.Label',
-  LAYOUT: 'cc.Layout'
+  LAYOUT: 'cc.Layout',
+  MASK:   'cc.Mask'
 });
 
 // TODO: expose or float this definition, scene-graph-mediator-rt importer may refer this
@@ -18,6 +19,12 @@ export const SpriteType = Object.freeze({
   TILED:  2,
   FILLED: 3,
   MESH:   4
+});
+
+export const MaskType = Object.freeze({
+  RECT:           0,
+  ELLIPSE:        1,
+  IMAGE_STENCIL:  2,
 });
 
 /**
@@ -165,4 +172,10 @@ export interface Layout extends Component {
   _N$spacingY: number;
   _N$verticalDirection: number;
   _N$horizontalDirection: number;
+}
+
+export interface Mask extends Component {
+  _type: number;
+  _spriteFrame: ComponentUuidEntity;
+  _N$inverted: boolean;
 }

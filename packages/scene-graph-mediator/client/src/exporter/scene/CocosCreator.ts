@@ -442,6 +442,35 @@ export default class CocosCreator implements SceneExporter {
     };
   }
 
+  private findAtlasDataBySpriteFrameUuid(
+    resourceMap: Map<string, ResourceMapEntity>,
+    spriteFrameUuid: cc.ComponentUuidEntity
+  ): cc.ComponentUuidEntity | null {
+    if (!spriteFrameUuid) {
+      return null;
+    }
+
+    for (const [key, value] of resourceMap.entries()) {
+      const entity = value;
+      if (!entity || !entity.submetas) {
+        continue;
+      }
+
+      const submetasKeys = Object.keys(entity.submetas);
+      for (let k = 0; k < submetasKeys.length; k++) {
+        const submetasKey = submetasKeys[k];
+        const submeta = entity.submetas[submetasKey];
+        if (!submeta) {
+          continue;
+        }
+        if (submeta.uuid === spriteFrameUuid.__uuid__) {
+          return { __uuid__: key };
+        }
+      }
+    }
+    return null;
+  }
+
   /**
    * Detect and append supported component to scene graph node
    */
@@ -520,6 +549,28 @@ export default class CocosCreator implements SceneExporter {
           spacingY: layout._N$spacingY,
           verticalDirection: layout._N$verticalDirection,
           horizontalDirection: layout._N$horizontalDirection
+        };
+        break;
+      }
+      case cc.MetaTypes.MASK: {
+        const mask: cc.Mask = component as cc.Mask;
+        const spriteFrameUuid = mask._spriteFrame;
+        const atlasUuid = this.findAtlasDataBySpriteFrameUuid(resourceMap, spriteFrameUuid);
+        const spriteData = this.findSpriteData(resourceMap, spriteFrameUuid, atlasUuid);
+
+        let spriteFrame;
+        if (spriteData) {
+          spriteFrame = {
+            frameName: spriteData.frameName,
+            url: spriteData.url,
+            atlasUrl: spriteData.atlasUrl
+          };
+        }
+
+        schemaNode.mask = {
+          maskType: mask._type,
+          spriteFrame: spriteFrame,
+          inverted: mask._N$inverted
         };
         break;
       }
