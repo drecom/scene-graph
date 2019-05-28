@@ -62,11 +62,14 @@
         // In this example, it should be converted to json.
         // Of cources you can modify this path ahead of runtime.
         importer.onAddLoaderAsset = function (node, assset) {
-          if (node.sprite && node.sprite.atlasUrl) {
+          let isAtlasUrl = false;
+          isAtlasUrl = isAtlasUrl || (node.sprite && node.sprite.atlasUrl);
+          isAtlasUrl = isAtlasUrl || (node.mask && node.mask.spriteFrame && node.mask.spriteFrame.atlasUrl);
+          if (isAtlasUrl) {
             const names = assset.url.split('.');
             names.pop();
             names.push('json');
-            assset.url = names.join('.');;
+            assset.url = names.join('.');
           }
         };
 

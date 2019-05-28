@@ -1,0 +1,589 @@
+{
+  "scene": [
+    {
+      "id": "2",
+      "name": "Canvas",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 0,
+        "height": 0,
+        "x": 320,
+        "y": 568,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "children": [
+          "3",
+          "5",
+          "8",
+          "16",
+          "24"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "Main Camera",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 0,
+        "height": 0,
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "2",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      }
+    },
+    {
+      "id": "5",
+      "name": "non_mask",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 0,
+        "height": 0,
+        "x": -128,
+        "y": 128,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "2",
+        "children": [
+          "6"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      }
+    },
+    {
+      "id": "6",
+      "name": "animal_usagi",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "5",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_usagi",
+        "url": "assets/Texture/animal_usagi.png"
+      }
+    },
+    {
+      "id": "8",
+      "name": "rect_mask",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 64,
+        "x": 128,
+        "y": 128,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "2",
+        "children": [
+          "9",
+          "11"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "mask": {
+        "maskType": 0,
+        "inverted": false
+      }
+    },
+    {
+      "id": "9",
+      "name": "animal_hiyoko",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "8",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hiyoko.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "11",
+      "name": "animal_hamstar",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 64,
+        "y": -64,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "8",
+        "children": [
+          "12"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hamster.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "12",
+      "name": "animal_buta",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": -96,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "11",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_buta.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "16",
+      "name": "ellipse_mask",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 128,
+        "height": 64,
+        "x": -128,
+        "y": -128,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "2",
+        "children": [
+          "17",
+          "19"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "mask": {
+        "maskType": 1,
+        "inverted": true
+      }
+    },
+    {
+      "id": "17",
+      "name": "animal_hiyoko",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "16",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hiyoko.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "19",
+      "name": "animal_hamstar",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 64,
+        "y": -64,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "16",
+        "children": [
+          "20"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hamster.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "20",
+      "name": "animal_buta",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": -96,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "19",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_buta.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "24",
+      "name": "image_stencil_mask",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 128,
+        "y": -128,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "2",
+        "children": [
+          "25",
+          "27"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "mask": {
+        "maskType": 2,
+        "spriteFrame": {
+          "frameName": "animal_usagi.png",
+          "url": "assets/Texture/sample_sprite_sheet_with_9slice.png",
+          "atlasUrl": "assets/Texture/sample_sprite_sheet_with_9slice.plist"
+        },
+        "inverted": false
+      }
+    },
+    {
+      "id": "25",
+      "name": "animal_hiyoko",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "24",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hiyoko.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "27",
+      "name": "animal_hamstar",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": 64,
+        "y": -73,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "24",
+        "children": [
+          "28"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_hamster.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    },
+    {
+      "id": "28",
+      "name": "animal_buta",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 192,
+        "height": 192,
+        "x": -94,
+        "y": -14,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "27",
+        "children": []
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "sprite": {
+        "frameName": "animal_buta.png",
+        "url": "assets/Texture/sample_sprite_sheet.png",
+        "atlasUrl": "assets/Texture/sample_sprite_sheet.plist"
+      }
+    }
+  ],
+  "metadata": {
+    "width": 640,
+    "height": 1136,
+    "positiveCoord": {
+      "xRight": true,
+      "yDown": false
+    },
+    "baseCoordinate": {
+      "x": "center",
+      "y": "center"
+    },
+    "format": "cocoscreatorv2",
+    "anchor": {
+      "x": 0.5,
+      "y": 0.5
+    }
+  }
+}
