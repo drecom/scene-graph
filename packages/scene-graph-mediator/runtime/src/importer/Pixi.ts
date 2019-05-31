@@ -94,7 +94,7 @@ export default class Pixi extends Importer {
 
     // collect required resource
     for (let i = 0; i < schema.scene.length; i++) {
-      let urls: string[] = [];
+      const urls: string[] = [];
 
       const node = schema.scene[i];
       if (node.spine) {
@@ -202,10 +202,10 @@ export default class Pixi extends Importer {
 
     if (object && node.mask) {
       // TODO: 'Inverted' not supported.
-      switch(node.mask.maskType){
+      switch (node.mask.maskType){
         // RECT
         case 0: {
-          let maskGraphics = new PIXI.Graphics();
+          const maskGraphics = new PIXI.Graphics();
           maskGraphics.beginFill(0x000000);
           maskGraphics.drawRect(
             -node.transform!.anchor.x * node.transform!.width!,
@@ -221,12 +221,12 @@ export default class Pixi extends Importer {
 
         // ELLIPSE
         case 1: {
-          let maskGraphics = new PIXI.Graphics();
+          const maskGraphics = new PIXI.Graphics();
           maskGraphics.beginFill(0x000000);
           maskGraphics.drawEllipse(
-            0,0,
-            node.transform!.width!/2,
-            node.transform!.height!/2
+            0, 0,
+            node.transform!.width! / 2,
+            node.transform!.height! / 2
           );
           maskGraphics.endFill();
           object.addChild(maskGraphics);
@@ -236,7 +236,7 @@ export default class Pixi extends Importer {
 
         // IMAGE_STENCIL
         case 2: {
-          let maskSpriteFrame = node.mask.spriteFrame;
+          const maskSpriteFrame = node.mask.spriteFrame;
           if (!maskSpriteFrame) {
             break;
           }
@@ -258,7 +258,7 @@ export default class Pixi extends Importer {
         }
       }
     }
-    
+
     return object;
   }
 
