@@ -29,7 +29,7 @@
   "keywords": [],
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-schema": "^0.1.1",
+    "@drecom/scene-graph-schema": "^0.1.2",
     "@types/chai": "^4.1.7",
     "@types/command-line-args": "^5.0.0",
     "@types/mocha": "^5.2.5",
