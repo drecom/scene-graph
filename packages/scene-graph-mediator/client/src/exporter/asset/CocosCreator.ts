@@ -47,17 +47,20 @@ export default class CocosCreator implements AssetExporter {
             );
           }
         }
+
         if (node.mask && node.mask.spriteFrame) {
-          if (node.mask.spriteFrame.url) {
+          const maskSprite = node.mask.spriteFrame;
+
+          if (maskSprite.url) {
             exportMap.set(
-              node.mask.spriteFrame.url,
-              this.createExportMapEntity(node.mask.spriteFrame.url, assetRoot, destDir, urlNameSpace)
+              maskSprite.url,
+              this.createExportMapEntity(maskSprite.url, assetRoot, destDir, urlNameSpace)
             );
           }
-          if (node.mask.spriteFrame.atlasUrl) {
+          if (maskSprite.atlasUrl) {
             exportMap.set(
-              node.mask.spriteFrame.atlasUrl,
-              this.createExportMapEntity(node.mask.spriteFrame.atlasUrl, assetRoot, destDir, urlNameSpace)
+              maskSprite.atlasUrl,
+              this.createExportMapEntity(maskSprite.atlasUrl, assetRoot, destDir, urlNameSpace)
             );
           }
         }

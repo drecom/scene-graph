@@ -32,11 +32,12 @@ var CocosCreator = /** @class */ (function () {
                     }
                 }
                 if (node.mask && node.mask.spriteFrame) {
-                    if (node.mask.spriteFrame.url) {
-                        exportMap.set(node.mask.spriteFrame.url, _this.createExportMapEntity(node.mask.spriteFrame.url, assetRoot, destDir, urlNameSpace));
+                    var maskSprite = node.mask.spriteFrame;
+                    if (maskSprite.url) {
+                        exportMap.set(maskSprite.url, _this.createExportMapEntity(maskSprite.url, assetRoot, destDir, urlNameSpace));
                     }
-                    if (node.mask.spriteFrame.atlasUrl) {
-                        exportMap.set(node.mask.spriteFrame.atlasUrl, _this.createExportMapEntity(node.mask.spriteFrame.atlasUrl, assetRoot, destDir, urlNameSpace));
+                    if (maskSprite.atlasUrl) {
+                        exportMap.set(maskSprite.atlasUrl, _this.createExportMapEntity(maskSprite.atlasUrl, assetRoot, destDir, urlNameSpace));
                     }
                 }
                 _this.pluginPostProcess(node, exportMap, assetRoot, destDir, urlNameSpace, plugins);
