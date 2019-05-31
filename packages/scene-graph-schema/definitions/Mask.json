@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/Mask.json",
+
+  "definitions": {
+    "Mask": {
+      "id": "#Mask",
+      "type": "object",
+      "properties": {
+        "maskType":       { "type": "number" },
+        "inverted":       { "type": "boolean" },
+        "spriteFrame":  {
+          "type": "object",
+          "properties": {
+            "url":       { "type": "string" },
+            "base64":    { "type": "string" },
+            "atlasUrl":  { "type": "string" },
+            "frameName": { "type": "string" }
+          }
+        }
+      },
+      "required": [
+        "maskType",
+        "inverted"
+      ]
+    }
+  }
+}

@@ -30,6 +30,7 @@ export interface Node {
   sprite?: Sprite;
   text?: Text;
   layout?: Layout;
+  mask?: Mask;
   [k: string]: any;
 }
 export interface Transform {
@@ -160,5 +161,17 @@ export interface Layout {
   spacingY?: number;
   verticalDirection?: number;
   horizontalDirection?: number;
+  [k: string]: any;
+}
+export interface Mask {
+  maskType: number;
+  inverted: boolean;
+  spriteFrame?: {
+    url?: string;
+    base64?: string;
+    atlasUrl?: string;
+    frameName?: string;
+    [k: string]: any;
+  };
   [k: string]: any;
 }
