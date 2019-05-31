@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "preserveConstEnums": false
+    "preserveConstEnums": false,
+    "downlevelIteration": true
   },
   "compileOnSave": true,
   "include": [

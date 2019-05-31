@@ -31,6 +31,15 @@ var CocosCreator = /** @class */ (function () {
                         exportMap.set(node.sprite.atlasUrl, _this.createExportMapEntity(node.sprite.atlasUrl, assetRoot, destDir, urlNameSpace));
                     }
                 }
+                if (node.mask && node.mask.spriteFrame) {
+                    var maskSprite = node.mask.spriteFrame;
+                    if (maskSprite.url) {
+                        exportMap.set(maskSprite.url, _this.createExportMapEntity(maskSprite.url, assetRoot, destDir, urlNameSpace));
+                    }
+                    if (maskSprite.atlasUrl) {
+                        exportMap.set(maskSprite.atlasUrl, _this.createExportMapEntity(maskSprite.atlasUrl, assetRoot, destDir, urlNameSpace));
+                    }
+                }
                 _this.pluginPostProcess(node, exportMap, assetRoot, destDir, urlNameSpace, plugins);
             }
         });
@@ -70,6 +79,20 @@ var CocosCreator = /** @class */ (function () {
                         var entity = exportMap.get(node.sprite.atlasUrl);
                         if (entity) {
                             node.sprite.atlasUrl = entity.url;
+                        }
+                    }
+                }
+                if (node.mask && node.mask.spriteFrame) {
+                    if (node.mask.spriteFrame.url) {
+                        var entity = exportMap.get(node.mask.spriteFrame.url);
+                        if (entity) {
+                            node.mask.spriteFrame.url = entity.url;
+                        }
+                    }
+                    if (node.mask.spriteFrame.atlasUrl) {
+                        var entity = exportMap.get(node.mask.spriteFrame.atlasUrl);
+                        if (entity) {
+                            node.mask.spriteFrame.atlasUrl = entity.url;
                         }
                     }
                 }

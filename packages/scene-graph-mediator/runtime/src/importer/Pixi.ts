@@ -94,7 +94,7 @@ export default class Pixi extends Importer {
 
     // collect required resource
     for (let i = 0; i < schema.scene.length; i++) {
-      let url;
+      const urls: string[] = [];
 
       const node = schema.scene[i];
       if (node.spine) {
@@ -102,21 +102,25 @@ export default class Pixi extends Importer {
         // url  = node.spine.url;
         continue;
       } else if (node.sprite) {
-        url = node.sprite.url;
-      } else {
-        continue;
+        if (node.sprite.url) {
+          urls.push(node.sprite.url);
+        }
       }
 
-      if (!url) {
-        continue;
+      if (node.mask && node.mask.spriteFrame) {
+        if (node.mask.spriteFrame.url) {
+          urls.push(node.mask.spriteFrame.url);
+        }
       }
 
-      const asset = { url, name: url };
+      for (const url of urls) {
+        const asset = { url, name: url };
 
-      // user custom process to modify url or resource name
-      this.onAddLoaderAsset(node, asset);
+        // user custom process to modify url or resource name
+        this.onAddLoaderAsset(node, asset);
 
-      assets.set(url, asset);
+        assets.set(url, asset);
+      }
     }
 
     return assets;
@@ -145,7 +149,7 @@ export default class Pixi extends Importer {
    * Textures in loader.resources may be refered.
    */
   public createRuntimeObject(node: Node, resources: any): any {
-    let object: any;
+    let object: PIXI.Container | undefined = undefined;
 
     if (node.spine) {
       // TODO: support spine
@@ -172,8 +176,8 @@ export default class Pixi extends Importer {
           node.sprite.slice.right,
           node.sprite.slice.bottom
         );
-        object.width  = node.transform!.width;
-        object.height = node.transform!.height;
+        object.width  = (node.transform!.width || 0);
+        object.height = (node.transform!.height || 0);
       } else {
         object = new PIXI.Sprite(texture);
       }
@@ -194,6 +198,65 @@ export default class Pixi extends Importer {
       object = this.getInitiator(node.constructorName)(node);
     } else {
       object = new PIXI.Container();
+    }
+
+    if (object && node.mask) {
+      // TODO: 'Inverted' not supported.
+      switch (node.mask.maskType){
+        // RECT
+        case 0: {
+          const maskGraphics = new PIXI.Graphics();
+          maskGraphics.beginFill(0x000000);
+          maskGraphics.drawRect(
+            -node.transform!.anchor.x * node.transform!.width!,
+            -node.transform!.anchor.y * node.transform!.height!,
+            node.transform!.width!,
+            node.transform!.height!
+          );
+          maskGraphics.endFill();
+          object.addChild(maskGraphics);
+          object.mask = maskGraphics;
+          break;
+        }
+
+        // ELLIPSE
+        case 1: {
+          const maskGraphics = new PIXI.Graphics();
+          maskGraphics.beginFill(0x000000);
+          maskGraphics.drawEllipse(
+            0, 0,
+            node.transform!.width! / 2,
+            node.transform!.height! / 2
+          );
+          maskGraphics.endFill();
+          object.addChild(maskGraphics);
+          object.mask = maskGraphics;
+          break;
+        }
+
+        // IMAGE_STENCIL
+        case 2: {
+          const maskSpriteFrame = node.mask.spriteFrame;
+          if (!maskSpriteFrame) {
+            break;
+          }
+
+          let texture = null;
+          if (maskSpriteFrame.atlasUrl && maskSpriteFrame.frameName) {
+            texture = PIXI.Texture.fromFrame(maskSpriteFrame.frameName);
+          } else if (maskSpriteFrame.url) {
+            texture = resources[maskSpriteFrame.url].texture;
+          } else if (maskSpriteFrame.base64) {
+            texture = PIXI.Texture.fromImage(maskSpriteFrame.base64);
+          }
+          const maskSprite = new PIXI.Sprite(texture);
+          maskSprite.x -= maskSprite.width / 2;
+          maskSprite.y -= maskSprite.height / 2;
+          object.addChild(maskSprite);
+          object.mask = maskSprite;
+          break;
+        }
+      }
     }
 
     return object;
