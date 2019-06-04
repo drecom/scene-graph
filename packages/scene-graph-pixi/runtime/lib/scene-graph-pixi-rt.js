@@ -44176,7 +44176,7 @@ var Pixi = /** @class */ (function (_super) {
         var assets = new Map();
         // collect required resource
         for (var i = 0; i < schema.scene.length; i++) {
-            var url = void 0;
+            var urls = [];
             var node = schema.scene[i];
             if (node.spine) {
                 // TODO: support spine
@@ -44184,18 +44184,22 @@ var Pixi = /** @class */ (function (_super) {
                 continue;
             }
             else if (node.sprite) {
-                url = node.sprite.url;
+                if (node.sprite.url) {
+                    urls.push(node.sprite.url);
+                }
             }
-            else {
-                continue;
+            if (node.mask && node.mask.spriteFrame) {
+                if (node.mask.spriteFrame.url) {
+                    urls.push(node.mask.spriteFrame.url);
+                }
             }
-            if (!url) {
-                continue;
+            for (var _i = 0, urls_1 = urls; _i < urls_1.length; _i++) {
+                var url = urls_1[_i];
+                var asset = { url: url, name: url };
+                // user custom process to modify url or resource name
+                this.onAddLoaderAsset(node, asset);
+                assets.set(url, asset);
             }
-            var asset = { url: url, name: url };
-            // user custom process to modify url or resource name
-            this.onAddLoaderAsset(node, asset);
-            assets.set(url, asset);
         }
         return assets;
     };
@@ -44218,7 +44222,7 @@ var Pixi = /** @class */ (function (_super) {
      * Textures in loader.resources may be refered.
      */
     Pixi.prototype.createRuntimeObject = function (node, resources) {
-        var object;
+        var object = undefined;
         if (node.spine) {
             // TODO: support spine
             // object = new PIXI.spine.Spine(resources[node.id].data);
@@ -44239,8 +44243,8 @@ var Pixi = /** @class */ (function (_super) {
             }
             if (node.sprite.slice) {
                 object = new Pixi.pixiRef.mesh.NineSlicePlane(texture, node.sprite.slice.left, node.sprite.slice.top, node.sprite.slice.right, node.sprite.slice.bottom);
-                object.width = node.transform.width;
-                object.height = node.transform.height;
+                object.width = (node.transform.width || 0);
+                object.height = (node.transform.height || 0);
             }
             else {
                 object = new Pixi.pixiRef.Sprite(texture);
@@ -44271,6 +44275,54 @@ var Pixi = /** @class */ (function (_super) {
         }
         else {
             object = new Pixi.pixiRef.Container();
+        }
+        if (object && node.mask) {
+            // TODO: 'Inverted' not supported.
+            switch (node.mask.maskType) {
+                // RECT
+                case 0: {
+                    var maskGraphics = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Graphics"]();
+                    maskGraphics.beginFill(0x000000);
+                    maskGraphics.drawRect(-node.transform.anchor.x * node.transform.width, -node.transform.anchor.y * node.transform.height, node.transform.width, node.transform.height);
+                    maskGraphics.endFill();
+                    object.addChild(maskGraphics);
+                    object.mask = maskGraphics;
+                    break;
+                }
+                // ELLIPSE
+                case 1: {
+                    var maskGraphics = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Graphics"]();
+                    maskGraphics.beginFill(0x000000);
+                    maskGraphics.drawEllipse(0, 0, node.transform.width / 2, node.transform.height / 2);
+                    maskGraphics.endFill();
+                    object.addChild(maskGraphics);
+                    object.mask = maskGraphics;
+                    break;
+                }
+                // IMAGE_STENCIL
+                case 2: {
+                    var maskSpriteFrame = node.mask.spriteFrame;
+                    if (!maskSpriteFrame) {
+                        break;
+                    }
+                    var texture = null;
+                    if (maskSpriteFrame.atlasUrl && maskSpriteFrame.frameName) {
+                        texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__["Texture"].fromFrame(maskSpriteFrame.frameName);
+                    }
+                    else if (maskSpriteFrame.url) {
+                        texture = resources[maskSpriteFrame.url].texture;
+                    }
+                    else if (maskSpriteFrame.base64) {
+                        texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__["Texture"].fromImage(maskSpriteFrame.base64);
+                    }
+                    var maskSprite = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Sprite"](texture);
+                    maskSprite.x -= maskSprite.width / 2;
+                    maskSprite.y -= maskSprite.height / 2;
+                    object.addChild(maskSprite);
+                    object.mask = maskSprite;
+                    break;
+                }
+            }
         }
         return object;
     };

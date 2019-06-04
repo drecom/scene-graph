@@ -183,8 +183,8 @@ export default class Pixi extends Importer {
           node.sprite.slice.right,
           node.sprite.slice.bottom
         );
-        object.width  = (node.transform!.width || 0);
-        object.height = (node.transform!.height || 0);
+        object!.width  = (node.transform!.width || 0);
+        object!.height = (node.transform!.height || 0);
       } else {
         object = new Pixi.pixiRef.Sprite(texture);
       }
