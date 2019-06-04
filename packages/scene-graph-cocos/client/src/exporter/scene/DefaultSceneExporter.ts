@@ -448,9 +448,13 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
       return null;
     }
 
-    for (const [key, value] of resourceMap.entries()) {
-      const entity = value;
+    const it = resourceMap.entries();
+    let result = it.next();
+
+    while (!result.done) {
+      const [key, entity] = result.value;
       if (!entity || !entity.submetas) {
+        result = it.next();
         continue;
       }
 
@@ -465,6 +469,7 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
           return { __uuid__: key };
         }
       }
+      result = it.next();
     }
     return null;
   }
