@@ -1,5 +1,13 @@
 aliases:
   - &npm-install |
+    pushd packages/scene-graph-mediator/client
+    rm package-lock.json
+    npm install
+    popd
+    pushd packages/scene-graph-mediator/runtime
+    rm package-lock.json
+    npm install
+    popd
     pushd packages/${CIRCLE_JOB}
     rm package-lock.json
     npm install
