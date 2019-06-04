@@ -24,7 +24,7 @@ describe('SceneExporter::DefaultSceneExporter',  () => {
   describe('createSceneGraphSchemas', () => {
     const subject = instance.createSceneGraphSchemas.bind(instance);
 
-    let scanStub: SinonStub;
+    let scanStub: SinonStub<[(string | undefined)?], void>;
 
     before(() => {
       instance.loadSceneFile    = fake.returns({});
