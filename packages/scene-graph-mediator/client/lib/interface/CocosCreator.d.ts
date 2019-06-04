@@ -11,6 +11,11 @@ export declare const SpriteType: Readonly<{
     FILLED: number;
     MESH: number;
 }>;
+export declare const MaskType: Readonly<{
+    RECT: number;
+    ELLIPSE: number;
+    IMAGE_STENCIL: number;
+}>;
 /**
  * Common meta file interface
  */
@@ -141,4 +146,9 @@ export interface Layout extends Component {
     _N$spacingY: number;
     _N$verticalDirection: number;
     _N$horizontalDirection: number;
+}
+export interface Mask extends Component {
+    _type: number;
+    _spriteFrame: ComponentUuidEntity;
+    _N$inverted: boolean;
 }

@@ -46,6 +46,23 @@ export default class DefaultAssetExporter implements sgmed.AssetExporter {
           }
         }
 
+        if (node.mask && node.mask.spriteFrame) {
+          const maskSprite = node.mask.spriteFrame;
+
+          if (maskSprite.url) {
+            exportMap.set(
+              maskSprite.url,
+              this.createExportMapEntity(maskSprite.url, assetRoot, destDir, urlNameSpace)
+            );
+          }
+          if (maskSprite.atlasUrl) {
+            exportMap.set(
+              maskSprite.atlasUrl,
+              this.createExportMapEntity(maskSprite.atlasUrl, assetRoot, destDir, urlNameSpace)
+            );
+          }
+        }
+
         this.pluginPostProcess(node, exportMap, assetRoot, destDir, urlNameSpace, plugins);
       }
     });
@@ -102,6 +119,20 @@ export default class DefaultAssetExporter implements sgmed.AssetExporter {
             const entity = exportMap.get(node.sprite.atlasUrl);
             if (entity) {
               node.sprite.atlasUrl = entity.url;
+            }
+          }
+        }
+        if (node.mask && node.mask.spriteFrame) {
+          if (node.mask.spriteFrame.url) {
+            const entity = exportMap.get(node.mask.spriteFrame.url);
+            if (entity) {
+              node.mask.spriteFrame.url = entity.url;
+            }
+          }
+          if (node.mask.spriteFrame.atlasUrl) {
+            const entity = exportMap.get(node.mask.spriteFrame.atlasUrl);
+            if (entity) {
+              node.mask.spriteFrame.atlasUrl = entity.url;
             }
           }
         }
