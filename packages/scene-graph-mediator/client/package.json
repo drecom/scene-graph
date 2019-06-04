@@ -33,7 +33,7 @@
     "@types/chai": "^4.1.7",
     "@types/command-line-args": "^5.0.0",
     "@types/mocha": "^5.2.5",
-    "@types/sinon": "^5.0.2",
+    "@types/sinon": "5.0.2",
     "@types/yaml": "^1.0.2",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
