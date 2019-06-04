@@ -72,9 +72,15 @@ workflows:
   version: 2
   all-test:
     jobs:
-      - scene-graph-mediator/runtime
       - scene-graph-mediator/client
+      - scene-graph-cocos/client
+      - scene-graph-unity/client
+      - scene-graph-three/runtime
+      - scene-graph-pixi/runtime
       - report_success:
           requires:
-            - scene-graph-mediator/runtime
             - scene-graph-mediator/client
+            - scene-graph-cocos/client
+            - scene-graph-unity/client
+            - scene-graph-three/runtime
+            - scene-graph-pixi/runtime
