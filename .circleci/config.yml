@@ -1,6 +1,7 @@
 aliases:
   - &npm-install |
     pushd packages/${CIRCLE_JOB}
+    rm package-lock.json
     npm install
     popd
   - &build |
