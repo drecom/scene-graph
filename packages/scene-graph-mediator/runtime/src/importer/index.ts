@@ -1,11 +1,3 @@
-import { Importer, ImportOption } from 'importer/Importer';
-import Pixi from 'importer/Pixi';
-import Three from 'importer/Three';
+import { Importer, ImportOption } from './Importer';
 
-const Importers = {
-  Pixi,
-  Three,
-  Abstract: Importer
-};
-
-export { Importers, ImportOption };
+export { Importer, ImportOption };

@@ -9,4 +9,5 @@ export default interface Args {
     assetDestDir: string;
     assetNameSpace: string;
     plugins: string[];
+    listRuntimes: boolean;
 }

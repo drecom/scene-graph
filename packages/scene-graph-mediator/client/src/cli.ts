@@ -5,7 +5,6 @@ import Args from './interface/Args';
 import ExportManager from './exporter/ExportManager';
 import parseArgs from './modules/parseArgs';
 import mkdirp from './modules/mkdirp';
-import { CliHelptext } from './constants';
 
 /**
  * entry point for export CLI
@@ -15,8 +14,14 @@ export default function cli(): void {
   try {
     args = parseArgs();
   } catch (e) {
-    console.log(e);
-    console.log(CliHelptext);
+    console.log(e.message);
+    return;
+  }
+
+  if (args.listRuntimes) {
+    const runtimes = ExportManager.getRegisteredExporterRuntimes();
+    console.log('available runtime identifiers:');
+    console.log(runtimes.sort().join('\n'));
     return;
   }
 

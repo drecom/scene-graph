@@ -1,0 +1,46 @@
+{
+  "name": "@drecom/scene-graph-cocos-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": {
+    "sgmed": "bin/cli.js"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build:lib": "tsc -p .",
+    "build:docs": "typedoc 'src/'",
+    "test:lint": "tslint -p tsconfig.json --format stylish 'src/**/*.ts*'",
+    "test:unit": "mocha -r ts-node/register $(find test | grep .test.ts)",
+    "test:example": "./bin/cli.js -c ./example/sgmed.config.js",
+    "test:cov:unit": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register $(find test | grep .test.ts) && nyc report",
+    "test:cov:report": "nyc report",
+    "test:unit:watch": "karma start --auto-watch --no-single-run",
+    "workflow:build": "npm run build:lib && npm run build:docs",
+    "workflow:test": "npm run test:lint && npm run test:cov:unit"
+  },
+  "keywords": [],
+  "author": "Drecom Co.,Ltd.",
+  "devDependencies": {
+    "@drecom/scene-graph-mediator-cli": "file:../../scene-graph-mediator/client",
+    "@drecom/scene-graph-schema": "^0.1.1",
+    "@types/chai": "^4.1.7",
+    "@types/command-line-args": "^5.0.0",
+    "@types/mocha": "^5.2.6",
+    "@types/sinon": "^7.0.12",
+    "@types/yaml": "^1.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "power-assert": "^1.6.1",
+    "sinon": "^7.3.2",
+    "ts-loader": "^6.0.1",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.4.5",
+    "yaml": "^1.6.0"
+  }
+}

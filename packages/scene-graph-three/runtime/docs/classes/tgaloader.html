@@ -1,0 +1,973 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>TgaLoader | scene-graph-three-rt</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">scene-graph-three-rt</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="tgaloader.html">TgaLoader</a>
+				</li>
+			</ul>
+			<h1>Class TgaLoader</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">TgaLoader</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/threeloader.html" class="tsd-signature-type">ThreeLoader</a></li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="tgaloader.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tgaloader.html#manager" class="tsd-kind-icon">manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="tgaloader.html#path" class="tsd-kind-icon">path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_origin_bl" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>BL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_origin_br" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>BR</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_origin_mask" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>MASK</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_origin_shift" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>SHIFT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_origin_ul" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>UL</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_origin_ur" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>UR</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_grey" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>GREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_indexed" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>INDEXED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_no_data" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>NO_<wbr>DATA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_rgb" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RGB</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_rle_grey" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>GREY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_rle_indexed" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>INDEXED</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#tga_type_rle_rgb" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>RGB</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="tgaloader.html#threeref" class="tsd-kind-icon">three<wbr>Ref</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#gettgargba" class="tsd-kind-icon">get<wbr>TgaRGBA</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#load" class="tsd-kind-icon">load</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#parse" class="tsd-kind-icon">parse</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#setpath" class="tsd-kind-icon">set<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgacheckheader" class="tsd-kind-icon">tga<wbr>Check<wbr>Header</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgagetimagedata16bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data16bits</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgagetimagedata24bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data24bits</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgagetimagedata32bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data32bits</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgagetimagedata8bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data8bits</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgagetimagedatagrey16bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey16bits</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgagetimagedatagrey8bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey8bits</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="tgaloader.html#tgaparse" class="tsd-kind-icon">tga<wbr>Parse</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Tga<wbr>Loader<span class="tsd-signature-symbol">(</span>manager<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="tgaloader.html" class="tsd-signature-type">TgaLoader</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:38</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> manager: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="tgaloader.html" class="tsd-signature-type">TgaLoader</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="manager" class="tsd-anchor"></a>
+					<h3>manager</h3>
+					<div class="tsd-signature tsd-kind-icon">manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:38</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="path" class="tsd-anchor"></a>
+					<h3>path</h3>
+					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:37</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_origin_bl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>ORIGIN_<wbr>BL</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>BL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:32</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_origin_br" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>ORIGIN_<wbr>BR</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>BR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:33</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_origin_mask" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>ORIGIN_<wbr>MASK</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>MASK<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;48</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:30</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_origin_shift" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>ORIGIN_<wbr>SHIFT</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>SHIFT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;4</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:31</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_origin_ul" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>ORIGIN_<wbr>UL</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>UL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;2</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:34</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_origin_ur" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>ORIGIN_<wbr>UR</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>UR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;3</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:35</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_grey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>GREY</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>GREY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;3</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:25</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_indexed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>INDEXED</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>INDEXED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:23</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_no_data" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>NO_<wbr>DATA</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>NO_<wbr>DATA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:22</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_rgb" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>RGB</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RGB<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;2</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:24</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_rle_grey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>RLE_<wbr>GREY</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>GREY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;11</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:28</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_rle_indexed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>RLE_<wbr>INDEXED</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>INDEXED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;9</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:26</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="tga_type_rle_rgb" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> TGA_<wbr>TYPE_<wbr>RLE_<wbr>RGB</h3>
+					<div class="tsd-signature tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>RGB<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:27</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="threeref" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> three<wbr>Ref</h3>
+					<div class="tsd-signature tsd-kind-icon">three<wbr>Ref<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in runtime_helper/loaders/TgaLoader.ts:18</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettgargba" class="tsd-anchor"></a>
+					<h3>get<wbr>TgaRGBA</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>TgaRGBA<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, use_grey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, palette<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:362</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>use_grey: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>width: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>height: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>palette: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="load" class="tsd-anchor"></a>
+					<h3>load</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, onLoad<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, onProgress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, onError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/threeloader.html">ThreeLoader</a>.<a href="../interfaces/threeloader.html#load">load</a></p>
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:43</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> onLoad: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> onProgress: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> onError: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="parse" class="tsd-anchor"></a>
+					<h3>parse</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">parse<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:64</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setpath" class="tsd-anchor"></a>
+					<h3>set<wbr>Path</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Path<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:155</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgacheckheader" class="tsd-anchor"></a>
+					<h3>tga<wbr>Check<wbr>Header</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Check<wbr>Header<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:160</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgagetimagedata16bits" class="tsd-anchor"></a>
+					<h3>tga<wbr>Get<wbr>Image<wbr>Data16bits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data16bits<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, imageData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:280</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>imageData: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>y_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgagetimagedata24bits" class="tsd-anchor"></a>
+					<h3>tga<wbr>Get<wbr>Image<wbr>Data24bits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data24bits<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, imageData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:297</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>imageData: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>y_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgagetimagedata32bits" class="tsd-anchor"></a>
+					<h3>tga<wbr>Get<wbr>Image<wbr>Data32bits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data32bits<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, imageData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:313</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>imageData: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>y_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgagetimagedata8bits" class="tsd-anchor"></a>
+					<h3>tga<wbr>Get<wbr>Image<wbr>Data8bits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data8bits<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, imageData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, palettes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:262</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>imageData: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>y_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>palettes: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgagetimagedatagrey16bits" class="tsd-anchor"></a>
+					<h3>tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey16bits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey16bits<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, imageData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:346</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>imageData: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>y_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgagetimagedatagrey8bits" class="tsd-anchor"></a>
+					<h3>tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey8bits</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey8bits<span class="tsd-signature-symbol">(</span>header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, imageData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, y_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_start<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_step<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x_end<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, image<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:329</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>imageData: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>y_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_start: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_step: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>x_end: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>image: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tgaparse" class="tsd-anchor"></a>
+					<h3>tga<wbr>Parse</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tga<wbr>Parse<span class="tsd-signature-symbol">(</span>use_rle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, use_pal<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, header<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in runtime_helper/loaders/TgaLoader.ts:200</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>use_rle: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>use_pal: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>header: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>offset: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>palettes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>pixel_<wbr>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="tgaloader.html" class="tsd-kind-icon">Tga<wbr>Loader</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="tgaloader.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="tgaloader.html#manager" class="tsd-kind-icon">manager</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="tgaloader.html#path" class="tsd-kind-icon">path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_origin_bl" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>BL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_origin_br" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>BR</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_origin_mask" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>MASK</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_origin_shift" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>SHIFT</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_origin_ul" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>UL</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_origin_ur" class="tsd-kind-icon">TGA_<wbr>ORIGIN_<wbr>UR</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_grey" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>GREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_indexed" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>INDEXED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_no_data" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>NO_<wbr>DATA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_rgb" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RGB</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_rle_grey" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>GREY</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_rle_indexed" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>INDEXED</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#tga_type_rle_rgb" class="tsd-kind-icon">TGA_<wbr>TYPE_<wbr>RLE_<wbr>RGB</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="tgaloader.html#threeref" class="tsd-kind-icon">three<wbr>Ref</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#gettgargba" class="tsd-kind-icon">get<wbr>TgaRGBA</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#load" class="tsd-kind-icon">load</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#parse" class="tsd-kind-icon">parse</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#setpath" class="tsd-kind-icon">set<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgacheckheader" class="tsd-kind-icon">tga<wbr>Check<wbr>Header</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgagetimagedata16bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data16bits</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgagetimagedata24bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data24bits</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgagetimagedata32bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data32bits</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgagetimagedata8bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data8bits</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgagetimagedatagrey16bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey16bits</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgagetimagedatagrey8bits" class="tsd-kind-icon">tga<wbr>Get<wbr>Image<wbr>Data<wbr>Grey8bits</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="tgaloader.html#tgaparse" class="tsd-kind-icon">tga<wbr>Parse</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

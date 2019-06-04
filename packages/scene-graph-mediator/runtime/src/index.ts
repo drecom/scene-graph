@@ -1,12 +1,12 @@
-import { Importers, ImportOption } from 'importer';
-import ImporterPlugin from 'interface/ImporterPlugin';
-import { Exporters } from 'exporter';
-import { Pixi as PixiPropertyConverter } from 'property_converter/Pixi';
+import { Importer, ImportOption } from './importer';
+import { Exporter } from './exporter';
+import ImporterPlugin from './interface/ImporterPlugin';
+import PropertyConverter from './interface/PropertyConverter';
 
 export {
-  Importers,
+  Importer,
   ImportOption,
+  Exporter,
   ImporterPlugin,
-  Exporters,
-  PixiPropertyConverter
+  PropertyConverter
 };

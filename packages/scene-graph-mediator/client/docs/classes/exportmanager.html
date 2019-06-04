@@ -83,14 +83,20 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="exportmanager.html#exporters" class="tsd-kind-icon">exporters</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exportmanager.html#exportasset" class="tsd-kind-icon">export<wbr>Asset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exportmanager.html#exportscene" class="tsd-kind-icon">export<wbr>Scene</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="exportmanager.html#loadplugins" class="tsd-kind-icon">load<wbr>Plugins</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="exportmanager.html#getassetexporterclass" class="tsd-kind-icon">get<wbr>Asset<wbr>Exporter<wbr>Class</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="exportmanager.html#getsceneexporterclass" class="tsd-kind-icon">get<wbr>Scene<wbr>Exporter<wbr>Class</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="exportmanager.html#getregisteredexporterruntimes" class="tsd-kind-icon">get<wbr>Registered<wbr>Exporter<wbr>Runtimes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="exportmanager.html#registerexporterclass" class="tsd-kind-icon">register<wbr>Exporter<wbr>Class</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
@@ -100,6 +106,19 @@
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="exporters" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> exporters</h3>
+					<div class="tsd-signature tsd-kind-icon">exporters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, {scene: SceneExporterConstructor,asset: AssetExporterConstructor}&gt;()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L12">exporter/ExportManager.ts:12</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -114,7 +133,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L114">exporter/ExportManager.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L103">exporter/ExportManager.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -154,7 +173,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L91">exporter/ExportManager.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L80">exporter/ExportManager.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -188,7 +207,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L63">exporter/ExportManager.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L52">exporter/ExportManager.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,52 +226,43 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="getassetexporterclass" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Asset<wbr>Exporter<wbr>Class</h3>
+					<a name="getregisteredexporterruntimes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Registered<wbr>Exporter<wbr>Runtimes</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Asset<wbr>Exporter<wbr>Class<span class="tsd-signature-symbol">(</span>runtimeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/assetexporterconstructor.html" class="tsd-signature-type">AssetExporterConstructor</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Registered<wbr>Exporter<wbr>Runtimes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L43">exporter/ExportManager.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L38">exporter/ExportManager.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dyamically loads asset exporter implements</p>
+									<p>Returnes registered keys of exporters</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>runtimeId: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/assetexporterconstructor.html" class="tsd-signature-type">AssetExporterConstructor</a>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="getsceneexporterclass" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Scene<wbr>Exporter<wbr>Class</h3>
+					<a name="registerexporterclass" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> register<wbr>Exporter<wbr>Class</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Scene<wbr>Exporter<wbr>Class<span class="tsd-signature-symbol">(</span>runtimeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/sceneexporterconstructor.html" class="tsd-signature-type">SceneExporterConstructor</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Exporter<wbr>Class<span class="tsd-signature-symbol">(</span>runtimeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, scene<span class="tsd-signature-symbol">: </span><a href="../interfaces/sceneexporterconstructor.html" class="tsd-signature-type">SceneExporterConstructor</a>, asset<span class="tsd-signature-symbol">: </span><a href="../interfaces/assetexporterconstructor.html" class="tsd-signature-type">AssetExporterConstructor</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L24">exporter/ExportManager.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L27">exporter/ExportManager.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dyamically loads scene exporter implements</p>
+									<p>Register exporter class implements</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -260,11 +270,14 @@
 								<li>
 									<h5>runtimeId: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5>scene: <a href="../interfaces/sceneexporterconstructor.html" class="tsd-signature-type">SceneExporterConstructor</a></h5>
+								</li>
+								<li>
+									<h5>asset: <a href="../interfaces/assetexporterconstructor.html" class="tsd-signature-type">AssetExporterConstructor</a></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/sceneexporterconstructor.html" class="tsd-signature-type">SceneExporterConstructor</a>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -277,7 +290,7 @@
 					<div class="tsd-signature tsd-kind-icon">plugins<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L16">exporter/ExportManager.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L19">exporter/ExportManager.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -291,7 +304,7 @@
 						<div class="tsd-signature tsd-kind-icon">assets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/assetexporterplugin.html" class="tsd-signature-type">AssetExporterPlugin</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, AssetExporterPlugin&gt;()</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L17">exporter/ExportManager.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L20">exporter/ExportManager.ts:20</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -301,7 +314,7 @@
 						<div class="tsd-signature tsd-kind-icon">scenes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/sceneexporterplugin.html" class="tsd-signature-type">SceneExporterPlugin</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, SceneExporterPlugin&gt;()</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L18">exporter/ExportManager.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/ExportManager.ts#L21">exporter/ExportManager.ts:21</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -318,11 +331,20 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="assetfileentity.html" class="tsd-kind-icon">Asset<wbr>File<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="assetfilemap.html" class="tsd-kind-icon">Asset<wbr>File<wbr>Map</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
 						<a href="exportmanager.html" class="tsd-kind-icon">Export<wbr>Manager</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="exportmanager.html#exporters" class="tsd-kind-icon">exporters</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="exportmanager.html#exportasset" class="tsd-kind-icon">export<wbr>Asset</a>
 							</li>
@@ -333,10 +355,10 @@
 								<a href="exportmanager.html#loadplugins" class="tsd-kind-icon">load<wbr>Plugins</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="exportmanager.html#getassetexporterclass" class="tsd-kind-icon">get<wbr>Asset<wbr>Exporter<wbr>Class</a>
+								<a href="exportmanager.html#getregisteredexporterruntimes" class="tsd-kind-icon">get<wbr>Registered<wbr>Exporter<wbr>Runtimes</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="exportmanager.html#getsceneexporterclass" class="tsd-kind-icon">get<wbr>Scene<wbr>Exporter<wbr>Class</a>
+								<a href="exportmanager.html#registerexporterclass" class="tsd-kind-icon">register<wbr>Exporter<wbr>Class</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
 								<a href="exportmanager.html#plugins" class="tsd-kind-icon">plugins</a>
@@ -345,6 +367,45 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/args.html" class="tsd-kind-icon">Args</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/assetexporter.html" class="tsd-kind-icon">Asset<wbr>Exporter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/assetexporterconstructor.html" class="tsd-kind-icon">Asset<wbr>Exporter<wbr>Constructor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/assetexporterplugin.html" class="tsd-kind-icon">Asset<wbr>Exporter<wbr>Plugin</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/importer.html" class="tsd-kind-icon">Importer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/importerconstructor.html" class="tsd-kind-icon">Importer<wbr>Constructor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/sceneexporter.html" class="tsd-kind-icon">Scene<wbr>Exporter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/sceneexporterconstructor.html" class="tsd-kind-icon">Scene<wbr>Exporter<wbr>Constructor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/sceneexporterplugin.html" class="tsd-kind-icon">Scene<wbr>Exporter<wbr>Plugin</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#assetexportmapentity" class="tsd-kind-icon">Asset<wbr>Export<wbr>Map<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#cli" class="tsd-kind-icon">cli</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#mkdirp" class="tsd-kind-icon">mkdirp</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#parseargs" class="tsd-kind-icon">parse<wbr>Args</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

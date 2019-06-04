@@ -8,18 +8,19 @@ import AssetExportMapEntity from '../interface/AssetExportMapEntity';
  * Bundles each export processes and manages running them.
  */
 export default class ExportManager {
+    private static exporters;
     /**
      * Plugins placeholder
      */
     private plugins;
     /**
-     * Dyamically loads scene exporter implements
+     * Register exporter class implements
      */
-    static getSceneExporterClass(runtimeId: string): SceneExporterConstructor | null;
+    static registerExporterClass(runtimeId: string, scene: SceneExporterConstructor, asset: AssetExporterConstructor): void;
     /**
-     * Dyamically loads asset exporter implements
+     * Returnes registered keys of exporters
      */
-    static getAssetExporterClass(runtimeId: string): AssetExporterConstructor | null;
+    static getRegisteredExporterRuntimes(): string[];
     /**
      * Dynamically loads user defined plugin by absolute module path
      */

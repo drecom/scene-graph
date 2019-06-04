@@ -40,11 +40,23 @@ aliases:
 
 version: 2
 jobs:
-  scene-graph-mediator/runtime:
+  scene-graph-mediator/client:
     docker: *common-docker
     steps: *job-build-and-test
 
-  scene-graph-mediator/client:
+  scene-graph-cocos/client:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-unity/client:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-three/runtime:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-pixi/runtime:
     docker: *common-docker
     steps: *job-build-and-test
 
@@ -65,3 +77,4 @@ workflows:
       - report_success:
           requires:
             - scene-graph-mediator/runtime
+            - scene-graph-mediator/client

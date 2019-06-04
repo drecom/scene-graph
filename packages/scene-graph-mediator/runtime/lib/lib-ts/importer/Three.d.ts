@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
-import { Importer, ImportOption } from 'importer/Importer';
+import { Importer, ImportOption } from './Importer';
 declare type ThreeAssetInfo = {
     url: string;
     name: string;
