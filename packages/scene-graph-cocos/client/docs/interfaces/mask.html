@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MetaBase | scene-graph-cocos-cli</title>
+	<title>Mask | scene-graph-cocos-cli</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,31 +54,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="metabase.html">MetaBase</a>
+					<a href="mask.html">Mask</a>
 				</li>
 			</ul>
-			<h1>Interface MetaBase</h1>
+			<h1>Interface Mask</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Common meta file interface</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MetaBase</span>
+						<a href="component.html" class="tsd-signature-type">Component</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="metasprite.html" class="tsd-signature-type">MetaSprite</a>
+								<span class="target">Mask</span>
 							</li>
 						</ul>
 					</li>
@@ -91,8 +84,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="metabase.html#submetas" class="tsd-kind-icon">sub<wbr>Metas</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="metabase.html#uuid" class="tsd-kind-icon">uuid</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mask.html#_n_inverted" class="tsd-kind-icon">_<wbr>N$inverted</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="mask.html#__type__" class="tsd-kind-icon">__type__</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mask.html#_spriteframe" class="tsd-kind-icon">_sprite<wbr>Frame</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mask.html#_type" class="tsd-kind-icon">_type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="mask.html#node" class="tsd-kind-icon">node</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,30 +97,54 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="submetas" class="tsd-anchor"></a>
-					<h3>sub<wbr>Metas</h3>
-					<div class="tsd-signature tsd-kind-icon">sub<wbr>Metas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="_n_inverted" class="tsd-anchor"></a>
+					<h3>_<wbr>N$inverted</h3>
+					<div class="tsd-signature tsd-kind-icon">_<wbr>N$inverted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L35">interface/CocosCreator.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L180">interface/CocosCreator.ts:180</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="metabase.html" class="tsd-signature-type">MetaBase</a></h5>
-							</li>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="__type__" class="tsd-anchor"></a>
+					<h3>__type__</h3>
+					<div class="tsd-signature tsd-kind-icon">__type__<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="componentbase.html">ComponentBase</a>.<a href="componentbase.html#__type__">__type__</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L68">interface/CocosCreator.ts:68</a></li>
 						</ul>
-					</div>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="uuid" class="tsd-anchor"></a>
-					<h3>uuid</h3>
-					<div class="tsd-signature tsd-kind-icon">uuid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="_spriteframe" class="tsd-anchor"></a>
+					<h3>_sprite<wbr>Frame</h3>
+					<div class="tsd-signature tsd-kind-icon">_sprite<wbr>Frame<span class="tsd-signature-symbol">:</span> <a href="componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L34">interface/CocosCreator.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L179">interface/CocosCreator.ts:179</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="_type" class="tsd-anchor"></a>
+					<h3>_type</h3>
+					<div class="tsd-signature tsd-kind-icon">_type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L178">interface/CocosCreator.ts:178</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="node" class="tsd-anchor"></a>
+					<h3>node</h3>
+					<div class="tsd-signature tsd-kind-icon">node<span class="tsd-signature-symbol">:</span> <a href="componentnodeidentity.html" class="tsd-signature-type">ComponentNodeIdEntity</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="component.html">Component</a>.<a href="component.html#node">node</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L112">interface/CocosCreator.ts:112</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,24 +193,33 @@
 					<li class=" tsd-kind-interface">
 						<a href="layout.html" class="tsd-kind-icon">Layout</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="mask.html" class="tsd-kind-icon">Mask</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="metabase.html" class="tsd-kind-icon">Meta<wbr>Base</a>
+						<a href="mask.html" class="tsd-kind-icon">Mask</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="metabase.html#submetas" class="tsd-kind-icon">sub<wbr>Metas</a>
+								<a href="mask.html#_n_inverted" class="tsd-kind-icon">_<wbr>N$inverted</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="mask.html#__type__" class="tsd-kind-icon">__type__</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="metabase.html#uuid" class="tsd-kind-icon">uuid</a>
+								<a href="mask.html#_spriteframe" class="tsd-kind-icon">_sprite<wbr>Frame</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="mask.html#_type" class="tsd-kind-icon">_type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="mask.html#node" class="tsd-kind-icon">node</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="metabase.html" class="tsd-kind-icon">Meta<wbr>Base</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="metasprite.html" class="tsd-kind-icon">Meta<wbr>Sprite</a>
 					</li>

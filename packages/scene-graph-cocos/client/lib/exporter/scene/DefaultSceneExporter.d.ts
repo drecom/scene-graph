@@ -62,6 +62,10 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
      * Append supported components to scene graph node
      */
     protected appendComponents(json: cc.ComponentBase[], graph: SchemaJson, resourceMap: Map<string, ResourceMapEntity>): void;
+    private findSpriteData;
+    private findAtlasData;
+    private findSpriteFrameData;
+    private findAtlasDataBySpriteFrameUuid;
     /**
      * Detect and append supported component to scene graph node
      */

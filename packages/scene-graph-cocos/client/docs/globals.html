@@ -84,6 +84,7 @@
 								<li class="tsd-kind-interface"><a href="interfaces/componentuuidentity.html" class="tsd-kind-icon">Component<wbr>Uuid<wbr>Entity</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/label.html" class="tsd-kind-icon">Label</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/layout.html" class="tsd-kind-icon">Layout</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/mask.html" class="tsd-kind-icon">Mask</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/metabase.html" class="tsd-kind-icon">Meta<wbr>Base</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/metasprite.html" class="tsd-kind-icon">Meta<wbr>Sprite</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/node.html" class="tsd-kind-icon">Node</a></li>
@@ -103,6 +104,7 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable"><a href="globals.html#masktype" class="tsd-kind-icon">Mask<wbr>Type</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#metatypes" class="tsd-kind-icon">Meta<wbr>Types</a></li>
 								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#resourcetype" class="tsd-kind-icon">Resource<wbr>Type</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#spritetype" class="tsd-kind-icon">Sprite<wbr>Type</a></li>
@@ -125,7 +127,7 @@
 					<div class="tsd-signature tsd-kind-icon">Resource<wbr>Map<wbr>Entity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in exporter/scene/DefaultSceneExporter.ts:22</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/exporter/scene/DefaultSceneExporter.ts#L22">exporter/scene/DefaultSceneExporter.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -158,12 +160,27 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
-					<a name="metatypes" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Meta<wbr>Types</h3>
-					<div class="tsd-signature tsd-kind-icon">Meta<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({SCENE:  &#x27;cc.Scene&#x27;,CANVAS: &#x27;cc.Canvas&#x27;,NODE:   &#x27;cc.Node&#x27;,SPRITE: &#x27;cc.Sprite&#x27;,LABEL:  &#x27;cc.Label&#x27;,LAYOUT: &#x27;cc.Layout&#x27;})</span></div>
+					<a name="masktype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Mask<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Mask<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({RECT:           0,ELLIPSE:        1,IMAGE_STENCIL:  2,})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in interface/CocosCreator.ts:5</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L24">interface/CocosCreator.ts:24</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="metatypes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Meta<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">Meta<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({SCENE:  &#x27;cc.Scene&#x27;,CANVAS: &#x27;cc.Canvas&#x27;,NODE:   &#x27;cc.Node&#x27;,SPRITE: &#x27;cc.Sprite&#x27;,LABEL:  &#x27;cc.Label&#x27;,LAYOUT: &#x27;cc.Layout&#x27;,MASK:   &#x27;cc.Mask&#x27;})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L5">interface/CocosCreator.ts:5</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">Resource<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({NOT_RESOURCE: &#x27;NotResource&#x27;,SPRITE_FRAME: &#x27;SpriteFrame&#x27;,ATLAS: &#x27;Atlas&#x27;,})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in exporter/scene/DefaultSceneExporter.ts:11</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/exporter/scene/DefaultSceneExporter.ts#L11">exporter/scene/DefaultSceneExporter.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -209,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">Sprite<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;Object.freeze({SIMPLE: 0,SLICED: 1,TILED:  2,FILLED: 3,MESH:   4})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in interface/CocosCreator.ts:15</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/interface/CocosCreator.ts#L16">interface/CocosCreator.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -227,7 +244,7 @@
 					<div class="tsd-signature tsd-kind-icon">Identifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in constants.ts:1</li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/constants.ts#L1">constants.ts:1</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -236,7 +253,7 @@
 						<div class="tsd-signature tsd-kind-icon">COCOS_<wbr>CREATOR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;cc&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in constants.ts:2</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/constants.ts#L2">constants.ts:2</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -246,7 +263,7 @@
 						<div class="tsd-signature tsd-kind-icon">COCOS_<wbr>CREATOR_<wbr><wbr>V1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;cc1&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in constants.ts:3</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/constants.ts#L3">constants.ts:3</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -256,7 +273,7 @@
 						<div class="tsd-signature tsd-kind-icon">COCOS_<wbr>CREATOR_<wbr><wbr>V2<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;cc2&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in constants.ts:4</li>
+								<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-cocos/client/src/constants.ts#L4">constants.ts:4</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -307,6 +324,9 @@
 						<a href="interfaces/layout.html" class="tsd-kind-icon">Layout</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/mask.html" class="tsd-kind-icon">Mask</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/metabase.html" class="tsd-kind-icon">Meta<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -332,6 +352,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-not-exported">
 						<a href="globals.html#resourcemapentity" class="tsd-kind-icon">Resource<wbr>Map<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#masktype" class="tsd-kind-icon">Mask<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#metatypes" class="tsd-kind-icon">Meta<wbr>Types</a>

@@ -103,7 +103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(t,e){ true?module.exports=e():undefined}(window,function(){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";n.r(e);var r,o={autoCoordinateFix:!0},i=function(){function t(){this.onAddLoaderAsset=function(t,e){},this.onRestoreNode=function(t,e){return null},this.onRuntimeObjectCreated=function(t,e){},this.onTransformRestored=function(t,e,n,r,o){},this.plugins=[]}return t.prototype.setOnAddLoaderAsset=function(t){void 0===t&&(t=function(t,e){}),this.onAddLoaderAsset=t},t.prototype.setOnRestoreNode=function(t){void 0===t&&(t=function(t,e){return null}),this.onRestoreNode=t},t.prototype.setOnRuntimeObjectCreated=function(t){void 0===t&&(t=function(t,e){}),this.onRuntimeObjectCreated=t},t.prototype.setOnTransformRestored=function(t){void 0===t&&(t=function(t,e,n,r,o){}),this.onTransformRestored=t},t.prototype.getInitiator=function(t){return function(){}},t.prototype.hasInitiator=function(t){return!1},t.prototype.addPlugin=function(t){this.plugins.push(t)},t.prototype.pluginPostProcess=function(t,e,n,r){for(var o=0;o<this.plugins.length;o++){this.plugins[o].extendRuntimeObjects(t,e,n,r)}},t.prototype.assembleImportOption=function(t,e){var n={callback:function(t){},config:o};return e?(n.callback=t,n.config=e):t&&(console.log(t.constructor.name),"Function"===t.constructor.name?n.callback=t:n.config=t),n},t.prototype.createNodeMap=function(t){for(var e=new Map,n=0;n<t.scene.length;n++){var r=t.scene[n];e.set(r.id,r)}return e},t.prototype.createRuntimeObjectMap=function(t,e){var n=this,r=new Map;return t.forEach(function(t,o){var i=n.onRestoreNode(t,e);i||(i=n.createRuntimeObject(t,e)),i&&(i.name||(i.name=t.name),n.onRuntimeObjectCreated(o,i),r.set(o,i))}),r},t}(),c=function(){function t(){}return t.prototype.export=function(t,e,n){return this.createSchema(t,e,n)},t}(),u=(r=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])},function(t,e){function n(){this.constructor=t}r(t,e),t.prototype=null===e?Object.create(e):(n.prototype=e.prototype,new n)}),a={Pixi:function(t){function e(){return null!==t&&t.apply(this,arguments)||this}return u(e,t),e.prototype.createSchema=function(t,e,n){return{scene:this.createNodeRecursive(t),metadata:{width:e,height:n,positiveCoord:{xRight:!0,yDown:!0}}}},e.prototype.createNode=function(t){var e=t.constructor.name,n={id:t.name,name:t.name,constructorName:e,transform:{x:t.position.x,y:t.position.y,anchor:{x:0,y:0}}};if(t.parent&&(n.transform.parent=t.parent.name),t.children){n.transform.children=[];for(var r=0;r<t.children.length;r++)n.transform.children.push(t.children[r].name)}switch(e){case"NineSlicePlane":case"Spine":break;case"Sprite":n.sprite={url:t.texture.baseTexture.imageUrl};break;case"Text":n.text={text:t.text,style:{size:t.style.fontSize,color:t.style.fill}}}n.properties={};var o=Object.keys(t);for(r=0;r<o.length;r++){var i=o[r],c=t[i],u=typeof c;"string"!==u&&"number"!==u&&"boolean"!==u||(n.properties[i]=c)}return n},e.prototype.createNodeRecursive=function(t){var e=[];if(e.push(this.createNode(t)),t.children)for(var n=0;n<t.children.length;n++)e=e.concat(this.createNodeRecursive(t.children[n]));return e},e}(c),Abstract:c};n.d(e,"Importer",function(){return i}),n.d(e,"Exporters",function(){return a})}])});
+!function(t,e){ true?module.exports=e():undefined}(window,function(){return function(t){var e={};function n(o){if(e[o])return e[o].exports;var r=e[o]={i:o,l:!1,exports:{}};return t[o].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=t,n.c=e,n.d=function(t,e,o){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:o})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)n.d(o,r,function(e){return t[e]}.bind(null,r));return o},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";n.r(e);var o={autoCoordinateFix:!0},r=function(){function t(){this.onAddLoaderAsset=function(t,e){},this.onRestoreNode=function(t,e){return null},this.onRuntimeObjectCreated=function(t,e){},this.onTransformRestored=function(t,e,n,o,r){},this.plugins=[]}return t.prototype.setOnAddLoaderAsset=function(t){void 0===t&&(t=function(t,e){}),this.onAddLoaderAsset=t},t.prototype.setOnRestoreNode=function(t){void 0===t&&(t=function(t,e){return null}),this.onRestoreNode=t},t.prototype.setOnRuntimeObjectCreated=function(t){void 0===t&&(t=function(t,e){}),this.onRuntimeObjectCreated=t},t.prototype.setOnTransformRestored=function(t){void 0===t&&(t=function(t,e,n,o,r){}),this.onTransformRestored=t},t.prototype.getInitiator=function(t){return function(){}},t.prototype.hasInitiator=function(t){return!1},t.prototype.addPlugin=function(t){this.plugins.push(t)},t.prototype.pluginPostProcess=function(t,e,n,o){for(var r=0;r<this.plugins.length;r++){this.plugins[r].extendRuntimeObjects(t,e,n,o)}},t.prototype.assembleImportOption=function(t,e){var n={callback:function(t){},config:o};return e?(n.callback=t,n.config=e):t&&(console.log(t.constructor.name),"Function"===t.constructor.name?n.callback=t:n.config=t),n},t.prototype.createNodeMap=function(t){for(var e=new Map,n=0;n<t.scene.length;n++){var o=t.scene[n];e.set(o.id,o)}return e},t.prototype.createRuntimeObjectMap=function(t,e){var n=this,o=new Map;return t.forEach(function(t,r){var i=n.onRestoreNode(t,e);i||(i=n.createRuntimeObject(t,e)),i&&(i.name||(i.name=t.name),n.onRuntimeObjectCreated(r,i),o.set(r,i))}),o},t}(),i=function(){function t(){}return t.prototype.export=function(t,e,n){return this.createSchema(t,e,n)},t}();n.d(e,"Importer",function(){return r}),n.d(e,"Exporter",function(){return i})}])});
 
 /***/ }),
 
@@ -44104,6 +44104,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+// FIXME: use user's pixi
 
 
 
@@ -44133,13 +44134,13 @@ var Pixi = /** @class */ (function (_super) {
      * Returns pixi class as initializer
      */
     Pixi.prototype.getInitiator = function (name) {
-        return function (_node) { return new pixi_js__WEBPACK_IMPORTED_MODULE_0__[name](); };
+        return function (_node) { return new Pixi.pixiRef[name](); };
     };
     /**
      * Returns if pixi has property with given name
      */
     Pixi.prototype.hasInitiator = function (name) {
-        return pixi_js__WEBPACK_IMPORTED_MODULE_0__["hasOwnProperty"](name);
+        return Pixi.pixiRef.hasOwnProperty(name);
     };
     /**
      * Import Schema and rebuild runtime node structure.<br />
@@ -44149,13 +44150,13 @@ var Pixi = /** @class */ (function (_super) {
     Pixi.prototype.import = function (schema, param1, param2) {
         var _this = this;
         var option = this.assembleImportOption(param1, param2);
-        var root = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Container"]();
+        var root = new Pixi.pixiRef.Container();
         // create asset list to download
         var assets = this.createAssetMap(schema);
         // load if any asset is required
         if (assets.size > 0) {
-            assets.forEach(function (asset) { pixi_js__WEBPACK_IMPORTED_MODULE_0__["loader"].add(asset); });
-            pixi_js__WEBPACK_IMPORTED_MODULE_0__["loader"].load(function () {
+            assets.forEach(function (asset) { Pixi.pixiRef.loader.add(asset); });
+            Pixi.pixiRef.loader.load(function () {
                 _this.restoreScene(root, schema, option.config);
                 option.callback(root);
             });
@@ -44175,7 +44176,7 @@ var Pixi = /** @class */ (function (_super) {
         var assets = new Map();
         // collect required resource
         for (var i = 0; i < schema.scene.length; i++) {
-            var url = void 0;
+            var urls = [];
             var node = schema.scene[i];
             if (node.spine) {
                 // TODO: support spine
@@ -44183,18 +44184,22 @@ var Pixi = /** @class */ (function (_super) {
                 continue;
             }
             else if (node.sprite) {
-                url = node.sprite.url;
+                if (node.sprite.url) {
+                    urls.push(node.sprite.url);
+                }
             }
-            else {
-                continue;
+            if (node.mask && node.mask.spriteFrame) {
+                if (node.mask.spriteFrame.url) {
+                    urls.push(node.mask.spriteFrame.url);
+                }
             }
-            if (!url) {
-                continue;
+            for (var _i = 0, urls_1 = urls; _i < urls_1.length; _i++) {
+                var url = urls_1[_i];
+                var asset = { url: url, name: url };
+                // user custom process to modify url or resource name
+                this.onAddLoaderAsset(node, asset);
+                assets.set(url, asset);
             }
-            var asset = { url: url, name: url };
-            // user custom process to modify url or resource name
-            this.onAddLoaderAsset(node, asset);
-            assets.set(url, asset);
         }
         return assets;
     };
@@ -44206,7 +44211,7 @@ var Pixi = /** @class */ (function (_super) {
         // map all nodes in schema first
         var nodeMap = this.createNodeMap(schema);
         // then instantiate all containers from node map
-        var containerMap = this.createRuntimeObjectMap(nodeMap, pixi_js__WEBPACK_IMPORTED_MODULE_0__["loader"].resources);
+        var containerMap = this.createRuntimeObjectMap(nodeMap, Pixi.pixiRef.loader.resources);
         // restore renderer
         this.restoreRenderer(nodeMap, containerMap);
         // restore transform in the end
@@ -44217,7 +44222,7 @@ var Pixi = /** @class */ (function (_super) {
      * Textures in loader.resources may be refered.
      */
     Pixi.prototype.createRuntimeObject = function (node, resources) {
-        var object;
+        var object = undefined;
         if (node.spine) {
             // TODO: support spine
             // object = new PIXI.spine.Spine(resources[node.id].data);
@@ -44225,28 +44230,28 @@ var Pixi = /** @class */ (function (_super) {
         else if (node.sprite) {
             var texture = null;
             if (node.sprite.atlasUrl && node.sprite.frameName) {
-                texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__["Texture"].fromFrame(node.sprite.frameName);
+                texture = Pixi.pixiRef.Texture.fromFrame(node.sprite.frameName);
             }
             else if (node.sprite.url) {
                 texture = resources[node.sprite.url].texture;
             }
             else if (node.sprite.base64) {
-                texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__["Texture"].fromImage(node.sprite.base64);
+                texture = Pixi.pixiRef.Texture.fromImage(node.sprite.base64);
             }
             if (!texture) {
                 return null;
             }
             if (node.sprite.slice) {
-                object = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["mesh"].NineSlicePlane(texture, node.sprite.slice.left, node.sprite.slice.top, node.sprite.slice.right, node.sprite.slice.bottom);
-                object.width = node.transform.width;
-                object.height = node.transform.height;
+                object = new Pixi.pixiRef.mesh.NineSlicePlane(texture, node.sprite.slice.left, node.sprite.slice.top, node.sprite.slice.right, node.sprite.slice.bottom);
+                object.width = (node.transform.width || 0);
+                object.height = (node.transform.height || 0);
             }
             else {
-                object = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Sprite"](texture);
+                object = new Pixi.pixiRef.Sprite(texture);
             }
         }
         else if (node.text) {
-            var style = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["TextStyle"]({});
+            var style = new Pixi.pixiRef.TextStyle({});
             if (node.text.style) {
                 style.fontSize = node.text.style.size || 26;
                 style.fill = node.text.style.color || 'black';
@@ -44263,13 +44268,61 @@ var Pixi = /** @class */ (function (_super) {
                         break;
                 }
             }
-            object = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Text"](node.text.text || '', style);
+            object = new Pixi.pixiRef.Text(node.text.text || '', style);
         }
         else if (this.hasInitiator(node.constructorName)) {
             object = this.getInitiator(node.constructorName)(node);
         }
         else {
-            object = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Container"]();
+            object = new Pixi.pixiRef.Container();
+        }
+        if (object && node.mask) {
+            // TODO: 'Inverted' not supported.
+            switch (node.mask.maskType) {
+                // RECT
+                case 0: {
+                    var maskGraphics = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Graphics"]();
+                    maskGraphics.beginFill(0x000000);
+                    maskGraphics.drawRect(-node.transform.anchor.x * node.transform.width, -node.transform.anchor.y * node.transform.height, node.transform.width, node.transform.height);
+                    maskGraphics.endFill();
+                    object.addChild(maskGraphics);
+                    object.mask = maskGraphics;
+                    break;
+                }
+                // ELLIPSE
+                case 1: {
+                    var maskGraphics = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Graphics"]();
+                    maskGraphics.beginFill(0x000000);
+                    maskGraphics.drawEllipse(0, 0, node.transform.width / 2, node.transform.height / 2);
+                    maskGraphics.endFill();
+                    object.addChild(maskGraphics);
+                    object.mask = maskGraphics;
+                    break;
+                }
+                // IMAGE_STENCIL
+                case 2: {
+                    var maskSpriteFrame = node.mask.spriteFrame;
+                    if (!maskSpriteFrame) {
+                        break;
+                    }
+                    var texture = null;
+                    if (maskSpriteFrame.atlasUrl && maskSpriteFrame.frameName) {
+                        texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__["Texture"].fromFrame(maskSpriteFrame.frameName);
+                    }
+                    else if (maskSpriteFrame.url) {
+                        texture = resources[maskSpriteFrame.url].texture;
+                    }
+                    else if (maskSpriteFrame.base64) {
+                        texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__["Texture"].fromImage(maskSpriteFrame.base64);
+                    }
+                    var maskSprite = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["Sprite"](texture);
+                    maskSprite.x -= maskSprite.width / 2;
+                    maskSprite.y -= maskSprite.height / 2;
+                    object.addChild(maskSprite);
+                    object.mask = maskSprite;
+                    break;
+                }
+            }
         }
         return object;
     };
@@ -44360,7 +44413,7 @@ var Pixi = /** @class */ (function (_super) {
                 var color = node.renderer.color;
                 if (!Pixi.isDefaultColor(color.r, color.g, color.b)) {
                     // TODO: consider Sprite tint
-                    var filter = new pixi_js__WEBPACK_IMPORTED_MODULE_0__["filters"].ColorMatrixFilter();
+                    var filter = new Pixi.pixiRef.filters.ColorMatrixFilter();
                     filter.matrix = [
                         color.r / 255, 0, 0, 0, 0,
                         0, color.g / 255, 0, 0, 0,
@@ -44378,6 +44431,10 @@ var Pixi = /** @class */ (function (_super) {
             }
         });
     };
+    /**
+     * FIXME: use user's pixi
+     */
+    Pixi.pixiRef = pixi_js__WEBPACK_IMPORTED_MODULE_0__;
     return Pixi;
 }(_drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__["Importer"]));
 /* harmony default export */ __webpack_exports__["default"] = (Pixi);
