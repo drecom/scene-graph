@@ -158,8 +158,7 @@ export default function parseArgs(): Args {
     if (!path.isAbsolute(args.assetDestDir)) {
       args.assetDestDir = path.resolve(args.destDir, args.assetNameSpace, args.assetDestDir);
     }
-  }
-  else {
+  } else {
     args.assetDestDir = path.resolve(args.destDir, args.assetNameSpace);
   }
 

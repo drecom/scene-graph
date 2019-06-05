@@ -5,4 +5,4 @@ declare global {
         fillLeft(word: string, count: number): string;
     }
 }
-export default function Dummy(): void;
+export default function dummy(): void;
