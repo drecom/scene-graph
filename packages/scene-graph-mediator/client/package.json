@@ -55,7 +55,6 @@
   },
   "gitHead": "74a6a4cebe353511caddc925538937a265572b5c",
   "dependencies": {
-    "@types/node": "^12.0.4",
     "commander": "^2.19.0"
   }
 }
