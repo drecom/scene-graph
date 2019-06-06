@@ -137,7 +137,7 @@ export default class Unity implements AssetExporter {
     urlNameSpace: string,
     movePath: string = ''
   ): AssetExportMapEntity {
-    const destRelativePath = (movePath || basePath).replace(RegExp(`\^${assetRoot}`), '');
+    const destRelativePath = path.relative(assetRoot, (movePath || basePath));
     return {
       localSrcPath: basePath,
       localDestPath: path.join(destDir, destRelativePath),

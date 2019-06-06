@@ -97,7 +97,7 @@ var Unity = /** @class */ (function () {
      */
     Unity.prototype.createExportMapEntity = function (basePath, assetRoot, destDir, urlNameSpace, movePath) {
         if (movePath === void 0) { movePath = ''; }
-        var destRelativePath = (movePath || basePath).replace(RegExp("^" + assetRoot), '');
+        var destRelativePath = path.relative(assetRoot, (movePath || basePath));
         return {
             localSrcPath: basePath,
             localDestPath: path.join(destDir, destRelativePath),
