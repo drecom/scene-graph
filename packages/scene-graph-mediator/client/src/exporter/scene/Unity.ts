@@ -132,6 +132,11 @@ export default class Unity implements SceneExporter {
         return;
       }
 
+      const assetCount = assets.length;
+      if (assetCount === 0) {
+        return;
+      }
+
       const file = assets[0].file;
       if (!file) {
         return;
@@ -157,7 +162,7 @@ export default class Unity implements SceneExporter {
         height: 0,
         positiveCoord: {
           xRight: true,
-          yDown:  false,
+          yDown: false,
           zFront: false
         },
         baseCoordinate: {

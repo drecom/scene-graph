@@ -99,6 +99,10 @@ var Unity = /** @class */ (function () {
             if (!assets) {
                 return;
             }
+            var assetCount = assets.length;
+            if (assetCount === 0) {
+                return;
+            }
             var file = assets[0].file;
             if (!file) {
                 return;
