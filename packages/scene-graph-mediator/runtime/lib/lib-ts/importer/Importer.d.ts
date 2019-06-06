@@ -83,4 +83,5 @@ export declare abstract class Importer {
      * This method uses createRuntimeObject interface to create each object
      */
     protected createRuntimeObjectMap(nodeMap: Map<string, Node>, resources: any): Map<string, any>;
+    protected createRuntimeObjectForPlugins(node: Node, resources: any): any | null;
 }
