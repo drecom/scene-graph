@@ -238,6 +238,17 @@ export default class Three extends Importer {
     // noop
   }
 
+  public createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
+    let result: any | null = null;
+    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
+
+    for (let i = 0, len = plugins.length; i < len && !result; i++) {
+      result = plugins[i].createRuntimeObject!(node, resources);
+    }
+
+    return result;
+  }
+
   /**
    * Returns asset type used in three.js based on exported format
    */
@@ -276,16 +287,5 @@ export default class Three extends Importer {
     }
 
     return loader;
-  }
-
-  protected createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
-    let result: any | null = null;
-    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
-
-    for (let i = 0, len = plugins.length; i < len && !result; i++) {
-      result = plugins[i].createRuntimeObject!(node, resources);
-    }
-
-    return result;
   }
 }

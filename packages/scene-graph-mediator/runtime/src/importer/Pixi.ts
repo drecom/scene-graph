@@ -295,6 +295,17 @@ export default class Pixi extends Importer {
     PropertyConverter.applyConvertedObject(obj, convertedValues);
   }
 
+  public createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
+    let result: any | null = null;
+    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
+
+    for (let i = 0, len = plugins.length; i < len && !result; i++) {
+      result = plugins[i].createRuntimeObject!(node, resources);
+    }
+
+    return result;
+  }
+
   private restoreRenderer(nodeMap: Map<string, Node>, containerMap: ContainerMap): void {
     containerMap.forEach((container, id) => {
       // node that is not from schema
@@ -328,16 +339,5 @@ export default class Pixi extends Importer {
         }
       }
     });
-  }
-
-  protected createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
-    let result: any | null = null;
-    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
-
-    for (let i = 0, len = plugins.length; i < len && !result; i++) {
-      result = plugins[i].createRuntimeObject!(node, resources);
-    }
-
-    return result;
   }
 }
