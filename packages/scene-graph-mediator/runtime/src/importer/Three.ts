@@ -162,6 +162,13 @@ export default class Three extends Importer {
   public createRuntimeObject(node: Node, resources: any): any {
     let object: any;
 
+    // give prior to plugin custome initialization
+    object = this.createRuntimeObjectForPlugins(node, resources);
+
+    if (object) {
+      return object;
+    }
+
     if (node.meshRenderer && node.meshRenderer.mesh) {
       object = resources.get(node.meshRenderer.mesh.url);
     } else {
@@ -269,5 +276,16 @@ export default class Three extends Importer {
     }
 
     return loader;
+  }
+
+  protected createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
+    let result: any | null = null;
+    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
+
+    for (let i = 0, len = plugins.length; i < len && !result; i++) {
+      result = plugins[i].createRuntimeObject!(node, resources);
+    }
+
+    return result;
   }
 }

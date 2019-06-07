@@ -189,11 +189,6 @@ export abstract class Importer {
       // give prior to user custome initialization
       let object = this.onRestoreNode(node, resources);
 
-      // give prior to plugin custome initialization
-      if (!object) {
-        object = this.createRuntimeObjectForPlugins(node, resources);
-      }
-
       // then process default initialization
       if (!object) {
         object = this.createRuntimeObject(node, resources);
@@ -215,16 +210,5 @@ export abstract class Importer {
     });
 
     return objectMap;
-  }
-
-  protected createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
-    let result: any | null = null;
-    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
-
-    for (let i = 0, len = plugins.length; i < len && !result; i++) {
-      result = plugins[i].createRuntimeObject!(node, resources);
-    }
-
-    return result;
   }
 }

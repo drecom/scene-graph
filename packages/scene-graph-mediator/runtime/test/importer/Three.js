@@ -71,6 +71,38 @@ describe('Three', () => {
         three.import(graph, spyCallback, {});
         assert.ok(spyCallback.calledOnce);
       });
+
+      describe('when plugin given', () => {
+        it('should invoke extendRuntimeObjects', () => {
+          const plugin = {
+            createRuntimeObject: ()=>{},
+            extendRuntimeObjects: ()=>{}
+          };
+          const extendRuntimeObjectsSpy = sinon.spy(plugin, 'createRuntimeObject');
+
+          three.addPlugin(plugin);
+          three.import({
+            scene: [ gameObject ],
+            metadata: metadata
+          });
+
+          assert.ok(extendRuntimeObjectsSpy.called);
+        });
+
+        it('should not occurs error when extendRuntimeObjects not implement', () => {
+          const plugin = {
+            extendRuntimeObjects: ()=>{}
+          };
+
+          three.addPlugin(plugin);
+          assert.doesNotThrow(() => {
+            three.import({
+              scene: [ gameObject ],
+              metadata: metadata
+            });
+          });
+        });
+      });
     });
 
     describe('createAssetMap', () =>{
