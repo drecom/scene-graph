@@ -157,8 +157,7 @@ export default class CocosCreator implements AssetExporter {
     destDir: string,
     urlNameSpace: string = ''
   ): AssetExportMapEntity {
-    const relativePath = basePath.replace(RegExp(`\^${assetRoot}`), '');
-
+    const relativePath = path.relative(assetRoot, basePath);
     return {
       localSrcPath: basePath,
       localDestPath: path.join(destDir, relativePath),
