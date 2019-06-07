@@ -22,6 +22,10 @@ export declare abstract class Importer {
      */
     abstract createRuntimeObject(node: Node, resources: any): any;
     /**
+     * Create runtime object for each node via plugins.
+     */
+    abstract createRuntimeObjectForPlugins(node: Node, resources: any): any | null;
+    /**
      * Restore scene graph as runtime objects
      */
     abstract restoreScene(root: any, schema: SchemaJson, option: ImportOption): void;
@@ -83,5 +87,4 @@ export declare abstract class Importer {
      * This method uses createRuntimeObject interface to create each object
      */
     protected createRuntimeObjectMap(nodeMap: Map<string, Node>, resources: any): Map<string, any>;
-    protected createRuntimeObjectForPlugins(node: Node, resources: any): any | null;
 }

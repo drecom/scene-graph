@@ -49460,10 +49460,6 @@ var Importer = /** @class */ (function () {
         nodeMap.forEach(function (node, id) {
             // give prior to user custome initialization
             var object = _this.onRestoreNode(node, resources);
-            // give prior to plugin custome initialization
-            if (!object) {
-                object = _this.createRuntimeObjectForPlugins(node, resources);
-            }
             // then process default initialization
             if (!object) {
                 object = _this.createRuntimeObject(node, resources);
@@ -49480,14 +49476,6 @@ var Importer = /** @class */ (function () {
             objectMap.set(id, object);
         });
         return objectMap;
-    };
-    Importer.prototype.createRuntimeObjectForPlugins = function (node, resources) {
-        var result = null;
-        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
-        for (var i = 0, len = plugins.length; i < len && !result; i++) {
-            result = plugins[i].createRuntimeObject(node, resources);
-        }
-        return result;
     };
     return Importer;
 }());
@@ -49631,6 +49619,11 @@ var Pixi = /** @class */ (function (_super) {
      */
     Pixi.prototype.createRuntimeObject = function (node, resources) {
         var object;
+        // give prior to plugin custome initialization
+        object = this.createRuntimeObjectForPlugins(node, resources);
+        if (object) {
+            return object;
+        }
         if (node.spine) {
             // TODO: support spine
             // object = new PIXI.spine.Spine(resources[node.id].data);
@@ -49758,6 +49751,14 @@ var Pixi = /** @class */ (function (_super) {
     Pixi.prototype.applyCoordinate = function (schema, obj, node) {
         var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].createConvertedObject(schema, node.transform);
         _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].applyConvertedObject(obj, convertedValues);
+    };
+    Pixi.prototype.createRuntimeObjectForPlugins = function (node, resources) {
+        var result = null;
+        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
+        for (var i = 0, len = plugins.length; i < len && !result; i++) {
+            result = plugins[i].createRuntimeObject(node, resources);
+        }
+        return result;
     };
     Pixi.prototype.restoreRenderer = function (nodeMap, containerMap) {
         containerMap.forEach(function (container, id) {
@@ -49952,6 +49953,11 @@ var Three = /** @class */ (function (_super) {
      */
     Three.prototype.createRuntimeObject = function (node, resources) {
         var object;
+        // give prior to plugin custome initialization
+        object = this.createRuntimeObjectForPlugins(node, resources);
+        if (object) {
+            return object;
+        }
         if (node.meshRenderer && node.meshRenderer.mesh) {
             object = resources.get(node.meshRenderer.mesh.url);
         }
@@ -50007,6 +50013,14 @@ var Three = /** @class */ (function (_super) {
     };
     Three.prototype.applyCoordinate = function (_schema, _obj, _node) {
         // noop
+    };
+    Three.prototype.createRuntimeObjectForPlugins = function (node, resources) {
+        var result = null;
+        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
+        for (var i = 0, len = plugins.length; i < len && !result; i++) {
+            result = plugins[i].createRuntimeObject(node, resources);
+        }
+        return result;
     };
     /**
      * Returns asset type used in three.js based on exported format
