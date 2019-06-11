@@ -30,6 +30,10 @@ export default function parseArgs(): Args {
     return parts;
   };
 
+  const isRelativePath = (value: string) => {
+    return 0 <= value.lastIndexOf(`.${path.sep}`);
+  };
+
   commander
     .version(packageJson.version)
     .option(
@@ -180,6 +184,13 @@ export default function parseArgs(): Args {
   }
 
   args.assetRoot = args.assetRoot.replace(/\/$/, '');
+
+  for (let i = 0; i < args.plugins.length; i++) {
+    const plugin = args.plugins[i];
+    if (isRelativePath(plugin)) {
+      args.plugins[i] = path.resolve(process.cwd(), configFilePath, plugin);
+    }
+  }
 
   return args;
 }

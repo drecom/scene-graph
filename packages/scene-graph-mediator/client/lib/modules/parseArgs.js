@@ -26,6 +26,9 @@ function parseArgs() {
         }
         return parts;
     };
+    var isRelativePath = function (value) {
+        return 0 <= value.lastIndexOf("." + path.sep);
+    };
     commander
         .version(packageJson.version)
         .option('-c, --config [value]', 'config file path')
@@ -118,6 +121,12 @@ function parseArgs() {
         }
     }
     args.assetRoot = args.assetRoot.replace(/\/$/, '');
+    for (var i = 0; i < args.plugins.length; i++) {
+        var plugin = args.plugins[i];
+        if (isRelativePath(plugin)) {
+            args.plugins[i] = path.resolve(process.cwd(), configFilePath, plugin);
+        }
+    }
     return args;
 }
 exports.default = parseArgs;
