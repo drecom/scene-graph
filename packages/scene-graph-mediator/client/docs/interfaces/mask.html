@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ComponentUuidEntity | scene-graph-mediator-cli</title>
+	<title>Mask | scene-graph-mediator-cli</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,28 +54,26 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="componentuuidentity.html">ComponentUuidEntity</a>
+					<a href="mask.html">Mask</a>
 				</li>
 			</ul>
-			<h1>Interface ComponentUuidEntity</h1>
+			<h1>Interface Mask</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Common uuid referer</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ComponentUuidEntity</span>
+						<a href="../modules/component.html" class="tsd-signature-type">Component</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">Mask</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -86,7 +84,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="componentuuidentity.html#__uuid__" class="tsd-kind-icon">__uuid__</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mask.html#_n_inverted" class="tsd-kind-icon">_<wbr>N$inverted</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="mask.html#__type__" class="tsd-kind-icon">__type__</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mask.html#_spriteframe" class="tsd-kind-icon">_sprite<wbr>Frame</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mask.html#_type" class="tsd-kind-icon">_type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="mask.html#node" class="tsd-kind-icon">node</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,12 +97,54 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="__uuid__" class="tsd-anchor"></a>
-					<h3>__uuid__</h3>
-					<div class="tsd-signature tsd-kind-icon">__uuid__<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="_n_inverted" class="tsd-anchor"></a>
+					<h3>_<wbr>N$inverted</h3>
+					<div class="tsd-signature tsd-kind-icon">_<wbr>N$inverted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/CocosCreator.ts#L75">interface/CocosCreator.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/CocosCreator.ts#L180">interface/CocosCreator.ts:180</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="__type__" class="tsd-anchor"></a>
+					<h3>__type__</h3>
+					<div class="tsd-signature tsd-kind-icon">__type__<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="componentbase.html">ComponentBase</a>.<a href="componentbase.html#__type__">__type__</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/CocosCreator.ts#L68">interface/CocosCreator.ts:68</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="_spriteframe" class="tsd-anchor"></a>
+					<h3>_sprite<wbr>Frame</h3>
+					<div class="tsd-signature tsd-kind-icon">_sprite<wbr>Frame<span class="tsd-signature-symbol">:</span> <a href="componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/CocosCreator.ts#L179">interface/CocosCreator.ts:179</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="_type" class="tsd-anchor"></a>
+					<h3>_type</h3>
+					<div class="tsd-signature tsd-kind-icon">_type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/CocosCreator.ts#L178">interface/CocosCreator.ts:178</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="node" class="tsd-anchor"></a>
+					<h3>node</h3>
+					<div class="tsd-signature tsd-kind-icon">node<span class="tsd-signature-symbol">:</span> <a href="componentnodeidentity.html" class="tsd-signature-type">ComponentNodeIdEntity</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="../modules/component.html">Component</a>.<a href="../modules/component.html#node">node</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/interface/CocosCreator.ts#L112">interface/CocosCreator.ts:112</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -119,10 +163,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="componentuuidentity.html" class="tsd-kind-icon">Component<wbr>Uuid<wbr>Entity</a>
+						<a href="mask.html" class="tsd-kind-icon">Mask</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="componentuuidentity.html#__uuid__" class="tsd-kind-icon">__uuid__</a>
+								<a href="mask.html#_n_inverted" class="tsd-kind-icon">_<wbr>N$inverted</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="mask.html#__type__" class="tsd-kind-icon">__type__</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="mask.html#_spriteframe" class="tsd-kind-icon">_sprite<wbr>Frame</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="mask.html#_type" class="tsd-kind-icon">_type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="mask.html#node" class="tsd-kind-icon">node</a>
 							</li>
 						</ul>
 					</li>
