@@ -49576,7 +49576,7 @@ var Pixi = /** @class */ (function (_super) {
         var assets = new Map();
         // collect required resource
         for (var i = 0; i < schema.scene.length; i++) {
-            var url = void 0;
+            var urls = [];
             var node = schema.scene[i];
             if (node.spine) {
                 // TODO: support spine
@@ -49584,18 +49584,22 @@ var Pixi = /** @class */ (function (_super) {
                 continue;
             }
             else if (node.sprite) {
-                url = node.sprite.url;
+                if (node.sprite.url) {
+                    urls.push(node.sprite.url);
+                }
             }
-            else {
-                continue;
+            if (node.mask && node.mask.spriteFrame) {
+                if (node.mask.spriteFrame.url) {
+                    urls.push(node.mask.spriteFrame.url);
+                }
             }
-            if (!url) {
-                continue;
+            for (var _i = 0, urls_1 = urls; _i < urls_1.length; _i++) {
+                var url = urls_1[_i];
+                var asset = { url: url, name: url };
+                // user custom process to modify url or resource name
+                this.onAddLoaderAsset(node, asset);
+                assets.set(url, asset);
             }
-            var asset = { url: url, name: url };
-            // user custom process to modify url or resource name
-            this.onAddLoaderAsset(node, asset);
-            assets.set(url, asset);
         }
         return assets;
     };
@@ -49618,12 +49622,7 @@ var Pixi = /** @class */ (function (_super) {
      * Textures in loader.resources may be refered.
      */
     Pixi.prototype.createRuntimeObject = function (node, resources) {
-        var object;
-        // give prior to plugin custome initialization
-        object = this.createRuntimeObjectForPlugins(node, resources);
-        if (object) {
-            return object;
-        }
+        var object = undefined;
         if (node.spine) {
             // TODO: support spine
             // object = new PIXI.spine.Spine(resources[node.id].data);
@@ -49644,8 +49643,8 @@ var Pixi = /** @class */ (function (_super) {
             }
             if (node.sprite.slice) {
                 object = new PIXI.mesh.NineSlicePlane(texture, node.sprite.slice.left, node.sprite.slice.top, node.sprite.slice.right, node.sprite.slice.bottom);
-                object.width = node.transform.width;
-                object.height = node.transform.height;
+                object.width = (node.transform.width || 0);
+                object.height = (node.transform.height || 0);
             }
             else {
                 object = new PIXI.Sprite(texture);
@@ -49676,6 +49675,54 @@ var Pixi = /** @class */ (function (_super) {
         }
         else {
             object = new PIXI.Container();
+        }
+        if (object && node.mask) {
+            // TODO: 'Inverted' not supported.
+            switch (node.mask.maskType) {
+                // RECT
+                case 0: {
+                    var maskGraphics = new PIXI.Graphics();
+                    maskGraphics.beginFill(0x000000);
+                    maskGraphics.drawRect(-node.transform.anchor.x * node.transform.width, -node.transform.anchor.y * node.transform.height, node.transform.width, node.transform.height);
+                    maskGraphics.endFill();
+                    object.addChild(maskGraphics);
+                    object.mask = maskGraphics;
+                    break;
+                }
+                // ELLIPSE
+                case 1: {
+                    var maskGraphics = new PIXI.Graphics();
+                    maskGraphics.beginFill(0x000000);
+                    maskGraphics.drawEllipse(0, 0, node.transform.width / 2, node.transform.height / 2);
+                    maskGraphics.endFill();
+                    object.addChild(maskGraphics);
+                    object.mask = maskGraphics;
+                    break;
+                }
+                // IMAGE_STENCIL
+                case 2: {
+                    var maskSpriteFrame = node.mask.spriteFrame;
+                    if (!maskSpriteFrame) {
+                        break;
+                    }
+                    var texture = null;
+                    if (maskSpriteFrame.atlasUrl && maskSpriteFrame.frameName) {
+                        texture = PIXI.Texture.fromFrame(maskSpriteFrame.frameName);
+                    }
+                    else if (maskSpriteFrame.url) {
+                        texture = resources[maskSpriteFrame.url].texture;
+                    }
+                    else if (maskSpriteFrame.base64) {
+                        texture = PIXI.Texture.fromImage(maskSpriteFrame.base64);
+                    }
+                    var maskSprite = new PIXI.Sprite(texture);
+                    maskSprite.x -= maskSprite.width / 2;
+                    maskSprite.y -= maskSprite.height / 2;
+                    object.addChild(maskSprite);
+                    object.mask = maskSprite;
+                    break;
+                }
+            }
         }
         return object;
     };
@@ -49751,14 +49798,6 @@ var Pixi = /** @class */ (function (_super) {
     Pixi.prototype.applyCoordinate = function (schema, obj, node) {
         var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].createConvertedObject(schema, node.transform);
         _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_1__["Pixi"].applyConvertedObject(obj, convertedValues);
-    };
-    Pixi.prototype.createRuntimeObjectForPlugins = function (node, resources) {
-        var result = null;
-        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
-        for (var i = 0, len = plugins.length; i < len && !result; i++) {
-            result = plugins[i].createRuntimeObject(node, resources);
-        }
-        return result;
     };
     Pixi.prototype.restoreRenderer = function (nodeMap, containerMap) {
         containerMap.forEach(function (container, id) {
@@ -49953,11 +49992,6 @@ var Three = /** @class */ (function (_super) {
      */
     Three.prototype.createRuntimeObject = function (node, resources) {
         var object;
-        // give prior to plugin custome initialization
-        object = this.createRuntimeObjectForPlugins(node, resources);
-        if (object) {
-            return object;
-        }
         if (node.meshRenderer && node.meshRenderer.mesh) {
             object = resources.get(node.meshRenderer.mesh.url);
         }
@@ -50013,14 +50047,6 @@ var Three = /** @class */ (function (_super) {
     };
     Three.prototype.applyCoordinate = function (_schema, _obj, _node) {
         // noop
-    };
-    Three.prototype.createRuntimeObjectForPlugins = function (node, resources) {
-        var result = null;
-        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
-        for (var i = 0, len = plugins.length; i < len && !result; i++) {
-            result = plugins[i].createRuntimeObject(node, resources);
-        }
-        return result;
     };
     /**
      * Returns asset type used in three.js based on exported format

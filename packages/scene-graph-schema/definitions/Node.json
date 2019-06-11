@@ -19,7 +19,8 @@
         "spine":        { "$ref": "Spine.json#/definitions/Spine" },
         "sprite":       { "$ref": "Sprite.json#/definitions/Sprite" },
         "text":         { "$ref": "Text.json#/definitions/Text" },
-        "layout":       { "$ref": "Layout.json#/definitions/Layout"}
+        "layout":       { "$ref": "Layout.json#/definitions/Layout"},
+        "mask":         { "$ref": "Mask.json#/definitions/Mask"}
       },
       "required": [
         "id",

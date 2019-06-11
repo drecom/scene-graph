@@ -39,6 +39,8 @@ function parseArgs() {
         .parse(process.argv);
     // passing option via process.env is deprecated
     var config = {};
+    var configFilePath = '';
+    // using -c option
     if (commander.config) {
         var userConfigFactory = require(path.resolve(process.cwd(), commander.config));
         config = userConfigFactory();
@@ -49,6 +51,7 @@ function parseArgs() {
             var plugin = config.plugins;
             config.plugins = [plugin];
         }
+        configFilePath = path.dirname(commander.config);
     }
     // priority
     // cli option > user config > env
@@ -80,7 +83,6 @@ function parseArgs() {
             || config.plugins
             || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : [])
     };
-    args.assetDestDir = args.assetDestDir || path.resolve(args.destDir, args.assetNameSpace);
     if (!args.runtime) {
         throw new Error('runtime option is required');
     }
@@ -91,15 +93,23 @@ function parseArgs() {
         throw new Error('sceneFiles option is required');
     }
     if (!path.isAbsolute(args.assetRoot)) {
-        args.assetRoot = path.resolve(process.cwd(), args.assetRoot);
+        args.assetRoot = path.resolve(process.cwd(), configFilePath, args.assetRoot);
     }
     if (!path.isAbsolute(args.destDir)) {
         args.destDir = path.resolve(process.cwd(), args.destDir);
     }
+    if (args.assetDestDir) {
+        if (!path.isAbsolute(args.assetDestDir)) {
+            args.assetDestDir = path.resolve(args.destDir, args.assetNameSpace, args.assetDestDir);
+        }
+    }
+    else {
+        args.assetDestDir = path.resolve(args.destDir, args.assetNameSpace);
+    }
     for (var i = 0; i < args.sceneFiles.length; i++) {
         var sceneFile = args.sceneFiles[i];
         if (!path.isAbsolute(sceneFile)) {
-            args.sceneFiles[i] = path.resolve(process.cwd(), sceneFile);
+            args.sceneFiles[i] = path.resolve(process.cwd(), configFilePath, sceneFile);
         }
     }
     args.assetRoot = args.assetRoot.replace(/\/$/, '');

@@ -48,6 +48,23 @@ export default class CocosCreator implements AssetExporter {
           }
         }
 
+        if (node.mask && node.mask.spriteFrame) {
+          const maskSprite = node.mask.spriteFrame;
+
+          if (maskSprite.url) {
+            exportMap.set(
+              maskSprite.url,
+              this.createExportMapEntity(maskSprite.url, assetRoot, destDir, urlNameSpace)
+            );
+          }
+          if (maskSprite.atlasUrl) {
+            exportMap.set(
+              maskSprite.atlasUrl,
+              this.createExportMapEntity(maskSprite.atlasUrl, assetRoot, destDir, urlNameSpace)
+            );
+          }
+        }
+
         this.pluginPostProcess(node, exportMap, assetRoot, destDir, urlNameSpace, plugins);
       }
     });
@@ -107,6 +124,20 @@ export default class CocosCreator implements AssetExporter {
             }
           }
         }
+        if (node.mask && node.mask.spriteFrame) {
+          if (node.mask.spriteFrame.url) {
+            const entity = exportMap.get(node.mask.spriteFrame.url);
+            if (entity) {
+              node.mask.spriteFrame.url = entity.url;
+            }
+          }
+          if (node.mask.spriteFrame.atlasUrl) {
+            const entity = exportMap.get(node.mask.spriteFrame.atlasUrl);
+            if (entity) {
+              node.mask.spriteFrame.atlasUrl = entity.url;
+            }
+          }
+        }
       });
     });
 
@@ -126,8 +157,7 @@ export default class CocosCreator implements AssetExporter {
     destDir: string,
     urlNameSpace: string = ''
   ): AssetExportMapEntity {
-    const relativePath = basePath.replace(RegExp(`\^${assetRoot}`), '');
-
+    const relativePath = path.relative(assetRoot, basePath);
     return {
       localSrcPath: basePath,
       localDestPath: path.join(destDir, relativePath),
