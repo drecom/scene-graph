@@ -9,8 +9,11 @@ export const MetaTypes: { [keys: string]: string } = Object.freeze({
   SPRITE: 'cc.Sprite',
   LABEL:  'cc.Label',
   LAYOUT: 'cc.Layout',
-  MASK:   'cc.Mask'
+  MASK:   'cc.Mask',
+  RICH_TEXT: 'cc.RichText'
 });
+
+export const RICH_TEXT_FORMAT = 'bbcode';
 
 // TODO: expose or float this definition, scene-graph-mediator-rt importer may refer this
 export const SpriteType = Object.freeze({
@@ -178,4 +181,11 @@ export interface Mask extends Component {
   _type: number;
   _spriteFrame: ComponentUuidEntity;
   _N$inverted: boolean;
+}
+
+export interface RichText extends Component {
+  _type: number;
+  _N$string: string;
+  _N$fontSize: number;
+  _N$horizontalAlign: number;
 }

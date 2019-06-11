@@ -44091,6 +44091,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../property_converter/Pixi */ "./src/property_converter/Pixi.ts");
 /* harmony import */ var _component_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component/Layout */ "./src/importer/component/Layout.ts");
+/* harmony import */ var _component_RichText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component/RichText */ "./src/importer/component/RichText.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -44105,6 +44106,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
     };
 })();
 // FIXME: use user's pixi
+
 
 
 
@@ -44223,6 +44225,11 @@ var Pixi = /** @class */ (function (_super) {
      */
     Pixi.prototype.createRuntimeObject = function (node, resources) {
         var object = undefined;
+        // give prior to plugin custome initialization
+        object = this.createRuntimeObjectForPlugins(node, resources);
+        if (object) {
+            return object;
+        }
         if (node.spine) {
             // TODO: support spine
             // object = new PIXI.spine.Spine(resources[node.id].data);
@@ -44251,24 +44258,30 @@ var Pixi = /** @class */ (function (_super) {
             }
         }
         else if (node.text) {
-            var style = new Pixi.pixiRef.TextStyle({});
+            var param = {};
             if (node.text.style) {
-                style.fontSize = node.text.style.size || 26;
-                style.fill = node.text.style.color || 'black';
+                param.fontSize = node.text.style.size || 26;
+                param.fill = node.text.style.color || 'black';
                 switch (node.text.style.horizontalAlign) {
                     case 2:
-                        style.align = 'right';
+                        param.align = 'right';
                         break;
                     case 1:
-                        style.align = 'center';
+                        param.align = 'center';
                         break;
                     case 0:
                     default:
-                        style.align = 'left';
+                        param.align = 'left';
                         break;
                 }
             }
-            object = new Pixi.pixiRef.Text(node.text.text || '', style);
+            if (node.text.richText) {
+                object = _component_RichText__WEBPACK_IMPORTED_MODULE_4__["RichText"].createContainer(node.text.text, param);
+            }
+            else {
+                var style = new Pixi.pixiRef.TextStyle(param);
+                object = new Pixi.pixiRef.Text(node.text.text || '', style);
+            }
         }
         else if (this.hasInitiator(node.constructorName)) {
             object = this.getInitiator(node.constructorName)(node);
@@ -44398,6 +44411,14 @@ var Pixi = /** @class */ (function (_super) {
     Pixi.prototype.applyCoordinate = function (schema, obj, node) {
         var convertedValues = _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__["Pixi"].createConvertedObject(schema, node.transform);
         _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__["Pixi"].applyConvertedObject(obj, convertedValues);
+    };
+    Pixi.prototype.createRuntimeObjectForPlugins = function (node, resources) {
+        var result = null;
+        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
+        for (var i = 0, len = plugins.length; i < len && !result; i++) {
+            result = plugins[i].createRuntimeObject(node, resources);
+        }
+        return result;
     };
     Pixi.prototype.restoreRenderer = function (nodeMap, containerMap) {
         containerMap.forEach(function (container, id) {
@@ -44658,6 +44679,182 @@ var LayoutComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/importer/component/RichText.ts":
+/*!********************************************!*\
+  !*** ./src/importer/component/RichText.ts ***!
+  \********************************************/
+/*! exports provided: RichText */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RichText", function() { return RichText; });
+var RichText = /** @class */ (function () {
+    function RichText() {
+    }
+    /**
+     * Create container contains styled texts
+     */
+    RichText.createContainer = function (input, defaultParams) {
+        if (defaultParams === void 0) { defaultParams = {}; }
+        var fragments = RichText.parseBBCode(input);
+        var container = RichText.createRichTextContainer(fragments, defaultParams);
+        return container;
+    };
+    /**
+     * Parse HTMLDocumentNode and generate intermediate style data
+     */
+    RichText.parseNodeStyle = function (node) {
+        var nodeName = node.nodeName.toUpperCase();
+        switch (nodeName) {
+            case '#TEXT': break;
+            case 'B':
+            case 'I':
+            case 'U': {
+                return { name: nodeName, params: {} };
+                break;
+            }
+            case 'SIZE': {
+                var value = node.getAttribute(nodeName);
+                return {
+                    name: nodeName,
+                    params: {
+                        value: value ? parseInt(value) : 0
+                    }
+                };
+                break;
+            }
+            case 'COLOR': {
+                var value = node.getAttribute(nodeName);
+                return {
+                    name: nodeName,
+                    params: {
+                        value: value || ''
+                    }
+                };
+                break;
+            }
+            case 'OUTLINE': {
+                var color = node.getAttribute('color');
+                var width = node.getAttribute('width');
+                return {
+                    name: nodeName,
+                    params: {
+                        color: color || '',
+                        width: width ? parseInt(width) : 0
+                    }
+                };
+                break;
+            }
+            default: break;
+        }
+        return null;
+    };
+    /**
+     *
+     */
+    RichText.collectChildNodes = function (nodes, fragments, styles) {
+        if (fragments === void 0) { fragments = []; }
+        if (styles === void 0) { styles = []; }
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            var style = RichText.parseNodeStyle(node);
+            if (style) {
+                styles.push(style);
+            }
+            if (node.childNodes.length > 0) {
+                fragments = RichText.collectChildNodes(node.childNodes, fragments, styles);
+            }
+            if (node.nodeValue) {
+                fragments.push({ text: node.nodeValue, styles: styles.slice(0) });
+            }
+            if (style) {
+                styles.pop();
+            }
+        }
+        return fragments;
+    };
+    RichText.parseBBCode = function (input) {
+        var richTextHtml = "<" + RichText.PARSER_TAG_NAME + ">" + input + "</" + RichText.PARSER_TAG_NAME + ">";
+        var replacedRichTextString = richTextHtml.replace(/<([a-zA-Z]+)=([^\s]+)/g, '<$1 $1=$2');
+        var tempHtml = document.createElement('html');
+        tempHtml.innerHTML = replacedRichTextString;
+        var tags = tempHtml.getElementsByTagName('*');
+        var offset = 0;
+        var richTextTag = tags[offset];
+        while (richTextTag && richTextTag.tagName.toUpperCase() !== RichText.PARSER_TAG_NAME) {
+            richTextTag = tags[++offset];
+        }
+        return RichText.collectChildNodes(richTextTag.childNodes);
+    };
+    RichText.pixiTextStyleOptionsByFragment = function (fragment) {
+        var params = {};
+        for (var j = 0; j < fragment.styles.length; j++) {
+            var style = fragment.styles[j];
+            switch (style.name) {
+                case 'B':
+                    params.fontWeight = 'bold';
+                    break;
+                case 'I':
+                    params.fontStyle = 'italic';
+                    break;
+                case 'SIZE':
+                    params.fontSize = parseInt(style.params.value);
+                    break;
+                case 'COLOR':
+                    params.fill = [style.params.value];
+                    break;
+                case 'OUTLINE': {
+                    params.stroke = style.params.color;
+                    params.strokeThickness = parseInt(style.params.width);
+                    break;
+                }
+            }
+        }
+        return params;
+    };
+    RichText.createRichTextContainer = function (fragments, defaultParams) {
+        if (defaultParams === void 0) { defaultParams = {}; }
+        var container = new PIXI.Container();
+        var x = 0;
+        var y = 0;
+        var lastLineHeight = 0;
+        for (var i = 0; i < fragments.length; i++) {
+            var fragment = fragments[i];
+            var params = RichText.pixiTextStyleOptionsByFragment(fragment);
+            var defaultParamsClone = Object.assign({}, defaultParams);
+            var style = new PIXI.TextStyle(Object.assign(defaultParamsClone, params));
+            var lines = fragment.text.split("\n");
+            for (var j = 0; j < lines.length; j++) {
+                var line = lines[j];
+                if (j >= 1) {
+                    x = 0;
+                    y += lastLineHeight;
+                    lastLineHeight = 0;
+                }
+                // empty char after line break
+                if (line === "") {
+                    continue;
+                }
+                var text = new PIXI.Text(line, style);
+                if (lastLineHeight < text.height) {
+                    lastLineHeight = text.height;
+                }
+                text.position.set(x, y);
+                x += text.width;
+                container.addChild(text);
+            }
+        }
+        return container;
+    };
+    RichText.PARSER_TAG_NAME = 'SGMEDRICHTEXT';
+    return RichText;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/importer/index.ts":
 /*!*******************************!*\
   !*** ./src/importer/index.ts ***!
@@ -44749,11 +44946,15 @@ var Pixi = {
             convertedObject.position.x += sceneBasePoint.x;
             convertedObject.position.y += sceneBasePoint.y;
         }
-        else if (node.sprite && node.sprite.slice) {
+        else if (Pixi.shouldNodeCoordinateFixed(node)) {
             var scale = transform.scale || { x: 1, y: 1 };
             convertedObject.position.x -= (transform.width || 0) * scale.x * transform.anchor.x;
             convertedObject.position.y -= (transform.height || 0) * scale.y * transform.anchor.y;
         }
+    },
+    shouldNodeCoordinateFixed: function (node) {
+        return (node.sprite && node.sprite.slice)
+            || (node.text && node.text.richText);
     },
     applyConvertedObject: function (target, convertedObject) {
         target.position.x = convertedObject.position.x;

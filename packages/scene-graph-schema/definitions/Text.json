@@ -23,6 +23,18 @@
             "color": {
               "type": "string",
               "default": "#000000"
+            },
+            "richText": {
+              "type": "object",
+              "properties": {
+                "format": {
+                  "type": "string",
+                  "default": "bbcode"
+                },
+              },
+              "required": [
+                "format"
+              ]
             }
           }
         }

@@ -58,11 +58,16 @@ export const Pixi: PropertyConverter.Interface = {
       };
       convertedObject.position.x += sceneBasePoint.x;
       convertedObject.position.y += sceneBasePoint.y;
-    } else if (node.sprite && node.sprite.slice) {
+    } else if (Pixi.shouldNodeCoordinateFixed(node)) {
       const scale = transform.scale || { x: 1, y: 1 };
       convertedObject.position.x -= (transform.width  || 0) * scale.x * transform.anchor.x;
       convertedObject.position.y -= (transform.height || 0) * scale.y * transform.anchor.y;
     }
+  },
+
+  shouldNodeCoordinateFixed: (node: Node): boolean => {
+    return (node.sprite && node.sprite.slice)
+      || (node.text && node.text.richText);
   },
 
   applyConvertedObject: (target: any, convertedObject: ConvertedObject): void => {
