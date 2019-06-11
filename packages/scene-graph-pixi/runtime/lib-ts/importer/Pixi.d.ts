@@ -66,5 +66,6 @@ export default class Pixi extends Importer {
     private restoreTransform;
     fixCoordinate(schema: SchemaJson, obj: any, node: Node): void;
     applyCoordinate(schema: SchemaJson, obj: any, node: Node): void;
+    createRuntimeObjectForPlugins(node: Node, resources: any): any | null;
     private restoreRenderer;
 }

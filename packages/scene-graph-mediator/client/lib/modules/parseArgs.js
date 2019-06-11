@@ -39,10 +39,10 @@ function parseArgs() {
         .parse(process.argv);
     // passing option via process.env is deprecated
     var config = {};
-    var baseDir = process.cwd();
+    var configFilePath = '';
+    // using -c option
     if (commander.config) {
         var configPath = path.resolve(process.cwd(), commander.config);
-        baseDir = path.dirname(configPath);
         var userConfigFactory = require(configPath);
         config = userConfigFactory();
         if (config.sceneFiles && !Array.isArray(config.sceneFiles)) {
@@ -52,6 +52,7 @@ function parseArgs() {
             var plugin = config.plugins;
             config.plugins = [plugin];
         }
+        configFilePath = path.dirname(commander.config);
     }
     // priority
     // cli option > user config > env
@@ -70,7 +71,7 @@ function parseArgs() {
         destDir: commander.destDir
             || config.destDir
             || process.env.DEST
-            || path.resolve(baseDir, 'scene-graph'),
+            || path.resolve(process.cwd(), 'scene-graph'),
         assetDestDir: commander.assetDestDir
             || config.assetDestDir
             || process.env.ASSET_DEST
@@ -87,7 +88,6 @@ function parseArgs() {
     if (args.listRuntimes) {
         return args;
     }
-    args.assetDestDir = args.assetDestDir || path.resolve(args.destDir, args.assetNameSpace);
     if (!args.runtime) {
         throw new Error('runtime option is required');
     }
@@ -98,15 +98,23 @@ function parseArgs() {
         throw new Error('sceneFiles option is required');
     }
     if (!path.isAbsolute(args.assetRoot)) {
-        args.assetRoot = path.resolve(baseDir, args.assetRoot);
+        args.assetRoot = path.resolve(process.cwd(), configFilePath, args.assetRoot);
     }
     if (!path.isAbsolute(args.destDir)) {
-        args.destDir = path.resolve(baseDir, args.destDir);
+        args.destDir = path.resolve(process.cwd(), args.destDir);
+    }
+    if (args.assetDestDir) {
+        if (!path.isAbsolute(args.assetDestDir)) {
+            args.assetDestDir = path.resolve(args.destDir, args.assetNameSpace, args.assetDestDir);
+        }
+    }
+    else {
+        args.assetDestDir = path.resolve(args.destDir, args.assetNameSpace);
     }
     for (var i = 0; i < args.sceneFiles.length; i++) {
         var sceneFile = args.sceneFiles[i];
         if (!path.isAbsolute(sceneFile)) {
-            args.sceneFiles[i] = path.resolve(baseDir, sceneFile);
+            args.sceneFiles[i] = path.resolve(process.cwd(), configFilePath, sceneFile);
         }
     }
     args.assetRoot = args.assetRoot.replace(/\/$/, '');

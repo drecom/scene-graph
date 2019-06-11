@@ -28,6 +28,12 @@ export abstract class Importer {
    * Create runtime object for each node.
    */
   abstract createRuntimeObject(node: Node, resources: any): any;
+
+  /**
+   * Create runtime object for each node via plugins.
+   */
+  abstract createRuntimeObjectForPlugins(node: Node, resources: any): any | null;
+
   /**
    * Restore scene graph as runtime objects
    */

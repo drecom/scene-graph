@@ -158,6 +158,13 @@ export default class Pixi extends Importer {
   public createRuntimeObject(node: Node, resources: any): any {
     let object: PIXI.Container | undefined = undefined;
 
+    // give prior to plugin custome initialization
+    object = this.createRuntimeObjectForPlugins(node, resources);
+
+    if (object) {
+      return object;
+    }
+
     if (node.spine) {
       // TODO: support spine
       // object = new PIXI.spine.Spine(resources[node.id].data);
@@ -356,6 +363,17 @@ export default class Pixi extends Importer {
   public applyCoordinate(schema: SchemaJson, obj: any, node: Node): void {
     const convertedValues = PropertyConverter.createConvertedObject(schema, node.transform!);
     PropertyConverter.applyConvertedObject(obj, convertedValues);
+  }
+
+  public createRuntimeObjectForPlugins(node: Node, resources: any): any | null {
+    let result: any | null = null;
+    const plugins = this.plugins.filter(plugin => !!plugin.createRuntimeObject);
+
+    for (let i = 0, len = plugins.length; i < len && !result; i++) {
+      result = plugins[i].createRuntimeObject!(node, resources);
+    }
+
+    return result;
   }
 
   private restoreRenderer(nodeMap: Map<string, Node>, containerMap: ContainerMap): void {

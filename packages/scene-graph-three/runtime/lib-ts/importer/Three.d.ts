@@ -58,6 +58,7 @@ export default class Three extends Importer {
     private restoreTransform;
     fixCoordinate(_schema: SchemaJson, _obj: any, _node: Node, _parentNode?: Node): void;
     applyCoordinate(_schema: SchemaJson, _obj: any, _node: Node): void;
+    createRuntimeObjectForPlugins(node: Node, resources: any): any | null;
     /**
      * Returns asset type used in three.js based on exported format
      */

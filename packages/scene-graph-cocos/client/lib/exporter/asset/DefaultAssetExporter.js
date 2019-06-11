@@ -109,7 +109,7 @@ var DefaultAssetExporter = /** @class */ (function () {
      */
     DefaultAssetExporter.prototype.createExportMapEntity = function (basePath, assetRoot, destDir, urlNameSpace) {
         if (urlNameSpace === void 0) { urlNameSpace = ''; }
-        var relativePath = basePath.replace(RegExp("^" + assetRoot), '');
+        var relativePath = path.relative(assetRoot, basePath);
         return {
             localSrcPath: basePath,
             localDestPath: path.join(destDir, relativePath),

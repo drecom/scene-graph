@@ -49322,6 +49322,11 @@ var Three = /** @class */ (function (_super) {
      */
     Three.prototype.createRuntimeObject = function (node, resources) {
         var object;
+        // give prior to plugin custome initialization
+        object = this.createRuntimeObjectForPlugins(node, resources);
+        if (object) {
+            return object;
+        }
         if (node.meshRenderer && node.meshRenderer.mesh) {
             object = resources.get(node.meshRenderer.mesh.url);
         }
@@ -49377,6 +49382,14 @@ var Three = /** @class */ (function (_super) {
     };
     Three.prototype.applyCoordinate = function (_schema, _obj, _node) {
         // noop
+    };
+    Three.prototype.createRuntimeObjectForPlugins = function (node, resources) {
+        var result = null;
+        var plugins = this.plugins.filter(function (plugin) { return !!plugin.createRuntimeObject; });
+        for (var i = 0, len = plugins.length; i < len && !result; i++) {
+            result = plugins[i].createRuntimeObject(node, resources);
+        }
+        return result;
     };
     /**
      * Returns asset type used in three.js based on exported format

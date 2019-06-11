@@ -254,6 +254,38 @@ describe('Pixi', () => {
       assert.strictEqual(root.sgmed, undefined);
     });
 
+    describe('when plugin given', () => {
+      it('should invoke extendRuntimeObjects', () => {
+        const plugin = {
+          createRuntimeObject: ()=>{},
+          extendRuntimeObjects: ()=>{}
+        };
+        const extendRuntimeObjectsSpy = spy(plugin, 'createRuntimeObject');
+  
+        pixi.addPlugin(plugin);
+        pixi.import({
+          scene: [ parentNode, childNode ],
+          metadata: metadata
+        });
+
+        assert.ok(extendRuntimeObjectsSpy.called);
+      });
+
+      it('should not occurs error when extendRuntimeObjects not implement', () => {
+        const plugin = {
+          extendRuntimeObjects: ()=>{}
+        };
+  
+        pixi.addPlugin(plugin);
+        assert.doesNotThrow(() => {
+          pixi.import({
+            scene: [ parentNode, childNode ],
+            metadata: metadata
+          });
+        });
+      });
+    });
+
     describe('when schema does not contain resource info', () => {
       it ('should restore scene immediately', () => {
         const callbackSpy = spy();
