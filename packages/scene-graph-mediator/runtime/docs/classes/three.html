@@ -105,6 +105,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="three.html#createassetmap" class="tsd-kind-icon">create<wbr>Asset<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="three.html#createnodemap" class="tsd-kind-icon">create<wbr>Node<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="three.html#createruntimeobject" class="tsd-kind-icon">create<wbr>Runtime<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="three.html#createruntimeobjectforplugins" class="tsd-kind-icon">create<wbr>Runtime<wbr>Object<wbr>For<wbr>Plugins</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="three.html#createruntimeobjectmap" class="tsd-kind-icon">create<wbr>Runtime<wbr>Object<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="three.html#detectthreeassettypebyurl" class="tsd-kind-icon">detect<wbr>Three<wbr>Asset<wbr>Type<wbr>ByUrl</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="three.html#fixcoordinate" class="tsd-kind-icon">fix<wbr>Coordinate</a></li>
@@ -152,7 +153,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#plugins">plugins</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L53">importer/Importer.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L59">importer/Importer.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,7 +191,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#addplugin">addPlugin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L118">importer/Importer.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L124">importer/Importer.ts:124</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -218,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L230">importer/Three.ts:230</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L237">importer/Three.ts:237</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +249,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#assembleimportoption">assembleImportOption</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L137">importer/Importer.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L143">importer/Importer.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -331,7 +332,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#createnodemap">createNodeMap</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L172">importer/Importer.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L178">importer/Importer.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -382,6 +383,36 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="createruntimeobjectforplugins" class="tsd-anchor"></a>
+					<h3>create<wbr>Runtime<wbr>Object<wbr>For<wbr>Plugins</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Runtime<wbr>Object<wbr>For<wbr>Plugins<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span>, resources<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="importer.html">Importer</a>.<a href="importer.html#createruntimeobjectforplugins">createRuntimeObjectForPlugins</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L241">importer/Three.ts:241</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>node: <span class="tsd-signature-type">Node</span></h5>
+								</li>
+								<li>
+									<h5>resources: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="createruntimeobjectmap" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> create<wbr>Runtime<wbr>Object<wbr>Map</h3>
@@ -393,7 +424,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#createruntimeobjectmap">createRuntimeObjectMap</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L185">importer/Importer.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L191">importer/Importer.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -425,7 +456,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L237">importer/Three.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L255">importer/Three.ts:255</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -456,7 +487,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L227">importer/Three.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L234">importer/Three.ts:234</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -535,7 +566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L255">importer/Three.ts:255</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L273">importer/Three.ts:273</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -634,7 +665,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#onaddloaderasset">onAddLoaderAsset</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L37">importer/Importer.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L43">importer/Importer.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -661,7 +692,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#onrestorenode">onRestoreNode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L39">importer/Importer.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L45">importer/Importer.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -688,7 +719,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#onruntimeobjectcreated">onRuntimeObjectCreated</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L41">importer/Importer.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L47">importer/Importer.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -715,7 +746,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#ontransformrestored">onTransformRestored</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L48">importer/Importer.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L54">importer/Importer.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -751,7 +782,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#pluginpostprocess">pluginPostProcess</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L125">importer/Importer.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L131">importer/Importer.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -823,7 +854,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L179">importer/Three.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Three.ts#L186">importer/Three.ts:186</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -866,7 +897,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#setonaddloaderasset">setOnAddLoaderAsset</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L58">importer/Importer.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L64">importer/Importer.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -916,7 +947,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#setonrestorenode">setOnRestoreNode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L68">importer/Importer.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L74">importer/Importer.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -972,7 +1003,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#setonruntimeobjectcreated">setOnRuntimeObjectCreated</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L77">importer/Importer.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L83">importer/Importer.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1022,7 +1053,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="importer.html">Importer</a>.<a href="importer.html#setontransformrestored">setOnTransformRestored</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L86">importer/Importer.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/runtime/src/importer/Importer.ts#L92">importer/Importer.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1113,6 +1144,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="three.html#createruntimeobject" class="tsd-kind-icon">create<wbr>Runtime<wbr>Object</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="three.html#createruntimeobjectforplugins" class="tsd-kind-icon">create<wbr>Runtime<wbr>Object<wbr>For<wbr>Plugins</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="three.html#createruntimeobjectmap" class="tsd-kind-icon">create<wbr>Runtime<wbr>Object<wbr>Map</a>

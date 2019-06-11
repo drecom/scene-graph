@@ -106,8 +106,12 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="cocoscreator.html#createresourcemapentities" class="tsd-kind-icon">create<wbr>Resource<wbr>Map<wbr>Entities</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cocoscreator.html#createscenegraph" class="tsd-kind-icon">create<wbr>Scene<wbr>Graph</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cocoscreator.html#createscenegraphschemas" class="tsd-kind-icon">create<wbr>Scene<wbr>Graph<wbr>Schemas</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="cocoscreator.html#findatlasdata" class="tsd-kind-icon">find<wbr>Atlas<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="cocoscreator.html#findatlasdatabyspriteframeuuid" class="tsd-kind-icon">find<wbr>Atlas<wbr>Data<wbr>BySprite<wbr>Frame<wbr>Uuid</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="cocoscreator.html#findcomponentbytype" class="tsd-kind-icon">find<wbr>Component<wbr>ByType</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="cocoscreator.html#findschemanodebyid" class="tsd-kind-icon">find<wbr>Schema<wbr>Node<wbr>ById</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="cocoscreator.html#findspritedata" class="tsd-kind-icon">find<wbr>Sprite<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="cocoscreator.html#findspriteframedata" class="tsd-kind-icon">find<wbr>Sprite<wbr>Frame<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cocoscreator.html#getidentifier" class="tsd-kind-icon">get<wbr>Identifier</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cocoscreator.html#loadscenefile" class="tsd-kind-icon">load<wbr>Scene<wbr>File</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cocoscreator.html#pluginpostprocess" class="tsd-kind-icon">plugin<wbr>Post<wbr>Process</a></li>
@@ -129,7 +133,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L365">exporter/scene/CocosCreator.ts:365</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L477">exporter/scene/CocosCreator.ts:477</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -260,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L500">exporter/scene/CocosCreator.ts:500</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L581">exporter/scene/CocosCreator.ts:581</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -363,7 +367,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/asset/CocosCreator.ts#L123">exporter/asset/CocosCreator.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/asset/CocosCreator.ts#L154">exporter/asset/CocosCreator.ts:154</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,6 +514,67 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="findatlasdata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> find<wbr>Atlas<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Atlas<wbr>Data<span class="tsd-signature-symbol">(</span>resourceMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">&gt;</span>, spriteFrameUuid<span class="tsd-signature-symbol">: </span><a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a>, atlasUuid<span class="tsd-signature-symbol">: </span><a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L383">exporter/scene/CocosCreator.ts:383</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceMap: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>spriteFrameUuid: <a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a></h5>
+								</li>
+								<li>
+									<h5>atlasUuid: <a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">object</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="findatlasdatabyspriteframeuuid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> find<wbr>Atlas<wbr>Data<wbr>BySprite<wbr>Frame<wbr>Uuid</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Atlas<wbr>Data<wbr>BySprite<wbr>Frame<wbr>Uuid<span class="tsd-signature-symbol">(</span>resourceMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">&gt;</span>, spriteFrameUuid<span class="tsd-signature-symbol">: </span><a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L445">exporter/scene/CocosCreator.ts:445</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceMap: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>spriteFrameUuid: <a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="findcomponentbytype" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> find<wbr>Component<wbr>ByType</h3>
@@ -520,7 +585,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L512">exporter/scene/CocosCreator.ts:512</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L593">exporter/scene/CocosCreator.ts:593</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -554,7 +619,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L526">exporter/scene/CocosCreator.ts:526</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L607">exporter/scene/CocosCreator.ts:607</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -574,6 +639,61 @@
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Node</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">null</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="findspritedata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> find<wbr>Sprite<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Sprite<wbr>Data<span class="tsd-signature-symbol">(</span>resourceMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">&gt;</span>, spriteFrameUuid<span class="tsd-signature-symbol">: </span><a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a>, atlasUuid<span class="tsd-signature-symbol">: </span><a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L362">exporter/scene/CocosCreator.ts:362</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceMap: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>spriteFrameUuid: <a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a></h5>
+								</li>
+								<li>
+									<h5>atlasUuid: <a href="../interfaces/componentuuidentity.html" class="tsd-signature-type">ComponentUuidEntity</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="findspriteframedata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> find<wbr>Sprite<wbr>Frame<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Sprite<wbr>Frame<wbr>Data<span class="tsd-signature-symbol">(</span>spriteFrameEntity<span class="tsd-signature-symbol">: </span><a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/scene/CocosCreator.ts#L427">exporter/scene/CocosCreator.ts:427</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>spriteFrameEntity: <a href="../globals.html#resourcemapentity" class="tsd-signature-type">ResourceMapEntity</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">object</span>
 							</h4>
 						</li>
 					</ul>
@@ -641,7 +761,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/assetexporter.html">AssetExporter</a>.<a href="../interfaces/assetexporter.html#pluginpostprocess">pluginPostProcess</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/asset/CocosCreator.ts#L58">exporter/asset/CocosCreator.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/asset/CocosCreator.ts#L75">exporter/asset/CocosCreator.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -685,7 +805,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/assetexporter.html">AssetExporter</a>.<a href="../interfaces/assetexporter.html#replacepaths">replacePaths</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/asset/CocosCreator.ts#L86">exporter/asset/CocosCreator.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/drecom/scene-graph/blob/develop/packages/scene-graph-mediator/client/src/exporter/asset/CocosCreator.ts#L103">exporter/asset/CocosCreator.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -762,11 +882,23 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="cocoscreator.html#createscenegraphschemas" class="tsd-kind-icon">create<wbr>Scene<wbr>Graph<wbr>Schemas</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="cocoscreator.html#findatlasdata" class="tsd-kind-icon">find<wbr>Atlas<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="cocoscreator.html#findatlasdatabyspriteframeuuid" class="tsd-kind-icon">find<wbr>Atlas<wbr>Data<wbr>BySprite<wbr>Frame<wbr>Uuid</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="cocoscreator.html#findcomponentbytype" class="tsd-kind-icon">find<wbr>Component<wbr>ByType</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="cocoscreator.html#findschemanodebyid" class="tsd-kind-icon">find<wbr>Schema<wbr>Node<wbr>ById</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="cocoscreator.html#findspritedata" class="tsd-kind-icon">find<wbr>Sprite<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="cocoscreator.html#findspriteframedata" class="tsd-kind-icon">find<wbr>Sprite<wbr>Frame<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="cocoscreator.html#getidentifier" class="tsd-kind-icon">get<wbr>Identifier</a>
