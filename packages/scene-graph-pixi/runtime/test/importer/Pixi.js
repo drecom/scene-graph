@@ -219,11 +219,6 @@ describe('Pixi', () => {
       }
     };
 
-    const graph = {
-      scene: [ parentNode, childNode ],
-      metadata: metadata
-    };
-
     it ('should create anonymouse root Container', () => {
       const root = pixi.import({
         scene: [],
@@ -261,7 +256,7 @@ describe('Pixi', () => {
           extendRuntimeObjects: ()=>{}
         };
         const extendRuntimeObjectsSpy = spy(plugin, 'createRuntimeObject');
-  
+
         pixi.addPlugin(plugin);
         pixi.import({
           scene: [ parentNode, childNode ],
@@ -275,7 +270,7 @@ describe('Pixi', () => {
         const plugin = {
           extendRuntimeObjects: ()=>{}
         };
-  
+
         pixi.addPlugin(plugin);
         assert.doesNotThrow(() => {
           pixi.import({
@@ -836,6 +831,79 @@ describe('Pixi', () => {
           assert.strictEqual(layoutComponent.children[2].position.x, 240);
           assert.strictEqual(layoutComponent.children[3].position.x, 288);
         });
+      });
+    });
+    describe('RichText', () => {
+      const boldText = 'bold';
+      const plainText = ' ';
+      const italicText = 'italic ';
+      const italicBoldText = 'italic and bold';
+      const richTextNode = {
+        constructorName: 'Text',
+        id:   parentTestName,
+        name: parentTestName,
+        transform: {
+          x: 0,
+          y: 0,
+          anchor: {
+            x: 0,
+            y: 0
+          }
+        },
+        text: {
+          text: `<b>${boldText}</b>${plainText}\n` + `<i>${italicText}<b>${italicBoldText}</b></i>`,
+          richText: {
+            format: 'bbcode'
+          }
+        }
+      };
+
+      it ('should create PIXI.Text instance for each style groups in order of appearance', () => {
+        const root = pixi.import({
+          scene: [ richTextNode ],
+          metadata: metadata
+        });
+
+        const container = root.children[0];
+
+        assert.strictEqual(container.children.shift().text, boldText);
+        assert.strictEqual(container.children.shift().text, plainText);
+        assert.strictEqual(container.children.shift().text, italicText);
+        assert.strictEqual(container.children.shift().text, italicBoldText);
+      });
+
+      it ('should apply text style', () => {
+        const root = pixi.import({
+          scene: [ richTextNode ],
+          metadata: metadata
+        });
+
+        const container = root.children[0];
+
+        const toBeBold       = container.children.shift();
+        const toBePlain      = container.children.shift();
+        const toBeItalic     = container.children.shift();
+        const toBeItalicBold = container.children.shift();
+
+        assert.strictEqual(toBeBold.style._fontWeight, 'bold');
+        assert.strictEqual(toBeBold.style._fontStyle, 'normal');
+        assert.strictEqual(toBePlain.style.fontWeight, 'normal');
+        assert.strictEqual(toBePlain.style._fontStyle, 'normal');
+        assert.strictEqual(toBeItalic.style.fontWeight, 'normal');
+        assert.strictEqual(toBeItalic.style._fontStyle, 'italic');
+        assert.strictEqual(toBeItalicBold.style.fontWeight, 'bold');
+        assert.strictEqual(toBeItalicBold.style._fontStyle, 'italic');
+      });
+
+      it ('should accept multiline', () => {
+        const root = pixi.import({
+          scene: [ richTextNode ],
+          metadata: metadata
+        });
+
+        const container = root.children[0];
+
+        assert.strictEqual(container.children[0].position.y < container.children[3].position.y, true);
       });
     });
   });
