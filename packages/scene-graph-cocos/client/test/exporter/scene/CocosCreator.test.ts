@@ -4,6 +4,7 @@ import { describe, it, before, after } from 'mocha';
 
 import { sgmed } from '@drecom/scene-graph-mediator-cli';
 
+import * as cc from '../../../src/interface/CocosCreator';
 import DefaultSceneExporter from '../../../src/exporter/scene/DefaultSceneExporter';
 
 const MockSceneJson = require('../../fixture/mock_scene.fire.json');
@@ -120,6 +121,213 @@ describe('SceneExporter::DefaultSceneExporter',  () => {
 
   describe('non-public methods', () => {
     const anyInstance = (instance as any);
+
+    describe('appendComponentByType', () => {
+      describe('Sprite', () => {
+        const component = {
+          __type__: cc.MetaTypes.SPRITE,
+          _spriteFrame: 'mock',
+          _atlas: 'mock'
+        };
+        const mockData = {
+          frameName: 'test_frame_name',
+          url: '/test/url',
+          atlasUrl: '/test/atlas/url'
+        };
+        it('should append sprite property to first argument', () => {
+          const schema: any = {};
+          const findSpriteData = stub(anyInstance, 'findSpriteData').callsFake(() => mockData);
+
+          anyInstance.appendComponentByType(schema, component, new Map());
+
+          expect(schema.sprite).to.not.be.undefined;
+          expect(schema.sprite.frameName).to.equal(mockData.frameName);
+          expect(schema.sprite.url).to.equal(mockData.url);
+          expect(schema.sprite.atlasUrl).to.equal(mockData.atlasUrl);
+
+          findSpriteData.restore();
+        });
+        describe('when findSpriteData returns object with submeta', () => {
+          it('should append slice property to sprite', () => {
+            const schema: any = {};
+            const submeta = {
+              submeta: {
+                borderTop: 1,
+                borderBottom: 2,
+                borderLeft: 3,
+                borderRight: 4
+              }
+            };
+            const findSpriteData = stub(anyInstance, 'findSpriteData').callsFake(() => Object.assign(submeta, mockData));
+
+            anyInstance.appendComponentByType(schema, component, new Map());
+
+            expect(schema.sprite.slice).to.not.be.undefined;
+            expect(schema.sprite.slice.top).to.equal(submeta.submeta.borderTop);
+            expect(schema.sprite.slice.bottom).to.equal(submeta.submeta.borderBottom);
+            expect(schema.sprite.slice.left).to.equal(submeta.submeta.borderLeft);
+            expect(schema.sprite.slice.right).to.equal(submeta.submeta.borderRight);
+
+            findSpriteData.restore();
+          });
+        });
+        describe('when findSpriteData returns object without submeta', () => {
+          it('should not append slice property to sprite', () => {
+            const schema: any = {};
+            const findSpriteData = stub(anyInstance, 'findSpriteData').callsFake(() => mockData);
+
+            anyInstance.appendComponentByType(schema, component, new Map());
+
+            expect(schema.sprite.slice).to.be.undefined;
+
+            findSpriteData.restore();
+          });
+        });
+      });
+
+      describe('Label', () => {
+        const component = {
+          __type__: cc.MetaTypes.LABEL,
+          _N$string: 'test_text',
+          _fontSize: 100,
+          _N$horizontalAlign: 1
+        };
+        it('should append text property to first argument', () => {
+          const schema: any = {};
+          anyInstance.appendComponentByType(schema, component, new Map());
+
+          expect(schema.text).to.not.be.undefined;
+          expect(schema.text.text).to.equal(component._N$string);
+          expect(schema.text.style.size).to.equal(component._fontSize);
+          expect(schema.text.style.horizontalAlign).to.equal(component._N$horizontalAlign);
+        });
+        it('should set default fill color as white', () => {
+          const schema: any = {};
+          anyInstance.appendComponentByType(schema, component, new Map());
+
+          expect(schema.text.style.color.toLowerCase()).to.equal('#ffffff');
+        });
+        describe('when first argument has renderer with color property', () => {
+          it('should set color property value as renderer color', () => {
+            const schema: any = {
+              renderer: {
+                color:{
+                  r: 255,
+                  g: 0,
+                  b: 0
+                }
+              }
+            };
+            anyInstance.appendComponentByType(schema, component, new Map());
+
+            expect(schema.text.style.color.toLowerCase()).to.equal('#ff0000');
+          });
+        });
+      });
+    });
+    describe('RichText', () => {
+      const component = {
+        __type__: cc.MetaTypes.RICH_TEXT,
+        _N$string: 'test_rich_text',
+        _N$fontSize: 120,
+        _N$horizontalAlign: 1
+      };
+      it('should append text property to first argument', () => {
+        const schema: any = {};
+        anyInstance.appendComponentByType(schema, component, new Map());
+
+        expect(schema.text).to.not.be.undefined;
+        expect(schema.text.text).to.equal(component._N$string);
+        expect(schema.text.style.size).to.equal(component._N$fontSize);
+        expect(schema.text.style.horizontalAlign).to.equal(component._N$horizontalAlign);
+      });
+      it('should set default fill color as white', () => {
+        const schema: any = {};
+        anyInstance.appendComponentByType(schema, component, new Map());
+
+        expect(schema.text.style.color.toLowerCase()).to.equal('#ffffff');
+      });
+      it('should append richText property to text', () => {
+        const schema: any = {};
+        anyInstance.appendComponentByType(schema, component, new Map());
+
+        expect(schema.text.richText).to.not.be.undefined;
+      });
+      it('should append richText.format with cc.RICH_TEXT_FORMAT const value', () => {
+        const schema: any = {};
+        anyInstance.appendComponentByType(schema, component, new Map());
+
+        expect(schema.text.richText.format).to.equal(cc.RICH_TEXT_FORMAT);
+      });
+      describe('when first argument has renderer with color property', () => {
+        it('should set color property value as renderer color', () => {
+          const schema: any = {
+            renderer: {
+              color:{
+                r: 255,
+                g: 0,
+                b: 0
+              }
+            }
+          };
+          anyInstance.appendComponentByType(schema, component, new Map());
+
+          expect(schema.text.style.color.toLowerCase()).to.equal('#ff0000');
+        });
+      });
+    });
+
+    describe('Layout', () => {
+      const component = {
+        __type__: cc.MetaTypes.LAYOUT,
+        _layoutSize: { width: 1, height: 2 },
+        _resize: 1,
+        _N$layoutType: 2,
+        _N$cellSize: { width: 3, height: 4 },
+        _N$startAxis: 3,
+        _N$paddingLeft: 4,
+        _N$paddingRight: 5,
+        _N$paddingTop: 6,
+        _N$paddingBottom: 7,
+        _N$spacingX: 8,
+        _N$spacingY: 9,
+        _N$verticalDirection: 10,
+        _N$horizontalDirection: 11
+      };
+      it('should append layout property to first argument', () => {
+        const schema: any = {};
+        anyInstance.appendComponentByType(schema, component, new Map());
+
+        expect(schema.layout.layoutSize).to.equal(component._layoutSize);
+        expect(schema.layout.resize).to.equal(component._resize);
+        expect(schema.layout.layoutType).to.equal(component._N$layoutType);
+        expect(schema.layout.cellSize).to.equal(component._N$cellSize);
+        expect(schema.layout.startAxis).to.equal(component._N$startAxis);
+        expect(schema.layout.paddingLeft).to.equal(component._N$paddingLeft);
+        expect(schema.layout.paddingRight).to.equal(component._N$paddingRight);
+        expect(schema.layout.paddingTop).to.equal(component._N$paddingTop);
+        expect(schema.layout.paddingBottom).to.equal(component._N$paddingBottom);
+        expect(schema.layout.spacingX).to.equal(component._N$spacingX);
+        expect(schema.layout.spacingY).to.equal(component._N$spacingY);
+        expect(schema.layout.verticalDirection).to.equal(component._N$verticalDirection);
+        expect(schema.layout.horizontalDirection).to.equal(component._N$horizontalDirection);
+      });
+    });
+
+    describe('Mask', () => {
+      const component = {
+        __type__: cc.MetaTypes.MASK,
+        _type: 1,
+        _N$inverted: false
+      };
+      it('should append layout property to first argument', () => {
+        const schema: any = {};
+        anyInstance.appendComponentByType(schema, component, new Map());
+
+        expect(schema.mask.maskType).to.equal(component._type);
+        expect(schema.mask.inverted).to.equal(component._N$inverted);
+      });
+    });
 
     describe('colorToHexString', () => {
       // protected
