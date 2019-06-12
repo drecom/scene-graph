@@ -20,7 +20,7 @@ export default function parseArgs(): Args {
     const frags = value.split(' ');
     for (let i = 0; i < frags.length; i++) {
       const frag = frags[i];
-      if (fs.existsSync(frag)) {
+      if ((!path.isAbsolute(frag) && !isRelativePath(frag)) || fs.existsSync(frag)) {
         parts.push(frag);
       } else {
         const nextFrag = frags[i + 1];
