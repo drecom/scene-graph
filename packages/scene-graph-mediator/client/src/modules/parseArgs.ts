@@ -11,6 +11,10 @@ import AssetExporterPlugin from '../interface/AssetExporterPlugin';
 export default function parseArgs(): Args {
   const packageJson = require('../../package.json');
 
+  const isRelativePath = (value: string) => {
+    return value.startsWith(`.${path.sep}`) || value.startsWith(`..${path.sep}`);
+  };
+
   const spaceSeparatedPaths = (value: string): string[] => {
     const parts = [];
     const frags = value.split(' ');
@@ -28,10 +32,6 @@ export default function parseArgs(): Args {
     }
 
     return parts;
-  };
-
-  const isRelativePath = (value: string) => {
-    return 0 <= value.lastIndexOf(`.${path.sep}`);
   };
 
   commander
