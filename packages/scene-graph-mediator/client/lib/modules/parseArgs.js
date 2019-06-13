@@ -29,20 +29,21 @@ function parseArgs() {
     commander
         .version(packageJson.version)
         .option('-c, --config [value]', 'config file path')
-        .option('-r, --runtime [value]', "runtime identifier, currently supports only 'cc'")
-        .option('-ar, --assetRoot [value]', 'root directory for assets')
+        .option('-r, --runtime [value]', 'runtime identifier')
+        .option('-a, --assetRoot [value]', 'root directory for assets')
         .option('-s, --sceneFiles [value]', 'exporting scene files (space separated)', spaceSeparatedPaths)
-        .option('-d, --destDir [value]', "destination directory;                          default './scene-graph'")
-        .option('-ad, --assetDestDir [value]', 'asset destination directory;                    default \${DEST}/\${ASSET_NAME_SPACE}')
-        .option('-an, --assetNameSpace [value]', "asset directory name;                           default 'assets'")
-        .option('-p, --plugins [value]', "space separated plugin names (space separated); default ''", spaceSeparatedPaths)
+        .option('-d, --destDir [value]', "destination directory           default './scene-graph'")
+        .option('--assetDestDir [value]', 'asset destination directory     default \${DEST}/\${ASSET_NAME_SPACE}')
+        .option('--assetNameSpace [value]', "asset directory name            default 'assets'")
+        .option('-p, --plugins [value]', "plugin names (space separated)  default ''", spaceSeparatedPaths).option('--listRuntimes', 'list available runtimes')
         .parse(process.argv);
     // passing option via process.env is deprecated
     var config = {};
     var configFilePath = '';
     // using -c option
     if (commander.config) {
-        var userConfigFactory = require(path.resolve(process.cwd(), commander.config));
+        var configPath = path.resolve(process.cwd(), commander.config);
+        var userConfigFactory = require(configPath);
         config = userConfigFactory();
         if (config.sceneFiles && !Array.isArray(config.sceneFiles)) {
             config.sceneFiles = [config.sceneFiles];
@@ -81,8 +82,12 @@ function parseArgs() {
             || 'assets',
         plugins: commander.plugins
             || config.plugins
-            || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : [])
+            || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : []),
+        listRuntimes: commander.listRuntimes
     };
+    if (args.listRuntimes) {
+        return args;
+    }
     if (!args.runtime) {
         throw new Error('runtime option is required');
     }

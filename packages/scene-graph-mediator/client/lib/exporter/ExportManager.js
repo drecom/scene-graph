@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = require("../constants");
 /**
  * Bundles each export processes and manages running them.
  */
@@ -15,37 +14,23 @@ var ExportManager = /** @class */ (function () {
         };
     }
     /**
-     * Dyamically loads scene exporter implements
+     * Register exporter class implements
      */
-    ExportManager.getSceneExporterClass = function (runtimeId) {
-        var id = runtimeId.toLowerCase();
-        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id) !== -1) {
-            return require('../exporter/scene/CocosCreator').default;
-        }
-        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
-            return require('../exporter/scene/CocosCreatorV2').default;
-        }
-        if (constants_1.RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
-            return require('../exporter/scene/Unity').default;
-        }
-        return null;
+    ExportManager.registerExporterClass = function (runtimeId, scene, asset) {
+        ExportManager.exporters.set(runtimeId.toLowerCase(), { scene: scene, asset: asset });
     };
     /**
-     * Dyamically loads asset exporter implements
+     * Returnes registered keys of exporters
      */
-    ExportManager.getAssetExporterClass = function (runtimeId) {
-        var id = runtimeId.toLowerCase();
-        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id) !== -1) {
-            return require('../exporter/asset/CocosCreator').default;
+    ExportManager.getRegisteredExporterRuntimes = function () {
+        var runtimes = [];
+        var it = ExportManager.exporters.keys();
+        var item = it.next();
+        while (!item.done) {
+            runtimes.push(item.value);
+            item = it.next();
         }
-        if (constants_1.RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
-            // return require('../exporter/asset/CocosCreatorV2').default;
-            return require('../exporter/asset/CocosCreator').default;
-        }
-        if (constants_1.RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
-            return require('../exporter/asset/Unity').default;
-        }
-        return null;
+        return runtimes;
     };
     /**
      * Dynamically loads user defined plugin by absolute module path
@@ -77,11 +62,11 @@ var ExportManager = /** @class */ (function () {
      * Exports scene graphs for given scene file paths
      */
     ExportManager.prototype.exportScene = function (runtimeIdentifier, sceneFiles, assetRoot) {
-        var ExporterClass = ExportManager.getSceneExporterClass(runtimeIdentifier);
-        if (!ExporterClass) {
+        var exporters = ExportManager.exporters.get(runtimeIdentifier);
+        if (!exporters) {
             throw new Error("runtime '" + runtimeIdentifier + "' is not supported.");
         }
-        var exporter = new ExporterClass();
+        var exporter = new exporters.scene();
         var sceneGraphs = exporter.createSceneGraphSchemas(sceneFiles, assetRoot, this.plugins.scenes);
         return sceneGraphs;
     };
@@ -89,15 +74,16 @@ var ExportManager = /** @class */ (function () {
      * Create map for exporting assets
      */
     ExportManager.prototype.exportAsset = function (sceneGraphs, runtimeIdentifier, assetRoot, destDir, urlNameSpace) {
-        var ExporterClass = ExportManager.getAssetExporterClass(runtimeIdentifier);
-        if (!ExporterClass) {
+        var exporters = ExportManager.exporters.get(runtimeIdentifier);
+        if (!exporters) {
             throw new Error("runtime '" + runtimeIdentifier + "' is not supported.");
         }
-        var exporter = new ExporterClass();
+        var exporter = new exporters.asset();
         var exportMap = exporter.createExportMap(sceneGraphs, assetRoot, destDir, urlNameSpace, this.plugins.assets);
         exporter.replacePaths(sceneGraphs, exportMap, this.plugins.assets);
         return exportMap;
     };
+    ExportManager.exporters = new Map();
     return ExportManager;
 }());
 exports.default = ExportManager;

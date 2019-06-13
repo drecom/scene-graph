@@ -5,7 +5,6 @@ var path = require("path");
 var ExportManager_1 = require("./exporter/ExportManager");
 var parseArgs_1 = require("./modules/parseArgs");
 var mkdirp_1 = require("./modules/mkdirp");
-var constants_1 = require("./constants");
 /**
  * entry point for export CLI
  */
@@ -15,8 +14,13 @@ function cli() {
         args = parseArgs_1.default();
     }
     catch (e) {
-        console.log(e);
-        console.log(constants_1.CliHelptext);
+        console.log(e.message);
+        return;
+    }
+    if (args.listRuntimes) {
+        var runtimes = ExportManager_1.default.getRegisteredExporterRuntimes();
+        console.log('available runtime identifiers:');
+        console.log(runtimes.sort().join('\n'));
         return;
     }
     /**

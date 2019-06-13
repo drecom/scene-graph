@@ -1,5 +1,5 @@
 import { SchemaJson, Node } from '@drecom/scene-graph-schema';
-import { ImportOption } from 'importer/Importer';
+import { ImportOption } from '../importer/Importer';
 
 export default interface ImporterPlugin {
   // Use if you want to customize the creation of runtime objects.

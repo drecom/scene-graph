@@ -4,12 +4,15 @@ import AssetExporterPlugin from '../interface/AssetExporterPlugin';
 import SceneExporterConstructor from '../interface/SceneExporterConstructor';
 import AssetExporterConstructor from '../interface/AssetExporterConstructor';
 import AssetExportMapEntity from '../interface/AssetExportMapEntity';
-import { RuntimeIdentifiers } from '../constants';
 
 /**
  * Bundles each export processes and manages running them.
  */
 export default class ExportManager {
+  private static exporters = new Map<string, {
+    scene: SceneExporterConstructor,
+    asset: AssetExporterConstructor
+  }>();
   /**
    * Plugins placeholder
    */
@@ -19,42 +22,28 @@ export default class ExportManager {
   };
 
   /**
-   * Dyamically loads scene exporter implements
+   * Register exporter class implements
    */
-  public static getSceneExporterClass(runtimeId: string): SceneExporterConstructor | null {
-    const id = runtimeId.toLowerCase();
-
-    if (RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id) !== -1) {
-      return require('../exporter/scene/CocosCreator').default;
-    }
-    if (RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
-      return require('../exporter/scene/CocosCreatorV2').default;
-    }
-    if (RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
-      return require('../exporter/scene/Unity').default;
-    }
-
-    return null;
+  public static registerExporterClass(
+    runtimeId: string,
+    scene: SceneExporterConstructor,
+    asset: AssetExporterConstructor
+  ): void {
+    ExportManager.exporters.set(runtimeId.toLowerCase(), { scene, asset });
   }
 
   /**
-   * Dyamically loads asset exporter implements
+   * Returnes registered keys of exporters
    */
-  public static getAssetExporterClass(runtimeId: string): AssetExporterConstructor | null {
-    const id = runtimeId.toLowerCase();
-
-    if (RuntimeIdentifiers.COCOS_CREATOR_V1.indexOf(id) !== -1) {
-      return require('../exporter/asset/CocosCreator').default;
+  public static getRegisteredExporterRuntimes(): string[] {
+    const runtimes = [];
+    const it = ExportManager.exporters.keys();
+    let item = it.next();
+    while (!item.done) {
+      runtimes.push(item.value);
+      item = it.next();
     }
-    if (RuntimeIdentifiers.COCOS_CREATOR_V2.indexOf(id) !== -1) {
-      // return require('../exporter/asset/CocosCreatorV2').default;
-      return require('../exporter/asset/CocosCreator').default;
-    }
-    if (RuntimeIdentifiers.UNITY.indexOf(id) !== -1) {
-      return require('../exporter/asset/Unity').default;
-    }
-
-    return null;
+    return runtimes;
   }
 
   /**
@@ -93,12 +82,12 @@ export default class ExportManager {
     sceneFiles: string[],
     assetRoot: string
   ): Map<string, SchemaJson> {
-    const ExporterClass = ExportManager.getSceneExporterClass(runtimeIdentifier);
-    if (!ExporterClass) {
+    const exporters = ExportManager.exporters.get(runtimeIdentifier);
+    if (!exporters) {
       throw new Error(`runtime '${runtimeIdentifier}' is not supported.`);
     }
 
-    const exporter = new ExporterClass();
+    const exporter = new exporters.scene();
     const sceneGraphs = exporter.createSceneGraphSchemas(
       sceneFiles,
       assetRoot,
@@ -118,12 +107,12 @@ export default class ExportManager {
     destDir: string,
     urlNameSpace: string
   ): Map<string, AssetExportMapEntity> {
-    const ExporterClass = ExportManager.getAssetExporterClass(runtimeIdentifier);
-    if (!ExporterClass) {
+    const exporters = ExportManager.exporters.get(runtimeIdentifier);
+    if (!exporters) {
       throw new Error(`runtime '${runtimeIdentifier}' is not supported.`);
     }
 
-    const exporter  = new ExporterClass();
+    const exporter  = new exporters.asset();
     const exportMap = exporter.createExportMap(
       sceneGraphs,
       assetRoot,

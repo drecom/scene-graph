@@ -1,44 +1,17 @@
 import { expect } from 'chai';
-import { SinonSpy, spy, stub } from 'sinon';
+import { spy } from 'sinon';
 import { describe, it } from 'mocha';
 
 import ExportManager from '../../src/exporter/ExportManager';
 
 describe('ExportManager',  () => {
   describe('static methods', () => {
-    const Klass = ExportManager;
-
-    describe('getSceneExporterClass', () => {
-      const subject = Klass.getSceneExporterClass.bind(Klass);
-
-      describe('when valid runtime id was given', () => {
-        it('should return exporter class', () => {
-          expect(subject('cc')).to.not.equal(undefined);
-          expect(subject('cc')).to.not.equal(null);
-        });
-      });
-
-      describe('when invalid runtime id was given', () => {
-        it('should return exporter class', () => {
-          expect(subject('undefined runtime id')).to.equal(null);
-        });
-      });
-    });
-
-    describe('getAssetExporterClass', () => {
-      const subject = Klass.getAssetExporterClass.bind(Klass);
-
-      describe('when valid runtime id was given', () => {
-        it('should return exporter class', () => {
-          expect(subject('cc')).to.not.equal(undefined);
-          expect(subject('cc')).to.not.equal(null);
-        });
-      });
-
-      describe('when invalid runtime id was given', () => {
-        it('should not return exporter class', () => {
-          expect(subject('undefined runtime id')).to.equal(null);
-        });
+    describe('registerExporterClass', () => {
+      const subject = ExportManager.registerExporterClass.bind(ExportManager);
+      it('should set new entity to exporters property', () => {
+        expect((ExportManager as any).exporters.size).to.equal(0);
+        subject('test', {} as any, {} as any);
+        expect((ExportManager as any).exporters.size).to.equal(1);
       });
     });
   });
@@ -49,7 +22,7 @@ describe('ExportManager',  () => {
     describe('loadPlugins', () => {
       const subject = instance.loadPlugins.bind(instance);
 
-      describe('when valid path was given', () => {
+      describe('when invalid path was given', () => {
         it('should throw uncaught error', () => {
           expect(() => subject('/dev/null')).to.throw(Error);
         });
@@ -59,32 +32,32 @@ describe('ExportManager',  () => {
     describe('exportScene', () => {
       const subject = instance.exportScene.bind(instance);
 
-      let exporterInstanceSpies: SinonSpy[] = [];
+      const validRuntimeName   = 'test_runtime';
+      const invalidRuntimeName = 'invalid_test_runtime';
 
-      class ExportSceneStub {
-        public createSceneGraphSchemas!: SinonSpy;
+      const stubExporters = { scene: {} as any, asset: {} };
+      before(() => {
+        (ExportManager as any).exporters = new Map();
+        (ExportManager as any).exporters.set(validRuntimeName, stubExporters);
+      });
 
-        constructor() {
-          this.createSceneGraphSchemas = spy();
-          exporterInstanceSpies = [
-            this.createSceneGraphSchemas
-          ];
-        }
-      };
+      describe('when valid runtime identifier was given', () => {
+        before(() => { stubExporters.scene = spy(); });
 
-      it('should call exposed interface of SceneExporter', () => {
-        const stubbed = stub(ExportManager, 'getSceneExporterClass');
-        stubbed.callsFake(() => { return ExportSceneStub; });
-
-        subject('invalid runtime id', [], '');
-        exporterInstanceSpies.forEach((item) => expect(item.calledOnce).to.equal(true));
-
-        stubbed.reset();
+        it('should instantiate scene exporter class', () => {
+          try {
+            subject(validRuntimeName, [], '');
+          } catch(e) {}
+          expect(stubExporters.scene.calledWithNew()).to.be.true;
+        });
       });
 
       describe('when invalid runtime identifier was given', () => {
+        before(() => { stubExporters.scene = spy(); });
+
         it('should throw managed error', () => {
-          expect(() => subject('invalid runtime id', [], '')).to.throw(Error);
+          expect(() => subject(invalidRuntimeName, [], '')).to.throw(Error);
+          expect(stubExporters.scene.calledWithNew()).to.be.false;
         });
       });
     });
@@ -92,36 +65,32 @@ describe('ExportManager',  () => {
     describe('exportAsset', () => {
       const subject = instance.exportAsset.bind(instance);
 
-      let exporterInstanceSpies: SinonSpy[] = [];
+      const validRuntimeName   = 'test_runtime';
+      const invalidRuntimeName = 'invalid_test_runtime';
 
-      class ExportAssetStub {
-        public createExportMap!: SinonSpy;
-        public replacePaths!:    SinonSpy;
+      const stubExporters = { scene: {}, asset: {} as any };
+      before(() => {
+        (ExportManager as any).exporters = new Map();
+        (ExportManager as any).exporters.set(validRuntimeName, stubExporters);
+      });
 
-        constructor() {
-          this.createExportMap = spy();
-          this.replacePaths    = spy();
+      describe('when valid runtime identifier was given', () => {
+        before(() => { stubExporters.asset = spy(); });
 
-          exporterInstanceSpies = [
-            this.createExportMap,
-            this.replacePaths
-          ];
-        }
-      };
-
-      it('should call exposed interface of AssetExporter', () => {
-        const stubbed = stub(ExportManager, 'getAssetExporterClass');
-        stubbed.callsFake(() => { return ExportAssetStub; });
-
-        subject('invalid runtime id', [], '');
-        exporterInstanceSpies.forEach((item) => expect(item.calledOnce).to.equal(true));
-
-        stubbed.reset();
+        it('should instantiate asset exporter class', () => {
+          try {
+            subject(new Map(), validRuntimeName, [], '');
+          } catch(e) {}
+          expect(stubExporters.asset.calledWithNew()).to.be.true;
+        });
       });
 
       describe('when invalid runtime identifier was given', () => {
+        before(() => { stubExporters.asset = spy(); });
+
         it('should throw managed error', () => {
-          expect(() => subject(null, 'invalid runtime id', [], '')).to.throw(Error);
+          expect(() => subject(new Map(), invalidRuntimeName, [], '')).to.throw(Error);
+          expect(stubExporters.asset.calledWithNew()).to.be.false;
         });
       });
     });

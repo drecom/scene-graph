@@ -1,6 +1,15 @@
 aliases:
   - &npm-install |
+    pushd packages/scene-graph-mediator/client
+    rm package-lock.json
+    npm install
+    popd
+    pushd packages/scene-graph-mediator/runtime
+    rm package-lock.json
+    npm install
+    popd
     pushd packages/${CIRCLE_JOB}
+    rm package-lock.json
     npm install
     popd
   - &build |
@@ -40,11 +49,23 @@ aliases:
 
 version: 2
 jobs:
-  scene-graph-mediator/runtime:
+  scene-graph-mediator/client:
     docker: *common-docker
     steps: *job-build-and-test
 
-  scene-graph-mediator/client:
+  scene-graph-cocos/client:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-unity/client:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-three/runtime:
+    docker: *common-docker
+    steps: *job-build-and-test
+
+  scene-graph-pixi/runtime:
     docker: *common-docker
     steps: *job-build-and-test
 
@@ -60,8 +81,23 @@ workflows:
   version: 2
   all-test:
     jobs:
-      - scene-graph-mediator/runtime
       - scene-graph-mediator/client
+      - scene-graph-cocos/client:
+          requires:
+            - scene-graph-mediator/client
+      - scene-graph-unity/client:
+          requires:
+            - scene-graph-cocos/client
+      - scene-graph-three/runtime:
+          requires:
+            - scene-graph-unity/client
+      - scene-graph-pixi/runtime:
+          requires:
+            - scene-graph-three/runtime
       - report_success:
           requires:
-            - scene-graph-mediator/runtime
+            - scene-graph-mediator/client
+            - scene-graph-cocos/client
+            - scene-graph-unity/client
+            - scene-graph-three/runtime
+            - scene-graph-pixi/runtime

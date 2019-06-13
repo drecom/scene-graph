@@ -1,9 +1,3 @@
-import Exporter from 'exporter/Exporter';
-import Pixi from 'exporter/Pixi';
+import Exporter from './Exporter';
 
-const Exporters = {
-  Pixi,
-  Abstract: Exporter
-};
-
-export { Exporters };
+export { Exporter };

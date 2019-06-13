@@ -4,6 +4,10 @@
 # node
 node_modules
 
+# test artifacts
+.nyc_output
+coverage
+
 # lerna
 lerna-debug.log
 *.tgz

@@ -1,0 +1,1 @@
+{"version":3,"file":"Unity.js","sourceRoot":"","sources":["../../src/interface/Unity.ts"],"names":[],"mappings":";;AA+CA;;GAEG;AACH,IAAiB,SAAS,CA+BzB;AA/BD,WAAiB,SAAS;IACX,cAAI,GAAG,MAAM,CAAC,MAAM,CAAC;QAChC,WAAW,EAAE,YAAY;QACzB,SAAS,EAAE,WAAW;QACtB,eAAe,EAAE,gBAAgB;QACjC,qBAAqB,EAAE,qBAAqB;KAC7C,CAAC,CAAC;AAyBL,CAAC,EA/BgB,SAAS,GAAT,iBAAS,KAAT,iBAAS,QA+BzB"}

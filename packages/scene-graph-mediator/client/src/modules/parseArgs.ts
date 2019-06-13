@@ -38,10 +38,10 @@ export default function parseArgs(): Args {
     )
     .option(
       '-r, --runtime [value]',
-      "runtime identifier, currently supports only 'cc'"
+      'runtime identifier'
     )
     .option(
-      '-ar, --assetRoot [value]',
+      '-a, --assetRoot [value]',
       'root directory for assets'
     )
     .option(
@@ -51,20 +51,23 @@ export default function parseArgs(): Args {
     )
     .option(
       '-d, --destDir [value]',
-      "destination directory;                          default './scene-graph'"
+      "destination directory           default './scene-graph'"
     )
     .option(
-      '-ad, --assetDestDir [value]',
-      'asset destination directory;                    default \${DEST}/\${ASSET_NAME_SPACE}'
+      '--assetDestDir [value]',
+      'asset destination directory     default \${DEST}/\${ASSET_NAME_SPACE}'
     )
     .option(
-      '-an, --assetNameSpace [value]',
-      "asset directory name;                           default 'assets'"
+      '--assetNameSpace [value]',
+      "asset directory name            default 'assets'"
     )
     .option(
       '-p, --plugins [value]',
-      "space separated plugin names (space separated); default ''",
+      "plugin names (space separated)  default ''",
       spaceSeparatedPaths
+    ).option(
+      '--listRuntimes',
+      'list available runtimes'
     )
     .parse(process.argv);
 
@@ -85,7 +88,8 @@ export default function parseArgs(): Args {
 
   // using -c option
   if (commander.config) {
-    const userConfigFactory = require(path.resolve(process.cwd(), commander.config));
+    const configPath = path.resolve(process.cwd(), commander.config);
+    const userConfigFactory = require(configPath);
     config = userConfigFactory();
     if (config.sceneFiles && !Array.isArray(config.sceneFiles)) {
       config.sceneFiles = [config.sceneFiles];
@@ -133,8 +137,14 @@ export default function parseArgs(): Args {
     plugins:
       commander.plugins
       || config.plugins
-      || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : [])
+      || (process.env.PLUGINS ? spaceSeparatedPaths(process.env.PLUGINS) : []),
+    listRuntimes:
+      commander.listRuntimes
   };
+
+  if (args.listRuntimes) {
+    return args;
+  }
 
   if (!args.runtime) {
     throw new Error('runtime option is required');
