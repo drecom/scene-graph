@@ -42,5 +42,6 @@
     "typedoc": "^0.14.2",
     "typescript": "^3.4.5",
     "yaml": "^1.6.0"
-  }
+  },
+  "gitHead": "0423b30b70ce63a851dc2b4768f8ebc9aa4d8793"
 }

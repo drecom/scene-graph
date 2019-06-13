@@ -38,5 +38,6 @@
   },
   "dependencies": {
     "@drecom/scene-graph-mediator-rt": "^1.2.2"
-  }
+  },
+  "gitHead": "0423b30b70ce63a851dc2b4768f8ebc9aa4d8793"
 }

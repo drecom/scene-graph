@@ -15,5 +15,6 @@
   "scripts": {
     "build:lib": "tsc -p ."
   },
-  "author": "Drecom Co.,Ltd."
+  "author": "Drecom Co.,Ltd.",
+  "gitHead": "0423b30b70ce63a851dc2b4768f8ebc9aa4d8793"
 }
