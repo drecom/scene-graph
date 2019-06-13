@@ -23,7 +23,7 @@
   "keywords": [],
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-mediator-cli": "file:../../scene-graph-mediator/client",
+    "@drecom/scene-graph-mediator-cli": "^1.2.0",
     "@drecom/scene-graph-schema": "^0.1.1",
     "@types/chai": "^4.1.7",
     "@types/command-line-args": "^5.0.0",

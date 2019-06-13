@@ -37,6 +37,6 @@
     "webpack-cli": "^3.3.2"
   },
   "dependencies": {
-    "@drecom/scene-graph-mediator-rt": "file:../../scene-graph-mediator/runtime"
+    "@drecom/scene-graph-mediator-rt": "^1.2.1"
   }
 }

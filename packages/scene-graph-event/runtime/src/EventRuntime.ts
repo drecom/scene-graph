@@ -8,12 +8,6 @@ const defaultEventAdapter: EventAdapter = (event: Event): Event => {
   return event;
 };
 
-declare module '@drecom/scene-graph-mediator-rt' {
-  interface ImportOption {
-    customEventAdapter?: EventAdapter;
-  }
-}
-
 /**
  * Plugin for scene-graph-mediator-rt
  * Handles animation data desceibed in scene-graph-cocos-animation-cli in PIXI runtime
@@ -29,7 +23,8 @@ export default class EventRuntime implements ImporterPlugin {
     runtimeObjectMap: Map<string, any>,
     option: ImportOption
   ): void {
-    const eventAdapter = option.customEventAdapter || defaultEventAdapter;
+    // FIXME: any
+    const eventAdapter = (option as any).customEventAdapter || defaultEventAdapter;
 
     nodeMap.forEach((node, id) => {
       if (!node.events) return;
