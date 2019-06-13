@@ -17,7 +17,7 @@
   },
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-mediator-cli": "^1.1.8",
+    "@drecom/scene-graph-mediator-cli": "^1.2.0",
     "@drecom/scene-graph-schema": "0.0.6",
     "@types/node": "^10.12.0",
     "ts-loader": "^5.2.2",
