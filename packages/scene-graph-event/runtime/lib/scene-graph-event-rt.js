@@ -120,6 +120,7 @@ var EventRuntime = /** @class */ (function () {
      * Custom extension for runtime object
      */
     EventRuntime.prototype.extendRuntimeObjects = function (_, nodeMap, runtimeObjectMap, option) {
+        // FIXME: any
         var eventAdapter = option.customEventAdapter || defaultEventAdapter;
         nodeMap.forEach(function (node, id) {
             if (!node.events)

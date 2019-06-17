@@ -1,6 +1,6 @@
 {
   "name": "@drecom/scene-graph-three-rt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/scene-graph-three-rt.min.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "webpack-cli": "^3.3.2"
   },
   "dependencies": {
-    "@drecom/scene-graph-mediator-rt": "file:../../scene-graph-mediator/runtime",
+    "@drecom/scene-graph-mediator-rt": "^1.2.2",
     "three": "^0.104.0"
   }
 }

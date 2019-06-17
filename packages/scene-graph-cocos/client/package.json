@@ -1,11 +1,11 @@
 {
   "name": "@drecom/scene-graph-cocos-cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "bin": {
-    "sgmed": "bin/cli.js"
+    "sgmedcc": "bin/cli.js"
   },
   "license": "MIT",
   "scripts": {
@@ -23,7 +23,7 @@
   "keywords": [],
   "author": "Drecom Co.,Ltd.",
   "devDependencies": {
-    "@drecom/scene-graph-mediator-cli": "file:../../scene-graph-mediator/client",
+    "@drecom/scene-graph-mediator-cli": "^1.2.1",
     "@drecom/scene-graph-schema": "^0.1.2",
     "@types/chai": "^4.1.7",
     "@types/command-line-args": "^5.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@drecom/scene-graph-event-rt",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@drecom/event-graph-schema": "file:../../event-graph-schema",
-    "@drecom/scene-graph-event-cli": "file:../client",
-    "@drecom/scene-graph-mediator-rt": "^1.1.8",
+    "@drecom/event-graph-schema": "0.0.2",
+    "@drecom/scene-graph-event-cli": "^0.0.3",
+    "@drecom/scene-graph-mediator-rt": "^1.2.2",
     "@drecom/scene-graph-schema": "^0.0.10",
     "@types/pixi.js": "^4.8.6",
     "ts-loader": "^5.3.2",

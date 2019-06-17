@@ -96,10 +96,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "../../scene-graph-mediator/runtime/lib/scene-graph-mediator-rt.min.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /Users/kuwabara_yuki/workspace/git/scene-graph/packages/scene-graph-mediator/runtime/lib/scene-graph-mediator-rt.min.js ***!
-  \*******************************************************************************************************************************/
+/***/ "./node_modules/@drecom/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.min.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@drecom/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.min.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49174,7 +49174,7 @@ function LensFlare() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @drecom/scene-graph-mediator-rt */ "../../scene-graph-mediator/runtime/lib/scene-graph-mediator-rt.min.js");
+/* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @drecom/scene-graph-mediator-rt */ "./node_modules/@drecom/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.min.js");
 /* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _runtime_helper_loaders_FbxLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../runtime_helper/loaders/FbxLoader */ "./src/runtime_helper/loaders/FbxLoader.ts");
 /* harmony import */ var _runtime_helper_loaders_TgaLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../runtime_helper/loaders/TgaLoader */ "./src/runtime_helper/loaders/TgaLoader.ts");
