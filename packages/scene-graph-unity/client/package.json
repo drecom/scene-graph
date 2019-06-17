@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "bin": {
-    "sgmed": "bin/cli.js"
+    "sgmedunity": "bin/cli.js"
   },
   "license": "MIT",
   "scripts": {
