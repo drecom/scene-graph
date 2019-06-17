@@ -4,16 +4,13 @@
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "bin": {
-    "sgmed": "bin/cli.js"
-  },
   "license": "MIT",
   "scripts": {
     "build:lib": "tsc -p .",
     "build:docs": "typedoc 'src/'",
     "test:lint": "tslint -p tsconfig.json --format stylish 'src/**/*.ts*'",
     "test:unit": "mocha -r ts-node/register $(find test | grep .test.ts)",
-    "test:example": "./bin/cli.js -c ./example/sgmed.config.js",
+    "test:example": "sgmed -c ./example/sgmed.config.js",
     "test:cov:unit": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register $(find test | grep .test.ts) && nyc report",
     "test:cov:report": "nyc report",
     "test:unit:watch": "karma start --auto-watch --no-single-run",
