@@ -96,10 +96,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "../../scene-graph-mediator/runtime/lib/scene-graph-mediator-rt.min.js":
-/*!*******************************************************************************************************************************!*\
-  !*** /Users/kuwabara_yuki/workspace/git/scene-graph/packages/scene-graph-mediator/runtime/lib/scene-graph-mediator-rt.min.js ***!
-  \*******************************************************************************************************************************/
+/***/ "./node_modules/@drecom/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.min.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@drecom/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.min.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1858,7 +1858,10 @@ module.exports = function parseURI (str, opts) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+/* WEBPACK VAR INJECTION */(function(process) {// .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
+// backported and transplited with Babel, with backwards-compat fixes
+
+// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the
@@ -1908,14 +1911,6 @@ function normalizeArray(parts, allowAboveRoot) {
 
   return parts;
 }
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
 
 // path.resolve([from ...], to)
 // posix version
@@ -2032,37 +2027,120 @@ exports.relative = function(from, to) {
 exports.sep = '/';
 exports.delimiter = ':';
 
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
-
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
+exports.dirname = function (path) {
+  if (typeof path !== 'string') path = path + '';
+  if (path.length === 0) return '.';
+  var code = path.charCodeAt(0);
+  var hasRoot = code === 47 /*/*/;
+  var end = -1;
+  var matchedSlash = true;
+  for (var i = path.length - 1; i >= 1; --i) {
+    code = path.charCodeAt(i);
+    if (code === 47 /*/*/) {
+        if (!matchedSlash) {
+          end = i;
+          break;
+        }
+      } else {
+      // We saw the first non-path separator
+      matchedSlash = false;
+    }
   }
 
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
+  if (end === -1) return hasRoot ? '/' : '.';
+  if (hasRoot && end === 1) {
+    // return '//';
+    // Backwards-compat fix:
+    return '/';
   }
-
-  return root + dir;
+  return path.slice(0, end);
 };
 
+function basename(path) {
+  if (typeof path !== 'string') path = path + '';
 
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
+  var start = 0;
+  var end = -1;
+  var matchedSlash = true;
+  var i;
+
+  for (i = path.length - 1; i >= 0; --i) {
+    if (path.charCodeAt(i) === 47 /*/*/) {
+        // If we reached a path separator that was not part of a set of path
+        // separators at the end of the string, stop now
+        if (!matchedSlash) {
+          start = i + 1;
+          break;
+        }
+      } else if (end === -1) {
+      // We saw the first non-path separator, mark this as the end of our
+      // path component
+      matchedSlash = false;
+      end = i + 1;
+    }
+  }
+
+  if (end === -1) return '';
+  return path.slice(start, end);
+}
+
+// Uses a mixed approach for backwards-compatibility, as ext behavior changed
+// in new Node.js versions, so only basename() above is backported here
+exports.basename = function (path, ext) {
+  var f = basename(path);
   if (ext && f.substr(-1 * ext.length) === ext) {
     f = f.substr(0, f.length - ext.length);
   }
   return f;
 };
 
+exports.extname = function (path) {
+  if (typeof path !== 'string') path = path + '';
+  var startDot = -1;
+  var startPart = 0;
+  var end = -1;
+  var matchedSlash = true;
+  // Track the state of characters (if any) we see before our first dot and
+  // after any path separator we find
+  var preDotState = 0;
+  for (var i = path.length - 1; i >= 0; --i) {
+    var code = path.charCodeAt(i);
+    if (code === 47 /*/*/) {
+        // If we reached a path separator that was not part of a set of path
+        // separators at the end of the string, stop now
+        if (!matchedSlash) {
+          startPart = i + 1;
+          break;
+        }
+        continue;
+      }
+    if (end === -1) {
+      // We saw the first non-path separator, mark this as the end of our
+      // extension
+      matchedSlash = false;
+      end = i + 1;
+    }
+    if (code === 46 /*.*/) {
+        // If this is our first dot, mark it as the start of our extension
+        if (startDot === -1)
+          startDot = i;
+        else if (preDotState !== 1)
+          preDotState = 1;
+    } else if (startDot !== -1) {
+      // We saw a non-dot and non-path separator before our dot, so we should
+      // have a good chance at having a non-empty extension
+      preDotState = -1;
+    }
+  }
 
-exports.extname = function(path) {
-  return splitPath(path)[3];
+  if (startDot === -1 || end === -1 ||
+      // We saw a non-dot character immediately before the dot
+      preDotState === 0 ||
+      // The (right-most) trimmed path component is exactly '..'
+      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+    return '';
+  }
+  return path.slice(startDot, end);
 };
 
 function filter (xs, f) {
@@ -4942,7 +5020,7 @@ exports.__esModule = true;
  * @name VERSION
  * @type {string}
  */
-var VERSION = exports.VERSION = '4.8.7';
+var VERSION = exports.VERSION = '4.8.8';
 
 /**
  * Two Pi.
@@ -9105,6 +9183,8 @@ var CanvasGraphicsRenderer = function () {
                 var holes = data.holes;
                 var outerArea = void 0;
                 var innerArea = void 0;
+                var px = void 0;
+                var py = void 0;
 
                 context.moveTo(points[0], points[1]);
 
@@ -9119,31 +9199,41 @@ var CanvasGraphicsRenderer = function () {
 
                 if (holes.length > 0) {
                     outerArea = 0;
-                    for (var _j = 0; _j < points.length; _j += 2) {
-                        outerArea += points[_j] * points[_j + 3] - points[_j + 1] * points[_j + 2];
+                    px = points[0];
+                    py = points[1];
+                    for (var _j = 2; _j + 2 < points.length; _j += 2) {
+                        outerArea += (points[_j] - px) * (points[_j + 3] - py) - (points[_j + 2] - px) * (points[_j + 1] - py);
                     }
 
                     for (var k = 0; k < holes.length; k++) {
                         points = holes[k].points;
 
-                        innerArea = 0;
-                        for (var _j2 = 0; _j2 < points.length; _j2 += 2) {
-                            innerArea += points[_j2] * points[_j2 + 3] - points[_j2 + 1] * points[_j2 + 2];
+                        if (!points) {
+                            continue;
                         }
 
-                        context.moveTo(points[0], points[1]);
+                        innerArea = 0;
+                        px = points[0];
+                        py = points[1];
+                        for (var _j2 = 2; _j2 + 2 < points.length; _j2 += 2) {
+                            innerArea += (points[_j2] - px) * (points[_j2 + 3] - py) - (points[_j2 + 2] - px) * (points[_j2 + 1] - py);
+                        }
 
                         if (innerArea * outerArea < 0) {
+                            context.moveTo(points[0], points[1]);
+
                             for (var _j3 = 2; _j3 < points.length; _j3 += 2) {
                                 context.lineTo(points[_j3], points[_j3 + 1]);
                             }
                         } else {
-                            for (var _j4 = points.length - 2; _j4 >= 2; _j4 -= 2) {
+                            context.moveTo(points[points.length - 2], points[points.length - 1]);
+
+                            for (var _j4 = points.length - 4; _j4 >= 0; _j4 -= 2) {
                                 context.lineTo(points[_j4], points[_j4 + 1]);
                             }
                         }
 
-                        if (holes[k].closed) {
+                        if (holes[k].close) {
                             context.closePath();
                         }
                     }
@@ -18007,9 +18097,9 @@ function mapWebGLBlendModesToPixi(gl) {
     // TODO - premultiply alpha would be different.
     // add a boolean for that!
     array[_const.BLEND_MODES.NORMAL] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-    array[_const.BLEND_MODES.ADD] = [gl.ONE, gl.DST_ALPHA];
-    array[_const.BLEND_MODES.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA];
-    array[_const.BLEND_MODES.SCREEN] = [gl.ONE, gl.ONE_MINUS_SRC_COLOR];
+    array[_const.BLEND_MODES.ADD] = [gl.ONE, gl.ONE];
+    array[_const.BLEND_MODES.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+    array[_const.BLEND_MODES.SCREEN] = [gl.ONE, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
     array[_const.BLEND_MODES.OVERLAY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
     array[_const.BLEND_MODES.DARKEN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
     array[_const.BLEND_MODES.LIGHTEN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
@@ -18026,8 +18116,8 @@ function mapWebGLBlendModesToPixi(gl) {
 
     // not-premultiplied blend modes
     array[_const.BLEND_MODES.NORMAL_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-    array[_const.BLEND_MODES.ADD_NPM] = [gl.SRC_ALPHA, gl.DST_ALPHA, gl.ONE, gl.DST_ALPHA];
-    array[_const.BLEND_MODES.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_COLOR];
+    array[_const.BLEND_MODES.ADD_NPM] = [gl.SRC_ALPHA, gl.ONE, gl.ONE, gl.ONE];
+    array[_const.BLEND_MODES.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
 
     return array;
 }
@@ -44087,7 +44177,7 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/index.js");
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pixi_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @drecom/scene-graph-mediator-rt */ "../../scene-graph-mediator/runtime/lib/scene-graph-mediator-rt.min.js");
+/* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @drecom/scene-graph-mediator-rt */ "./node_modules/@drecom/scene-graph-mediator-rt/lib/scene-graph-mediator-rt.min.js");
 /* harmony import */ var _drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_drecom_scene_graph_mediator_rt__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _property_converter_Pixi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../property_converter/Pixi */ "./src/property_converter/Pixi.ts");
 /* harmony import */ var _component_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component/Layout */ "./src/importer/component/Layout.ts");
@@ -44689,6 +44779,10 @@ var LayoutComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RichText", function() { return RichText; });
+/**
+ * RichText extension
+ * It allows
+ */
 var RichText = /** @class */ (function () {
     function RichText() {
     }
@@ -44697,6 +44791,7 @@ var RichText = /** @class */ (function () {
      */
     RichText.createContainer = function (input, defaultParams) {
         if (defaultParams === void 0) { defaultParams = {}; }
+        // TODO: format variant
         var fragments = RichText.parseBBCode(input);
         var container = RichText.createRichTextContainer(fragments, defaultParams);
         return container;
@@ -44719,7 +44814,7 @@ var RichText = /** @class */ (function () {
                 return {
                     name: nodeName,
                     params: {
-                        value: value ? parseInt(value) : 0
+                        value: value ? parseInt(value, 10) : 0
                     }
                 };
                 break;
@@ -44741,7 +44836,7 @@ var RichText = /** @class */ (function () {
                     name: nodeName,
                     params: {
                         color: color || '',
-                        width: width ? parseInt(width) : 0
+                        width: width ? parseInt(width, 10) : 0
                     }
                 };
                 break;
@@ -44763,7 +44858,7 @@ var RichText = /** @class */ (function () {
                 styles.push(style);
             }
             if (node.childNodes.length > 0) {
-                fragments = RichText.collectChildNodes(node.childNodes, fragments, styles);
+                RichText.collectChildNodes(node.childNodes, fragments, styles);
             }
             if (node.nodeValue) {
                 fragments.push({ text: node.nodeValue, styles: styles.slice(0) });
@@ -44799,14 +44894,14 @@ var RichText = /** @class */ (function () {
                     params.fontStyle = 'italic';
                     break;
                 case 'SIZE':
-                    params.fontSize = parseInt(style.params.value);
+                    params.fontSize = parseInt(style.params.value, 10);
                     break;
                 case 'COLOR':
                     params.fill = [style.params.value];
                     break;
                 case 'OUTLINE': {
                     params.stroke = style.params.color;
-                    params.strokeThickness = parseInt(style.params.width);
+                    params.strokeThickness = parseInt(style.params.width, 10);
                     break;
                 }
             }
@@ -44824,7 +44919,7 @@ var RichText = /** @class */ (function () {
             var params = RichText.pixiTextStyleOptionsByFragment(fragment);
             var defaultParamsClone = Object.assign({}, defaultParams);
             var style = new PIXI.TextStyle(Object.assign(defaultParamsClone, params));
-            var lines = fragment.text.split("\n");
+            var lines = fragment.text.split('\n');
             for (var j = 0; j < lines.length; j++) {
                 var line = lines[j];
                 if (j >= 1) {
@@ -44833,7 +44928,7 @@ var RichText = /** @class */ (function () {
                     lastLineHeight = 0;
                 }
                 // empty char after line break
-                if (line === "") {
+                if (line === '') {
                     continue;
                 }
                 var text = new PIXI.Text(line, style);

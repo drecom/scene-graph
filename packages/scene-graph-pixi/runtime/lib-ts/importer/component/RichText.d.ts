@@ -1,4 +1,8 @@
 /// <reference types="pixi.js" />
+/**
+ * RichText extension
+ * It allows
+ */
 export declare class RichText {
     static readonly PARSER_TAG_NAME: string;
     /**

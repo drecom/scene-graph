@@ -44779,6 +44779,10 @@ var LayoutComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RichText", function() { return RichText; });
+/**
+ * RichText extension
+ * It allows
+ */
 var RichText = /** @class */ (function () {
     function RichText() {
     }
@@ -44787,6 +44791,7 @@ var RichText = /** @class */ (function () {
      */
     RichText.createContainer = function (input, defaultParams) {
         if (defaultParams === void 0) { defaultParams = {}; }
+        // TODO: format variant
         var fragments = RichText.parseBBCode(input);
         var container = RichText.createRichTextContainer(fragments, defaultParams);
         return container;
@@ -44809,7 +44814,7 @@ var RichText = /** @class */ (function () {
                 return {
                     name: nodeName,
                     params: {
-                        value: value ? parseInt(value) : 0
+                        value: value ? parseInt(value, 10) : 0
                     }
                 };
                 break;
@@ -44831,7 +44836,7 @@ var RichText = /** @class */ (function () {
                     name: nodeName,
                     params: {
                         color: color || '',
-                        width: width ? parseInt(width) : 0
+                        width: width ? parseInt(width, 10) : 0
                     }
                 };
                 break;
@@ -44853,7 +44858,7 @@ var RichText = /** @class */ (function () {
                 styles.push(style);
             }
             if (node.childNodes.length > 0) {
-                fragments = RichText.collectChildNodes(node.childNodes, fragments, styles);
+                RichText.collectChildNodes(node.childNodes, fragments, styles);
             }
             if (node.nodeValue) {
                 fragments.push({ text: node.nodeValue, styles: styles.slice(0) });
@@ -44889,14 +44894,14 @@ var RichText = /** @class */ (function () {
                     params.fontStyle = 'italic';
                     break;
                 case 'SIZE':
-                    params.fontSize = parseInt(style.params.value);
+                    params.fontSize = parseInt(style.params.value, 10);
                     break;
                 case 'COLOR':
                     params.fill = [style.params.value];
                     break;
                 case 'OUTLINE': {
                     params.stroke = style.params.color;
-                    params.strokeThickness = parseInt(style.params.width);
+                    params.strokeThickness = parseInt(style.params.width, 10);
                     break;
                 }
             }
@@ -44914,7 +44919,7 @@ var RichText = /** @class */ (function () {
             var params = RichText.pixiTextStyleOptionsByFragment(fragment);
             var defaultParamsClone = Object.assign({}, defaultParams);
             var style = new PIXI.TextStyle(Object.assign(defaultParamsClone, params));
-            var lines = fragment.text.split("\n");
+            var lines = fragment.text.split('\n');
             for (var j = 0; j < lines.length; j++) {
                 var line = lines[j];
                 if (j >= 1) {
@@ -44923,7 +44928,7 @@ var RichText = /** @class */ (function () {
                     lastLineHeight = 0;
                 }
                 // empty char after line break
-                if (line === "") {
+                if (line === '') {
                     continue;
                 }
                 var text = new PIXI.Text(line, style);

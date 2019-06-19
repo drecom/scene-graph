@@ -24,15 +24,23 @@ type RichTextOutlineStyle = RichTextStyle & {
 type RichTextFragment = {
   text: string;
   styles: RichTextStyle[]
-}
+};
 
+/**
+ * RichText extension
+ * It allows
+ */
 export class RichText {
   public static readonly PARSER_TAG_NAME: string = 'SGMEDRICHTEXT';
 
   /**
    * Create container contains styled texts
    */
-  public static createContainer(input: string, defaultParams: PIXI.TextStyleOptions = {}): PIXI.Container {
+  public static createContainer(
+    input: string,
+    defaultParams: PIXI.TextStyleOptions = {}
+  ): PIXI.Container {
+    // TODO: format variant
     const fragments = RichText.parseBBCode(input);
     const container = RichText.createRichTextContainer(fragments, defaultParams);
     return container;
@@ -57,7 +65,7 @@ export class RichText {
         return {
           name: nodeName,
           params: {
-            value: value ? parseInt(value) : 0
+            value: value ? parseInt(value, 10) : 0
           }
         } as RichTextSizeStyle;
         break;
@@ -79,7 +87,7 @@ export class RichText {
           name: nodeName,
           params: {
             color: color || '',
-            width: width ? parseInt(width) : 0
+            width: width ? parseInt(width, 10) : 0
           }
         } as RichTextOutlineStyle;
         break;
@@ -93,7 +101,11 @@ export class RichText {
   /**
    *
    */
-  private static collectChildNodes(nodes: NodeListOf<ChildNode>, fragments: RichTextFragment[] = [], styles: RichTextStyle[] = []): RichTextFragment[] {
+  private static collectChildNodes(
+    nodes: NodeListOf<ChildNode>,
+    fragments: RichTextFragment[] = [],
+    styles: RichTextStyle[] = []
+  ): RichTextFragment[] {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i] as HTMLElement;
       const style = RichText.parseNodeStyle(node);
@@ -103,7 +115,7 @@ export class RichText {
       }
 
       if (node.childNodes.length > 0) {
-        fragments = RichText.collectChildNodes(node.childNodes, fragments, styles);
+        RichText.collectChildNodes(node.childNodes, fragments, styles);
       }
 
       if (node.nodeValue) {
@@ -128,7 +140,7 @@ export class RichText {
 
     let offset = 0;
     let richTextTag = tags[offset];
-    while(richTextTag && richTextTag.tagName.toUpperCase() !== RichText.PARSER_TAG_NAME) {
+    while (richTextTag && richTextTag.tagName.toUpperCase() !== RichText.PARSER_TAG_NAME) {
       richTextTag = tags[++offset];
     }
 
@@ -142,11 +154,11 @@ export class RichText {
       switch (style.name) {
         case 'B':     params.fontWeight = 'bold'; break;
         case 'I':     params.fontStyle = 'italic'; break;
-        case 'SIZE':  params.fontSize = parseInt(style.params.value); break;
+        case 'SIZE':  params.fontSize = parseInt(style.params.value, 10); break;
         case 'COLOR': params.fill = [style.params.value]; break;
         case 'OUTLINE': {
           params.stroke = style.params.color;
-          params.strokeThickness = parseInt(style.params.width);
+          params.strokeThickness = parseInt(style.params.width, 10);
           break;
         }
       }
@@ -155,7 +167,10 @@ export class RichText {
     return params;
   }
 
-  private static createRichTextContainer(fragments: RichTextFragment[], defaultParams: PIXI.TextStyleOptions = {}) {
+  private static createRichTextContainer(
+    fragments: RichTextFragment[],
+    defaultParams: PIXI.TextStyleOptions = {}
+  ): PIXI.Container {
     const container = new PIXI.Container();
 
     let x = 0;
@@ -166,7 +181,7 @@ export class RichText {
       const params = RichText.pixiTextStyleOptionsByFragment(fragment);
       const defaultParamsClone = Object.assign({}, defaultParams);
       const style = new PIXI.TextStyle(Object.assign(defaultParamsClone, params));
-      const lines = fragment.text.split("\n");
+      const lines = fragment.text.split('\n');
       for (let j = 0; j < lines.length; j++) {
         const line = lines[j];
 
@@ -177,7 +192,7 @@ export class RichText {
         }
 
         // empty char after line break
-        if (line === "") {
+        if (line === '') {
           continue;
         }
 
