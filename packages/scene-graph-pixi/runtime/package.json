@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "",
   "main": "lib/scene-graph-pixi-rt.min.js",
+  "types": "lib-ts/index.d.ts",
   "scripts": {
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
