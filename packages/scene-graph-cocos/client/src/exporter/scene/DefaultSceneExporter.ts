@@ -536,6 +536,27 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
 
         break;
       }
+      case cc.MetaTypes.RICH_TEXT: {
+        schemaNode.text = {
+          text: (component as cc.RichText)._N$string,
+          style: {
+            size: (component as cc.RichText)._N$fontSize,
+            horizontalAlign: (component as cc.RichText)._N$horizontalAlign
+          },
+          richText: {
+            format: cc.RICH_TEXT_FORMAT
+          }
+        };
+
+        // TODO: alpha
+        let colorStr = '#FFFFFF';
+        if (schemaNode.renderer && schemaNode.renderer.color) {
+          // Label uses node color
+          colorStr = `#${this.colorToHexString(schemaNode.renderer.color)}`;
+        }
+        schemaNode.text.style.color = colorStr;
+        break;
+      }
       case cc.MetaTypes.LAYOUT: {
         const layout: cc.Layout = component as cc.Layout;
         schemaNode.layout = {

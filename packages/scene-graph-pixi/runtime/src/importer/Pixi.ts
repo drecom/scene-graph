@@ -4,6 +4,7 @@ import { SchemaJson, Node } from '@drecom/scene-graph-schema';
 import { Importer, ImportOption } from '@drecom/scene-graph-mediator-rt';
 import { Pixi as PropertyConverter } from '../property_converter/Pixi';
 import { LayoutComponent } from './component/Layout';
+import { RichText } from './component/RichText';
 
 type ContainerMap = Map<string, PIXI.Container>;
 
@@ -196,18 +197,24 @@ export default class Pixi extends Importer {
         object = new Pixi.pixiRef.Sprite(texture);
       }
     } else if (node.text) {
-      const style = new Pixi.pixiRef.TextStyle({});
+      const param: PIXI.TextStyleOptions = {};
       if (node.text.style) {
-        style.fontSize  = node.text.style.size || 26;
-        style.fill      = node.text.style.color || 'black';
+        param.fontSize  = node.text.style.size || 26;
+        param.fill      = node.text.style.color || 'black';
         switch (node.text.style.horizontalAlign) {
-          case 2 : style.align = 'right'; break;
-          case 1 : style.align = 'center'; break;
+          case 2 : param.align = 'right'; break;
+          case 1 : param.align = 'center'; break;
           case 0 :
-          default: style.align = 'left'; break;
+          default: param.align = 'left'; break;
         }
       }
-      object = new Pixi.pixiRef.Text(node.text.text || '', style);
+
+      if (node.text.richText) {
+        object = RichText.createContainer(node.text.text, param);
+      } else {
+        const style = new Pixi.pixiRef.TextStyle(param);
+        object = new Pixi.pixiRef.Text(node.text.text || '', style);
+      }
     } else if (this.hasInitiator(node.constructorName)) {
       object = this.getInitiator(node.constructorName)(node);
     } else {

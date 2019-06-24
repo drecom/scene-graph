@@ -27,7 +27,8 @@
           "25",
           "28",
           "33",
-          "38"
+          "38",
+          "57"
         ]
       },
       "renderer": {
@@ -1288,6 +1289,92 @@
           }
         }
       ]
+    },
+    {
+      "id": "57",
+      "name": "RichTextNode",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 0,
+        "height": 0,
+        "x": 0,
+        "y": 0,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "2",
+        "children": [
+          "58"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      }
+    },
+    {
+      "id": "58",
+      "name": "RichText",
+      "constructorName": "cc.Node",
+      "transform": {
+        "width": 80.03999999999999,
+        "height": 300,
+        "x": 81,
+        "y": 7,
+        "rotation": 0,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "parent": "57",
+        "children": [
+          "59",
+          "61",
+          "63",
+          "65",
+          "67",
+          "69",
+          "71",
+          "73",
+          "75",
+          "78",
+          "80",
+          "82"
+        ]
+      },
+      "renderer": {
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      },
+      "text": {
+        "text": "<b>A</b>A\n<i>A</i>A\n<u>A</u>A\n<size=80>A</size>A\n<outline color=#ff0000 width=8>A</outline>A\n<color=#ff0000>A</color>A",
+        "style": {
+          "size": 40,
+          "horizontalAlign": 0,
+          "color": "#ffffff"
+        },
+        "richText": {
+          "format": "bbcode"
+        }
+      }
     }
   ],
   "metadata": {

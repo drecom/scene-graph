@@ -10,6 +10,8 @@ declare namespace PropertyConverter {
       node: Node,
     ) => void;
 
+    shouldNodeCoordinateFixed: (node: Node) => boolean;
+
     applyConvertedObject: (target: any, convertedObject: any) => void;
   };
 }
