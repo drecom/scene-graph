@@ -1,0 +1,22 @@
+{
+  "name": "@drecom/scene-graph-cocos-fittext-cli",
+  "version": "1.0.0",
+  "description": "Plugin for @drecom/scene-graph-cocos-cli. This module provides converter for FitLabel CocosCreator CustomComponent (@drecom/cc-fit-label).",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build:lib": "tsc -p ."
+  },
+  "keywords": [],
+  "author": "Drecom Co.,Ltd.",
+  "license": "MIT",
+  "devDependencies": {
+    "@drecom/scene-graph-cocos-cli": "^1.0.2",
+    "@drecom/scene-graph-mediator-cli": "^1.2.1",
+    "@drecom/scene-graph-schema": "^0.1.2",
+    "typescript": "^3.5.1"
+  }
+}
