@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "/definitions/FitText.json",
+  "definitions": {
+    "fitText": {
+      "allOf": [
+        {
+          "$ref": "../node_modules/@drecom/scene-graph-schema/definitions/Text.json#/definitions/Text"
+        },
+        {
+          "properties": {
+            "fitText": {
+              "type": "object",
+              "properties": {
+                "requiredWidth": {
+                  "type": "number"
+                }
+              },
+              "required":["requiredWidth"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
