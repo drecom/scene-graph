@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "allowJs": false,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./lib/types",
+    "strict": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "allowSyntheticDefaultImports": false,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    ".git",
+    "node_modules",
+    "lib"
+  ],
+  "typedocOptions": {
+    "name": "scene-graph-pixi-fittext-rt",
+    "mode": "file",
+    "out": "./docs",
+    "gitRevision": "develop",
+    "ignoreCompilerErrors": true,
+    "includeDeclarations": true,
+    "excludeExternals": true,
+    "excludePrivate": false,
+    "excludeProtected": false,
+    "excludeNotExported": false,
+    "preserveConstEnums": true
+  }
+}
