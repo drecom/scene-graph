@@ -135,7 +135,7 @@ export default class DefaultAssetExporter implements sgmed.AssetExporter {
     urlNameSpace: string,
     movePath: string = ''
   ): sgmed.AssetExportMapEntity {
-    const destRelativePath = (movePath || basePath).replace(RegExp(`\^${assetRoot}`), '');
+    const destRelativePath = path.relative(assetRoot, (movePath || basePath));
     return {
       localSrcPath: basePath,
       localDestPath: path.join(destDir, destRelativePath),
