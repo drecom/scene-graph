@@ -129,6 +129,10 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
         return;
       }
 
+      if (assets.length === 0) {
+        return;
+      }
+
       const file = assets[0].file;
       if (!file) {
         return;
@@ -154,7 +158,7 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
         height: 0,
         positiveCoord: {
           xRight: true,
-          yDown:  false,
+          yDown: false,
           zFront: false
         },
         baseCoordinate: {

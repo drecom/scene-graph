@@ -99,6 +99,9 @@ var DefaultSceneExporter = /** @class */ (function () {
             if (!assets) {
                 return;
             }
+            if (assets.length === 0) {
+                return;
+            }
             var file = assets[0].file;
             if (!file) {
                 return;
