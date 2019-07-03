@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 9ab5aab36e104b246a55d2d61904f094
+guid: ecbc0e72f11030946a41428c0e72a62e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: lambert2
+    2100000: IcePart_Surface
     2300000: //RootNode
     3300000: //RootNode
     4300000: IcePart
@@ -14,7 +14,7 @@ ModelImporter:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

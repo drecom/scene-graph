@@ -1,39 +1,36 @@
 fileFormatVersion: 2
-guid: 97bb94daeaf51fd4bbe9a16e0455b57a
+guid: d7cf4450c7af3614cb9a2c9aa9a92056
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Inside
-    100002: InsideJoint
-    100004: Outside
-    100006: OutsideJoint
-    100008: //RootNode
-    100010: Armature
-    100012: InsideJoint_end
-    100014: OutsideJoint_end
-    400000: Inside
-    400002: InsideJoint
-    400004: Outside
-    400006: OutsideJoint
-    400008: //RootNode
-    400010: Armature
-    400012: InsideJoint_end
-    400014: OutsideJoint_end
+    100000: //RootNode
+    100002: joint1
+    100004: joint2
+    100006: joint3
+    100008: joint4
+    100010: pCylinder1
+    400000: //RootNode
+    400002: joint1
+    400004: joint2
+    400006: joint3
+    400008: joint4
+    400010: pCylinder1
     2100000: lambert1
-    2100002: lambert1.003
-    2100004: BelInside_Material
-    2100006: BellOutside_Material
-    4300000: Outside
-    4300002: Inside
+    4300000: pCylinder1
+    7400000: Take 001
     9500000: //RootNode
-    13700000: Inside
-    13700002: Outside
-  externalObjects: {}
+    13700000: pCylinder1
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 3af03694b301c2c408d8c4cb2ffba228, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -55,7 +52,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 118
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
