@@ -30,7 +30,7 @@
                 "format": {
                   "type": "string",
                   "default": "bbcode"
-                },
+                }
               },
               "required": [
                 "format"
