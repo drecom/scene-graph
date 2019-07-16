@@ -517,6 +517,12 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
 
         break;
       }
+      case cc.MetaTypes.SCROLL_VIEW: {
+        break;
+      }
+      case cc.MetaTypes.SCROLL_BAR: {
+        break;
+      }
       case cc.MetaTypes.LABEL: {
         schemaNode.text = {
           text: (component as cc.Label)._N$string,

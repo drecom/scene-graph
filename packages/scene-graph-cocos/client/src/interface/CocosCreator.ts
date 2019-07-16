@@ -10,6 +10,8 @@ export const MetaTypes: { [keys: string]: string } = Object.freeze({
   LABEL:  'cc.Label',
   LAYOUT: 'cc.Layout',
   MASK:   'cc.Mask',
+  SCROLL_VIEW: 'cc.ScrollView',
+  SCROLL_BAR: 'cc.Scrollbar',
   RICH_TEXT: 'cc.RichText'
 });
 
@@ -175,6 +177,28 @@ export interface Layout extends Component {
   _N$spacingY: number;
   _N$verticalDirection: number;
   _N$horizontalDirection: number;
+}
+
+export interface ScrollView extends Component {
+  horizontal: boolean;
+  vertical: boolean;
+  elastic: boolean;
+  inertia: boolean;
+  brake: number;
+  N$content:number;
+  scrollEvents:string;
+  bounceDuration:number;
+  N$horizontalScrollBar: number;
+  N$verticalScrollBar: number;
+}
+
+export interface ScrollBar extends Component {
+  _scrollView:number;
+  _opacity:number;
+  enableAutoHide:boolean;
+  autoHideTime:number;
+  _N$handle:number;
+  _N$direction:number;
 }
 
 export interface Mask extends Component {
