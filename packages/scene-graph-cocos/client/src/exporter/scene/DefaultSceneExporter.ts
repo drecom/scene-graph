@@ -518,9 +518,27 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
         break;
       }
       case cc.MetaTypes.SCROLL_VIEW: {
+        const scrollView = component as cc.ScrollView;
+        schemaNode.scrollView = {
+          verticalBar: (scrollView.vertical) ? scrollView.N$verticalScrollBar : null,
+          horizontalBar: (scrollView.horizontal) ? scrollView.N$horizontalScrollBar : null,
+          brake: scrollView.brake,
+          inertia: scrollView.inertia,
+          bounceDuration: scrollView.bounceDuration,
+          elastic: scrollView.elastic
+        }
         break;
       }
       case cc.MetaTypes.SCROLL_BAR: {
+        const scrollBar = component as cc.ScrollBar;
+        schemaNode.scrollBar = {
+          _N$direction: scrollBar._N$direction,
+          _N$handle: scrollBar._N$handle,
+          _opacity: scrollBar._opacity,
+          _scrollView: scrollBar._scrollView,
+          autoHideTime:scrollBar.autoHideTime,
+          enableAutoHide:scrollBar.enableAutoHide
+        }
         break;
       }
       case cc.MetaTypes.LABEL: {

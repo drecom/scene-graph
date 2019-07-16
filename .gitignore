@@ -11,3 +11,4 @@ coverage
 # lerna
 lerna-debug.log
 *.tgz
+packages/scene-graph-cocos/client/scene-graph/

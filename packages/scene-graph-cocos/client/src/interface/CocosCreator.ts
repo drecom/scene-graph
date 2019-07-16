@@ -179,6 +179,19 @@ export interface Layout extends Component {
   _N$horizontalDirection: number;
 }
 
+export interface Mask extends Component {
+  _type: number;
+  _spriteFrame: ComponentUuidEntity;
+  _N$inverted: boolean;
+}
+
+export interface RichText extends Component {
+  _type: number;
+  _N$string: string;
+  _N$fontSize: number;
+  _N$horizontalAlign: number;
+}
+
 export interface ScrollView extends Component {
   horizontal: boolean;
   vertical: boolean;
@@ -199,17 +212,4 @@ export interface ScrollBar extends Component {
   autoHideTime:number;
   _N$handle:number;
   _N$direction:number;
-}
-
-export interface Mask extends Component {
-  _type: number;
-  _spriteFrame: ComponentUuidEntity;
-  _N$inverted: boolean;
-}
-
-export interface RichText extends Component {
-  _type: number;
-  _N$string: string;
-  _N$fontSize: number;
-  _N$horizontalAlign: number;
 }
