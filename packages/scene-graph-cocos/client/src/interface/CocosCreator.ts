@@ -198,18 +198,18 @@ export interface ScrollView extends Component {
   elastic: boolean;
   inertia: boolean;
   brake: number;
-  N$content:number;
-  scrollEvents:string;
-  bounceDuration:number;
-  N$horizontalScrollBar: number;
-  N$verticalScrollBar: number;
+  N$content: ComponentNodeIdEntity;
+  scrollEvents: string;
+  bounceDuration: number;
+  _N$horizontalScrollBar: ComponentNodeIdEntity;
+  _N$verticalScrollBar: ComponentNodeIdEntity;
 }
 
 export interface ScrollBar extends Component {
-  _scrollView:number;
-  _opacity:number;
-  enableAutoHide:boolean;
-  autoHideTime:number;
-  _N$handle:number;
-  _N$direction:number;
+  _scrollView: ComponentNodeIdEntity;
+  _opacity: number;
+  enableAutoHide: boolean;
+  autoHideTime: number;
+  _N$handle: ComponentNodeIdEntity;
+  _N$direction: number;
 }
