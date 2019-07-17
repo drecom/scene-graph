@@ -31,7 +31,9 @@ type ResourceMapEntity = {
  * CocosCreator V1.x scene exporter
  */
 export default class DefaultSceneExporter implements sgmed.SceneExporter {
-
+  //TODO member value
+  private schemaJson?: SchemaJson = undefined;
+  private cocosComponents?: cc.ComponentBase[] = undefined;
   /**
    * Returns runtime identifier string.
    */
@@ -48,12 +50,9 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
     plugins?: Map<string, sgmed.SceneExporterPlugin>
   ): Map<string, SchemaJson> {
     const graphs = new Map<string, SchemaJson>();
-
     const assetFileMap = new sgmed.AssetFileMap(assetRoot);
     assetFileMap.scan();
-
     const resourceMap = this.createLocalResourceMap(assetFileMap);
-
     for (let i = 0; i < sceneFiles.length; i++) {
       const sceneFile    = sceneFiles[i];
       const sceneJson    = this.loadSceneFile(sceneFile);
@@ -342,12 +341,13 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
     graph: SchemaJson,
     resourceMap: Map<string, ResourceMapEntity>
   ): void {
+    this.schemaJson = graph;
+    this.cocosComponents = json;
     for (let i = 0; i < json.length; i++) {
       const component = json[i] as cc.Component;
       if (!component.node) {
         continue;
       }
-
       const schemaNode = this.findSchemaNodeById(graph, component.node.__id__.toString());
       if (!schemaNode) {
         continue;
@@ -355,6 +355,8 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
 
       this.appendComponentByType(schemaNode, component, resourceMap);
     }
+    this.schemaJson = undefined;
+    this.cocosComponents = undefined;
   }
 
   private findSpriteData(
@@ -520,20 +522,24 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
       case cc.MetaTypes.SCROLL_VIEW: {
         const scrollView = component as cc.ScrollView;
         if (scrollView.vertical) {
+          const cocosId = scrollView._N$verticalScrollBar.__id__.toString();
+          const nodeId = this.findSchemaNodeByComponentId(cocosId)!.id;
           schemaNode.scrollView = {
-            verticalBar: scrollView._N$verticalScrollBar.__id__,
+            verticalBarNodeId: nodeId,
             brake: scrollView.brake,
-            inertia: scrollView.inertia,
             bounceDuration: scrollView.bounceDuration,
-            elastic: scrollView.elastic
+            isInertia: scrollView.inertia,
+            isElastic: scrollView.elastic
           };
         } else {
+          const cocosId = scrollView._N$horizontalScrollBar.__id__.toString();
+          const nodeId = this.findSchemaNodeByComponentId(cocosId)!.id;
           schemaNode.scrollView = {
-            horizontalBar: scrollView._N$horizontalScrollBar.__id__,
+            horizontalBarNodeId: nodeId,
             brake: scrollView.brake,
-            inertia: scrollView.inertia,
             bounceDuration: scrollView.bounceDuration,
-            elastic: scrollView.elastic
+            isInertia: scrollView.inertia,
+            isElastic: scrollView.elastic
           };
         }
         break;
@@ -541,11 +547,16 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
       case cc.MetaTypes.SCROLL_BAR: {
         const scrollBar = component as cc.ScrollBar;
         const direction: string = (scrollBar._N$direction === 1) ? 'Vertical' : 'horizontal';
+        const handleId = scrollBar._N$handle.__id__.toString();
+        const handleNodeId = this.findSchemaNodeByComponentId(handleId)!.id;
+        const scrollViewId = scrollBar._scrollView.__id__;
+        const componentId = (this.cocosComponents![scrollViewId] as cc.ScrollView).node.__id__;
+        const scrollViewNodeId = componentId.toString();
+
         schemaNode.scrollBar = {
-          _N$direction: direction,
-          _N$handle: scrollBar._N$handle.__id__,
-          _opacity: scrollBar._opacity,
-          _scrollView: scrollBar._scrollView.__id__,
+          handleNodeId: handleNodeId,
+          scrollViewNodeId: scrollViewNodeId,
+          direction: direction,
           autoHideTime:scrollBar.autoHideTime,
           enableAutoHide:scrollBar.enableAutoHide
         };
@@ -633,7 +644,9 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
         };
         break;
       }
-      default: break;
+      default: {
+        break;
+      }
     }
   }
 
@@ -673,5 +686,22 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
     }
 
     return null;
+  }
+
+  private findSchemaNodeByComponentId(id: string): Node | null {
+    if (id === '0') {
+      return null;
+    }
+    const scene = this.schemaJson!.scene;
+    const intId = parseInt(id, 10);
+    // TODO binary search
+    for (let i = 1; i < scene.length; i++) {
+      const element = scene[i];
+      const nowId = parseInt(element.id, 10);
+      if (nowId > intId) {
+        return scene[i - 1];
+      }
+    }
+    return scene[scene.length - 1];
   }
 }
