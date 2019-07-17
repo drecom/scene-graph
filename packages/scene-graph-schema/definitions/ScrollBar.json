@@ -8,8 +8,8 @@
       "id": "#ScrollBar",
       "type": "object",
       "properties": {
-        "handle":{"$ref": "ComponentReference.json#/definitions/ComponentReference"},
-        "scrollView":{"$ref": "ComponentReference.json#/definitions/ComponentReference"},
+        "handleNodeId":{"type":"string"},
+        "scrollViewNodeId":{"type":"string"},
         "enableAutoHide":{"type":"boolean"},
         "autoHideTime":{
           "type":"number",

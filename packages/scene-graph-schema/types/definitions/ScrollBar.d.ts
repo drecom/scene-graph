@@ -13,15 +13,10 @@ export interface DefinitionsScrollBarJson {
  * via the `definition` "ScrollBar".
  */
 export interface ScrollBar {
-  handle?: ComponentReference;
-  scrollView?: ComponentReference;
+  handleNodeId?: string;
+  scrollViewNodeId?: string;
   enableAutoHide?: boolean;
   autoHideTime?: number;
   direction?: string;
-  [k: string]: any;
-}
-export interface ComponentReference {
-  nodeId: number;
-  componentId: number;
   [k: string]: any;
 }

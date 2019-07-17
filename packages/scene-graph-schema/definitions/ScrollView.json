@@ -8,8 +8,8 @@
       "id": "#ScrollView",
       "type": "object",
       "properties": {
-        "horizontalBar":{"$ref": "ComponentReference.json#/definitions/ComponentReference"},
-        "verticalBar":{"$ref": "ComponentReference.json#/definitions/ComponentReference"},
+        "horizontalBarNodeId":{"type":"string"},
+        "verticalBarNodeId":{"type":"string"},
         "brake": {"type":"number"},
         "bounseTime":{
           "type":"number",

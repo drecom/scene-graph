@@ -13,16 +13,11 @@ export interface DefinitionsScrollViewJson {
  * via the `definition` "ScrollView".
  */
 export interface ScrollView {
-  horizontalBar?: ComponentReference;
-  verticalBar?: ComponentReference;
+  horizontalBarNodeId?: string;
+  verticalBarNodeId?: string;
   brake?: number;
   bounseTime?: number;
   isElastic?: boolean;
   isInertia?: boolean;
-  [k: string]: any;
-}
-export interface ComponentReference {
-  nodeId: number;
-  componentId: number;
   [k: string]: any;
 }
