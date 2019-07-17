@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/ScrollBar.json",
+
+  "definitions": {
+    "ScrollBar": {
+      "id": "#ScrollBar",
+      "type": "object",
+      "properties": {
+        "enableAutoHide":{"type":"boolean"},
+        "autoHideTime":{
+          "type":"number",
+          "minimum": 0.0
+        },
+        "direction":{
+          "type":"string",
+          "pattern":"(Vertical|Horizontal)"
+      },
+        "scrollView":{"type":"string"}
+      }
+    }
+  }
+}

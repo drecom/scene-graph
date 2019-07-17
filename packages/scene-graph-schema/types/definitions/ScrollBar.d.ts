@@ -5,20 +5,17 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface DefinitionsRendererJson {
+export interface DefinitionsScrollBarJson {
   [k: string]: any;
 }
 /**
- * This interface was referenced by `DefinitionsRendererJson`'s JSON-Schema
- * via the `definition` "Renderer".
+ * This interface was referenced by `DefinitionsScrollBarJson`'s JSON-Schema
+ * via the `definition` "ScrollBar".
  */
-export interface Renderer {
-  color?: {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-    [k: string]: any;
-  };
+export interface ScrollBar {
+  enableAutoHide?: boolean;
+  autoHideTime?: number;
+  direction?: string;
+  scrollView?: string;
   [k: string]: any;
 }

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "id": "/definitions/ScrollView.json",
+
+  "definitions": {
+    "ScrollView": {
+      "id": "#ScrollView",
+      "type": "object",
+      "properties": {
+        "horizontalScrollBar":{"type":"string"},
+        "verticalScrollBar":{"type":"string"},
+        "isElastic": {"type":"boolean"},
+        "isInertia": {"type":"boolean"},
+        "brake": {"type":"number"},
+        "bounseTime":{
+          "type":"number",
+          "minimum": 0.0
+        }
+      }
+    }
+  }
+}
