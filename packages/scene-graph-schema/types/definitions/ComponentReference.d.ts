@@ -5,21 +5,13 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface DefinitionsScrollBarJson {
+export interface DefinitionsComponentReferenceJson {
   [k: string]: any;
 }
 /**
- * This interface was referenced by `DefinitionsScrollBarJson`'s JSON-Schema
- * via the `definition` "ScrollBar".
+ * This interface was referenced by `DefinitionsComponentReferenceJson`'s JSON-Schema
+ * via the `definition` "ComponentReference".
  */
-export interface ScrollBar {
-  handle?: ComponentReference;
-  scrollView?: ComponentReference;
-  enableAutoHide?: boolean;
-  autoHideTime?: number;
-  direction?: string;
-  [k: string]: any;
-}
 export interface ComponentReference {
   nodeId: number;
   componentId: number;

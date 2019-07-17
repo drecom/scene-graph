@@ -8,6 +8,8 @@
       "id": "#ScrollBar",
       "type": "object",
       "properties": {
+        "handle":{"$ref": "ComponentReference.json#/definitions/ComponentReference"},
+        "scrollView":{"$ref": "ComponentReference.json#/definitions/ComponentReference"},
         "enableAutoHide":{"type":"boolean"},
         "autoHideTime":{
           "type":"number",
@@ -16,8 +18,7 @@
         "direction":{
           "type":"string",
           "pattern":"(Vertical|Horizontal)"
-      },
-        "scrollView":{"type":"string"}
+        }
       }
     }
   }

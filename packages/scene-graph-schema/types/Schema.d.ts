@@ -183,18 +183,24 @@ export interface Mask {
   [k: string]: any;
 }
 export interface ScrollBar {
+  handle?: ComponentReference;
+  scrollView?: ComponentReference;
   enableAutoHide?: boolean;
   autoHideTime?: number;
   direction?: string;
-  scrollView?: string;
+  [k: string]: any;
+}
+export interface ComponentReference {
+  nodeId: number;
+  componentId: number;
   [k: string]: any;
 }
 export interface ScrollView {
-  horizontalScrollBar?: string;
-  verticalScrollBar?: string;
-  isElastic?: boolean;
-  isInertia?: boolean;
+  horizontalBar?: ComponentReference;
+  verticalBar?: ComponentReference;
   brake?: number;
   bounseTime?: number;
+  isElastic?: boolean;
+  isInertia?: boolean;
   [k: string]: any;
 }
