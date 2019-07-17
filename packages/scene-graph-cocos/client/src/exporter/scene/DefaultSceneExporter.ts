@@ -522,8 +522,9 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
       case cc.MetaTypes.SCROLL_VIEW: {
         const scrollView = component as cc.ScrollView;
         if (scrollView.vertical) {
-          const cocosId = scrollView._N$verticalScrollBar.__id__.toString();
-          const nodeId = this.findSchemaNodeByComponentId(cocosId)!.id;
+          const cocosId = scrollView._N$verticalScrollBar.__id__;
+          const componentId = (this.cocosComponents![cocosId] as cc.ScrollBar)!.node.__id__;
+          const nodeId = this.findSchemaNodeByComponentId(componentId.toString())!.id;
           schemaNode.scrollView = {
             verticalBarNodeId: nodeId,
             brake: scrollView.brake,
@@ -532,8 +533,9 @@ export default class DefaultSceneExporter implements sgmed.SceneExporter {
             isElastic: scrollView.elastic
           };
         } else {
-          const cocosId = scrollView._N$horizontalScrollBar.__id__.toString();
-          const nodeId = this.findSchemaNodeByComponentId(cocosId)!.id;
+          const cocosId = scrollView._N$horizontalScrollBar.__id__;
+          const componentId = (this.cocosComponents![cocosId] as cc.ScrollBar)!.node.__id__;
+          const nodeId = this.findSchemaNodeByComponentId(componentId.toString())!.id;
           schemaNode.scrollView = {
             horizontalBarNodeId: nodeId,
             brake: scrollView.brake,
