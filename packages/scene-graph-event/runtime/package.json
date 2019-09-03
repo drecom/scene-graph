@@ -9,8 +9,8 @@
     "workflow:build": "npm run build:dev && npm run build:prod"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Drecom Co.,Ltd.",
+  "license": "MIT",
   "devDependencies": {
     "@drecom/event-graph-schema": "0.0.2",
     "@drecom/scene-graph-event-cli": "^0.0.3",
