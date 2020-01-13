@@ -29,6 +29,6 @@
     "jsonschema": "^1.2.4"
   },
   "devDependencies": {
-    "json-schema-to-typescript": "^6.1.0"
+    "json-schema-to-typescript": "^8.0.1"
   }
 }
