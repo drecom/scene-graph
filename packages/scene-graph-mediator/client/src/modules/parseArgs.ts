@@ -11,12 +11,16 @@ import AssetExporterPlugin from '../interface/AssetExporterPlugin';
 export default function parseArgs(): Args {
   const packageJson = require('../../package.json');
 
+  const isRelativePath = (value: string) => {
+    return value.startsWith(`.${path.sep}`) || value.startsWith(`..${path.sep}`);
+  };
+
   const spaceSeparatedPaths = (value: string): string[] => {
     const parts = [];
     const frags = value.split(' ');
     for (let i = 0; i < frags.length; i++) {
       const frag = frags[i];
-      if (fs.existsSync(frag)) {
+      if ((!path.isAbsolute(frag) && !isRelativePath(frag)) || fs.existsSync(frag)) {
         parts.push(frag);
       } else {
         const nextFrag = frags[i + 1];
@@ -180,6 +184,13 @@ export default function parseArgs(): Args {
   }
 
   args.assetRoot = args.assetRoot.replace(/\/$/, '');
+
+  for (let i = 0; i < args.plugins.length; i++) {
+    const plugin = args.plugins[i];
+    if (isRelativePath(plugin)) {
+      args.plugins[i] = path.resolve(process.cwd(), configFilePath, plugin);
+    }
+  }
 
   return args;
 }

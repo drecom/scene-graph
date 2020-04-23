@@ -8,12 +8,15 @@ var commander = require("commander");
  */
 function parseArgs() {
     var packageJson = require('../../package.json');
+    var isRelativePath = function (value) {
+        return value.startsWith("." + path.sep) || value.startsWith(".." + path.sep);
+    };
     var spaceSeparatedPaths = function (value) {
         var parts = [];
         var frags = value.split(' ');
         for (var i = 0; i < frags.length; i++) {
             var frag = frags[i];
-            if (fs.existsSync(frag)) {
+            if ((!path.isAbsolute(frag) && !isRelativePath(frag)) || fs.existsSync(frag)) {
                 parts.push(frag);
             }
             else {
@@ -118,6 +121,12 @@ function parseArgs() {
         }
     }
     args.assetRoot = args.assetRoot.replace(/\/$/, '');
+    for (var i = 0; i < args.plugins.length; i++) {
+        var plugin = args.plugins[i];
+        if (isRelativePath(plugin)) {
+            args.plugins[i] = path.resolve(process.cwd(), configFilePath, plugin);
+        }
+    }
     return args;
 }
 exports.default = parseArgs;
